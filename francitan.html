@@ -103,7 +103,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 @keyframes votePulse{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
 @keyframes sqVote{0%{transform:scale(1)}40%{transform:scale(1.03);box-shadow:0 0 22px rgba(212,98,10,.3)}100%{transform:scale(1)}}
 .hq-sq-bot{padding:10px 14px;border-top:1.5px solid var(--brd);flex-shrink:0;text-align:center}
-.hq-sq-txt{font-family:'Fraunces',serif;font-size:clamp(15px,1.8vw,22px);font-weight:700;color:var(--ink);display:block}
+.hq-sq-txt{font-family:'Fraunces',serif;font-size:clamp(18px,2.2vw,26px);font-weight:700;color:var(--ink);display:block}
 .hq-sq.eliminated{opacity:0;transform:scale(.88) translateY(10px);transition:all .6s cubic-bezier(.4,0,.2,1)}
 .hq-sq.ok{border-color:var(--green);border-width:2.5px;box-shadow:0 0 20px rgba(24,160,88,.18);transform:scale(1.02)}
 .hq-sq.ok .hq-sq-bot{background:var(--greenL)}
@@ -273,14 +273,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .pp-sq{border-radius:12px;overflow:hidden;background:#fff;border:1.5px solid var(--brd);display:flex;flex-direction:column;cursor:pointer;animation:sqIn .4s cubic-bezier(.34,1.2,.64,1) both}
 @keyframes sqIn{from{opacity:0;transform:scale(.82) translateY(14px)}to{opacity:1;transform:none}}
 .pp-sq:active:not(.locked){transform:scale(.96)}
-.pp-sq-img{height:100px;position:relative;overflow:hidden;flex-shrink:0}
+.pp-sq-img{height:72px;position:relative;overflow:hidden;flex-shrink:0}
 .pp-sq-img img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .4s}
 .pp-sq-ltr{position:absolute;top:7px;left:7px;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:15px;font-weight:900;color:#fff;box-shadow:0 1px 5px rgba(0,0,0,.35)}
 .pp-sq[data-i="0"] .pp-sq-ltr{background:var(--A)}
 .pp-sq[data-i="1"] .pp-sq-ltr{background:var(--B)}
 .pp-sq[data-i="2"] .pp-sq-ltr{background:var(--C)}
-.pp-sq-bot{padding:8px 7px;border-top:1px solid var(--brd);text-align:center;flex-shrink:0}
-.pp-sq-txt{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink);line-height:1.2}
+.pp-sq-bot{padding:8px 7px;border-top:1px solid var(--brd);text-align:center;flex:1;display:flex;align-items:center;justify-content:center}
+.pp-sq-txt{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--ink);line-height:1.2}
 .pp-timer-sq{border-radius:12px;border:2px solid var(--ocre);background:var(--ocreL);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .4s}
 .pp-timer-sq.hot{border-color:var(--red);background:#FFEAEA;animation:timerBlink .5s ease-in-out infinite}
 @keyframes timerBlink{0%,100%{background:#FFEAEA}50%{background:#fff0f0}}
@@ -320,17 +320,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .wr-question{font-family:'Fraunces',serif;font-style:italic;font-size:13px;font-weight:600;color:var(--ocre)}
 
 /* JOUEUR RÉSULTAT */
-#p-answered{gap:14px;text-align:center;padding:22px 18px;overflow-y:auto}
-.pa-orb{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;animation:orbIn .55s cubic-bezier(.34,1.56,.64,1)}
+#p-answered{gap:16px;text-align:center;padding:24px 18px;overflow-y:auto}
+.pa-orb{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:60px;animation:orbIn .55s cubic-bezier(.34,1.56,.64,1)}
 @keyframes orbIn{from{transform:scale(0) rotate(-18deg);opacity:0}to{transform:scale(1);opacity:1}}
 .pa-orb.ok{background:var(--greenL);border:3px solid var(--green)}
 .pa-orb.ko{background:#FFEAEA;border:3px solid var(--red)}
 .pa-orb.to{background:var(--ocreL);border:3px solid var(--ocre)}
-.pa-verd{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px}
-.pa-pts{font-family:'Fraunces',serif;font-size:62px;font-weight:900;line-height:1;letter-spacing:-3px;animation:ptsPop .65s cubic-bezier(.34,1.56,.64,1) .15s both}
+.pa-verd{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--ink);letter-spacing:-1px}
+.pa-pts{font-family:'Fraunces',serif;font-size:88px;font-weight:900;line-height:1;letter-spacing:-4px;animation:ptsPop .65s cubic-bezier(.34,1.56,.64,1) .15s both}
 @keyframes ptsPop{from{transform:scale(.1) translateY(20px);opacity:0}to{transform:scale(1);opacity:1}}
 .pa-pts.got{color:var(--green)}.pa-pts.zero{color:var(--red)}
-.pa-total{font-size:13px;font-weight:600;color:var(--ink2)}
+.pa-total{font-size:17px;font-weight:600;color:var(--ink2)}
 .pa-wait{font-size:11px;color:var(--ink3);font-family:'Fraunces',serif;font-style:italic}
 .pa-podium{width:100%;max-width:250px}
 .pa-pod-lbl{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;text-align:center}
@@ -745,6 +745,7 @@ function advance(){
   if(id==='p-host-q'){
     if(hStep===0){ stepLaunch(); }
     else if(hStep===2){ stepEliminate(); }
+    else if(hStep===4){ stepEliminate(); }
     return;
   }
   if(id==='p-reveal'){ stepResults(); return; }
@@ -806,7 +807,7 @@ function hostStart(){
 }
 
 function hPrepareQ(){
-  var q=Q[hCQ]; hA={}; hTL=TSEC; hStep=0;
+  var q=Q[hCQ]; hA={}; hTL=TSEC; hStep=0; window.hElimOrder=null; window.hElimIdx=0;
   go('p-host-q');
   var isDemo=q.isDemo===true;
   if(isDemo){ $('hq-qnum').innerHTML='<span class="demo-badge">✦ ENTRAÎNEMENT</span>'; $('hq-demo-sub').style.display='block'; }
@@ -853,27 +854,47 @@ function stepLaunch(){
 }
 
 function stepEliminate(){
-  hStep=3;
   var q=Q[hCQ];
-  // Calculer scores
-  Object.keys(hA).forEach(function(pid){
-    if(hP[pid] && hA[pid].answer===q.c && !q.isDemo) hP[pid].score=(hP[pid].score||0)+1;
-  });
-  var sb=Object.keys(hP).sort(function(a,b){return hP[b].score-hP[a].score;}).map(function(pid,i){return {pid:pid,name:hP[pid].name,score:hP[pid].score,rank:i+1};});
-  // Éliminer les mauvaises réponses une par une
-  var toElim=[];
-  q.o.forEach(function(_,i){ if(i!==q.c) toElim.push(i); });
-  toElim.forEach(function(i,idx){
-    setTimeout(function(){ var c=$('hcard'+i); if(c) c.classList.add('eliminated'); },idx*300);
-  });
-  setTimeout(function(){
+  // Trouver les mauvaises réponses dans l'ordre du moins de votes au plus
+  if(!window.hElimOrder){
+    var counts=[0,0,0];
+    Object.keys(hA).forEach(function(pid){ if(hA[pid].answer!==undefined) counts[hA[pid].answer]++; });
+    window.hElimOrder=[];
+    q.o.forEach(function(_,i){ if(i!==q.c) window.hElimOrder.push(i); });
+    // trier par nombre de votes croissant (élimine d'abord le moins populaire)
+    window.hElimOrder.sort(function(a,b){ return counts[a]-counts[b]; });
+    window.hElimIdx=0;
+  }
+  if(window.hElimIdx < window.hElimOrder.length){
+    // Éliminer la prochaine mauvaise réponse
+    var idx=window.hElimOrder[window.hElimIdx];
+    var c=$('hcard'+idx); if(c) c.classList.add('eliminated');
+    window.hElimIdx++;
+    if(window.hElimIdx < window.hElimOrder.length){
+      // Il reste encore des mauvaises à éliminer
+      setBtnAdv('Éliminer encore ✂','green');
+      hStep=2; // rester en mode élimination
+    } else {
+      // Toutes éliminées → proposer la révélation
+      setBtnAdv('Révéler la réponse →','green');
+      hStep=4;
+    }
+  } else if(hStep===4){
+    // Révélation
+    window.hElimOrder=null; window.hElimIdx=0;
+    hStep=5;
+    // Calculer scores
+    Object.keys(hA).forEach(function(pid){
+      if(hP[pid] && hA[pid].answer===q.c && !q.isDemo) hP[pid].score=(hP[pid].score||0)+1;
+    });
+    var sb=Object.keys(hP).sort(function(a,b){return hP[b].score-hP[a].score;}).map(function(pid,i){return {pid:pid,name:hP[pid].name,score:hP[pid].score,rank:i+1};});
     soundReveal();
     $('reveal-img').src=q.imgs[q.c];
     $('reveal-mot').textContent=q.w;
     $('reveal-ans').textContent=['A','B','C'][q.c]+' — '+q.o[q.c];
     go('p-reveal');
     dbSet('games/'+GID+'/state', {status:'eliminated', cq:hCQ, correct:q.c, scoreboard:sb, ts:Date.now()});
-  },900);
+  }
 }
 
 function stepResults(){
@@ -1101,7 +1122,11 @@ function pStartTimer(){
     if(wfg){ wfg.style.strokeDashoffset=188*(1-pTL/TSEC); wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)'; }
     if(wnum){ wnum.textContent=pTL; wnum.style.color=pTL<=10?'var(--red)':'var(--ocre)'; }
     if(pTL>5) soundTick(); else if(pTL>0) soundAlarm();
-    if(pTL<=0) clearInterval(pTI);
+    if(pTL<=0){
+      clearInterval(pTI);
+      // Bloquer toutes les réponses
+      document.querySelectorAll('.pp-sq').forEach(function(s){ s.classList.add('locked'); });
+    }
   },1000);
 }
 
