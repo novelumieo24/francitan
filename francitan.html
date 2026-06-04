@@ -135,27 +135,28 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .hr-ok-txt{font-family:'Fraunces',serif;font-size:clamp(14px,2vw,22px);font-weight:700;color:var(--green)}
 .hr-qinfo{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--ink3)}
 .hr-bar-btns{display:flex;gap:7px}
-.hr-body{flex:1;display:grid;grid-template-columns:48% 52%;min-height:0;overflow:hidden}
-.hr-left{display:flex;flex-direction:column;padding:10px 10px 10px 18px;gap:7px;border-right:1.5px solid var(--brd);overflow:hidden}
-.hr-ans-row{display:flex;align-items:center;gap:8px;border-radius:11px;overflow:hidden;background:#fff;border:1.5px solid var(--brd)}
-.hr-ans-row.ok{border-color:var(--green);background:var(--greenL)}
-.hr-ans-row.ko{opacity:.38}
-.hr-ans-img{width:52px;height:52px;flex-shrink:0;overflow:hidden;position:relative}
-.hr-ans-img img{width:100%;height:100%;object-fit:cover}
-.hr-ans-ltr{position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11px;font-weight:900;color:#fff}
-.hr-ans-row[data-i="0"] .hr-ans-ltr{background:var(--A)}
-.hr-ans-row[data-i="1"] .hr-ans-ltr{background:var(--B)}
-.hr-ans-row[data-i="2"] .hr-ans-ltr{background:var(--C)}
-.hr-ans-row.ok .hr-ans-ltr{background:var(--green)}
-.hr-ans-body{flex:1;padding:6px 10px}
-.hr-ans-head{display:flex;align-items:center;gap:6px;margin-bottom:3px}
-.hr-ans-txt{font-size:13px;font-weight:700;color:var(--ink)}
-.hr-ans-row.ok .hr-ans-txt{color:var(--green)}
-.hr-ans-tag{font-size:9px;font-weight:800;border-radius:5px;padding:2px 6px}
-.hr-ans-tag.ok{background:var(--greenL);color:var(--green)}
-.hr-ans-tag.ko{background:#FFEAEA;color:var(--red)}
-.hr-ans-cnt{font-size:12px;font-weight:800;color:var(--ink3)}
-.hr-ans-row.ok .hr-ans-cnt{color:var(--green)}
+.hr-body{flex:1;display:grid;grid-template-columns:55% 45%;min-height:0;overflow:hidden}
+.hr-left{display:flex;flex-direction:column;padding:14px 12px 14px 20px;gap:10px;border-right:1.5px solid var(--brd);overflow:hidden;justify-content:center}
+.hr-band{display:flex;align-items:center;gap:0;border-radius:12px;overflow:hidden;background:#fff;border:1.5px solid var(--brd);height:72px}
+.hr-band.ok{border-color:var(--green);background:var(--greenL)}
+.hr-band.ko{opacity:.38}
+.hr-band-ltr{width:56px;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:#fff;flex-shrink:0}
+.hr-band[data-i="0"] .hr-band-ltr{background:var(--A)}
+.hr-band[data-i="1"] .hr-band-ltr{background:var(--B)}
+.hr-band[data-i="2"] .hr-band-ltr{background:var(--C)}
+.hr-band.ok .hr-band-ltr{background:var(--green)}
+.hr-band-body{flex:1;padding:0 14px;display:flex;flex-direction:column;gap:6px}
+.hr-band-txt{font-size:clamp(14px,1.8vw,18px);font-weight:700;color:var(--ink)}
+.hr-band.ok .hr-band-txt{color:var(--green);font-weight:800}
+.hr-band-bar-wrap{display:flex;align-items:center;gap:8px}
+.hr-band-bar{flex:1;height:7px;background:#f0e8d8;border-radius:4px;overflow:hidden}
+.hr-band-fill{height:100%;border-radius:4px;background:#C8A878;transition:width 1s cubic-bezier(.34,1.2,.64,1)}
+.hr-band.ok .hr-band-fill{background:var(--green)}
+.hr-band-n{font-size:15px;font-weight:800;color:var(--ink3);min-width:24px;text-align:right}
+.hr-band.ok .hr-band-n{color:var(--green)}
+.hr-band-tag{font-size:9px;font-weight:800;border-radius:5px;padding:2px 7px}
+.hr-band-tag.ok{background:var(--greenL);color:var(--green)}
+.hr-band-tag.ko{background:#FFEAEA;color:var(--red)}
 /* Podium escaliers */
 .hr-podium{margin-top:auto;padding-top:8px;border-top:1px solid var(--brd)}
 .hr-pod-lbl{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
@@ -167,12 +168,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .poc-m{font-size:12px}.poc-n{font-size:8px;font-weight:700;color:rgba(0,0,0,.65);text-align:center}
 .poc-p{font-family:'Fraunces',serif;font-size:9px;font-weight:900;color:rgba(0,0,0,.6)}
 /* Photo droite */
-.hr-right{position:relative;overflow:hidden}
-.hr-right-img{width:100%;height:100%;object-fit:cover}
-.hr-right-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(26,16,0,.72) 0%,transparent 55%)}
-.hr-right-lbl{position:absolute;bottom:16px;left:14px;right:14px}
-.hr-right-mot{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
-.hr-right-ans{background:var(--green);border-radius:8px;padding:5px 12px;display:inline-block;font-size:12px;font-weight:700;color:#fff}
+.hr-pod-col{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:14px}
+.hr-pod-lbl{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;align-self:flex-start}
+.pod-r{display:flex;align-items:flex-end;gap:7px;width:100%;height:140px}
+.pc{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;border-radius:8px 8px 0 0;padding:6px 4px 8px;gap:3px;border:1.5px solid transparent}
+.pc.p1{flex:1.2;height:140px;background:linear-gradient(180deg,#FFE57A,#F0A800);border-color:#D09000}
+.pc.p2{flex:1;height:100px;background:linear-gradient(180deg,#E8E8E8,#A8A8A8);border-color:#888}
+.pc.p3{flex:.88;height:70px;background:linear-gradient(180deg,#E8D0A0,#A07030);border-color:#806020}
+.pc-m{font-size:16px}
+.pc-av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11px;font-weight:900;color:rgba(0,0,0,.6)}
+.pc-n{font-size:10px;font-weight:700;color:rgba(0,0,0,.65);text-align:center}
+.pc-p{font-family:'Fraunces',serif;font-size:11px;font-weight:900;color:rgba(0,0,0,.6)}
 
 /* ── HOST FINAL ── */
 #p-host-final{gap:24px;padding:36px}
@@ -192,28 +198,42 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 
 /* ── ÉDITEUR ── */
 #p-editor{align-items:stretch;justify-content:flex-start;padding:0}
-.editor-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#fff;border-bottom:2px solid var(--brd);flex-shrink:0}
-.editor-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink)}
-.btn-close-editor{background:#fff;border:1.5px solid var(--brd);border-radius:10px;padding:6px 16px;font-size:12px;font-weight:700;color:var(--ink2);cursor:pointer}
-.btn-close-editor:hover{border-color:var(--ocre);color:var(--ocre)}
-.editor-body{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px;width:100%}
-.editor-q{background:#fff;border:1.5px solid var(--brd);border-radius:14px;padding:14px 16px}
-.editor-q-title{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.editor-q-title em{font-style:italic;color:var(--ocre)}
-.editor-opts{display:flex;flex-direction:column;gap:8px}
-.editor-opt{display:flex;align-items:center;gap:8px}
-.editor-opt-ltr{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
-.editor-opt[data-i="0"] .editor-opt-ltr{background:var(--A)}
-.editor-opt[data-i="1"] .editor-opt-ltr{background:var(--B)}
-.editor-opt[data-i="2"] .editor-opt-ltr{background:var(--C)}
-.editor-opt-txt{font-size:12px;font-weight:600;color:var(--ink2);min-width:130px}
-.editor-preview{width:48px;height:36px;border-radius:6px;overflow:hidden;border:1.5px solid var(--brd);flex-shrink:0;background:var(--ocreL)}
-.editor-preview img{width:100%;height:100%;object-fit:cover}
-.editor-url-wrap{flex:1;display:flex;gap:6px}
-.editor-url{flex:1;background:var(--cream);border:1.5px solid var(--brd);border-radius:7px;padding:5px 8px;font-size:11px;color:var(--ink);font-family:monospace;outline:none}
-.editor-url:focus{border-color:var(--ocre)}
-.btn-apply{background:var(--ocre);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer}
-.editor-correct{font-size:10px;font-weight:700;color:var(--green);background:var(--greenL);border-radius:5px;padding:1px 6px;margin-left:3px}
+.admin-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#fff;border-bottom:2px solid var(--brd);flex-shrink:0}
+.admin-bar-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink)}
+.admin-tabs{display:flex;gap:4px;background:var(--cream);border-radius:10px;padding:3px}
+.admin-tab{background:transparent;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--ink3);cursor:pointer;transition:all .2s}
+.admin-tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.btn-close-admin{background:#fff;border:1.5px solid var(--brd);border-radius:10px;padding:6px 16px;font-size:12px;font-weight:700;color:var(--ink2);cursor:pointer}
+.btn-close-admin:hover{border-color:var(--ocre);color:var(--ocre)}
+.admin-body{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px;width:100%}
+/* Sections */
+.admin-section{display:none}.admin-section.active{display:flex;flex-direction:column;gap:14px}
+/* Textes globaux */
+.admin-global{background:#fff;border:1.5px solid var(--brd);border-radius:14px;padding:14px 16px}
+.admin-global-title{font-size:13px;font-weight:700;color:var(--ink2);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.admin-field{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.admin-field-lbl{font-size:12px;font-weight:600;color:var(--ink3);min-width:120px}
+.admin-inp{flex:1;background:var(--cream);border:1.5px solid var(--brd);border-radius:7px;padding:7px 10px;font-size:13px;color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;outline:none}
+.admin-inp:focus{border-color:var(--ocre)}
+.btn-save-global{background:var(--green);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:12px;font-weight:700;cursor:pointer;align-self:flex-start}
+/* Questions */
+.admin-q{background:#fff;border:1.5px solid var(--brd);border-radius:14px;padding:14px 16px}
+.admin-q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer}
+.admin-q-title{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink)}
+.admin-q-title em{font-style:italic;color:var(--ocre)}
+.admin-q-chevron{font-size:12px;color:var(--ink3);transition:transform .2s}
+.admin-q-body{display:none;flex-direction:column;gap:8px}
+.admin-q-body.open{display:flex}
+.admin-row{display:flex;align-items:center;gap:8px}
+.admin-ltr{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
+.admin-ltr.a{background:var(--A)}.admin-ltr.b{background:var(--B)}.admin-ltr.c{background:var(--C)}
+.admin-correct-btn{font-size:9px;font-weight:800;border:1.5px solid var(--green);border-radius:5px;padding:2px 8px;color:var(--green);background:var(--greenL);cursor:default}
+.admin-preview{width:44px;height:33px;border-radius:5px;overflow:hidden;border:1.5px solid var(--brd);flex-shrink:0;background:var(--ocreL)}
+.admin-preview img{width:100%;height:100%;object-fit:cover}
+.admin-url{flex:1;background:var(--cream);border:1.5px solid var(--brd);border-radius:7px;padding:5px 8px;font-size:11px;color:var(--ink);font-family:monospace;outline:none}
+.admin-url:focus{border-color:var(--ocre)}
+.btn-apply-url{background:var(--ocre);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.admin-save-q{background:var(--ink);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;margin-top:4px;align-self:flex-end}
 
 /* ── JOUEUR REJOINDRE ── */
 #p-join{gap:20px;padding:28px 20px;text-align:center}
@@ -273,14 +293,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .pp-sq-bot{padding:8px 7px;border-top:1px solid var(--brd);text-align:center;flex-shrink:0}
 .pp-sq-txt{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--ink);line-height:1.2}
 /* Timer rond 4e case */
-.pp-timer-sq{border-radius:12px;border:1.5px solid var(--brd);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.ptr-ring{position:relative;width:58px;height:58px}
-.ptr-ring svg{transform:rotate(-90deg)}
-.ptr-bg{fill:none;stroke:var(--brd);stroke-width:5}
-.ptr-fg{fill:none;stroke:var(--green);stroke-width:5;stroke-linecap:round;stroke-dasharray:157;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear,stroke .4s}
-.ptr-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--ink)}
-.ptr-num.hot{color:var(--red);animation:tpulse .5s ease-in-out infinite}
-.ptr-lbl{font-size:8px;font-weight:700;color:var(--ink3);letter-spacing:1px;text-transform:uppercase}
+.pp-timer-sq{border-radius:12px;border:2px solid var(--ocre);background:var(--ocreL);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .4s}
+.pp-timer-sq.hot{border-color:var(--red);background:#FFEAEA;animation:timerBlink .5s ease-in-out infinite}
+@keyframes timerBlink{0%,100%{background:#FFEAEA;border-color:var(--red)}50%{background:#fff0f0;border-color:rgba(224,48,48,.4)}}
+.ptr-num{font-family:'Fraunces',serif;font-size:44px;font-weight:900;color:var(--ocre);letter-spacing:-3px;line-height:1}
+.pp-timer-sq.hot .ptr-num{color:var(--red)}
+.ptr-lbl{font-size:8px;font-weight:700;color:var(--ocre);letter-spacing:1px;text-transform:uppercase}
+.pp-timer-sq.hot .ptr-lbl{color:var(--red)}
 /* États réponses */
 .pp-sq.sel{box-shadow:0 0 0 3px var(--ocre);transform:scale(1.03) !important}
 .pp-sq.locked{pointer-events:none}
@@ -402,7 +421,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
     <div class="hq-bar-right">
       <div class="ans-pill" id="ans-pill">0 / 0</div>
       <button class="btn-back" onclick="goBack()">← Retour</button>
-      <button class="btn-edit-sm" onclick="openEditor()">✏️ Photos</button>
+      <button class="btn-edit-sm" onclick="openAdmin()" title="Paramètres">⚙️</button>
       <button class="btn-adv" id="btn-adv" onclick="advance()">Lancer ▶ <span class="kbd-h">→</span></button>
     </div>
   </div>
@@ -446,13 +465,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
   </div>
   <div class="hr-body">
     <div class="hr-left" id="hr-left"></div>
-    <div class="hr-right" id="hr-right">
-      <img class="hr-right-img" id="hr-photo" src="" alt="">
-      <div class="hr-right-ov"></div>
-      <div class="hr-right-lbl">
-        <div class="hr-right-mot" id="hr-right-mot">—</div>
-        <div class="hr-right-ans" id="hr-right-ans">—</div>
-      </div>
+    <div class="hr-pod-col" id="hr-right">
+      <div class="hr-pod-lbl">Classement</div>
+      <div class="pod-r" id="hr-podium-row"></div>
     </div>
   </div>
 </div>
@@ -464,13 +479,34 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
   <div class="hf-sub">Vous parlez occitan sans le savoir…</div>
 </div>
 
-<!-- ÉDITEUR -->
+<!-- PANNEAU ADMIN -->
 <div id="p-editor" class="page">
-  <div class="editor-bar">
-    <div class="editor-title">✏️ Modifier les photos</div>
-    <button class="btn-close-editor" onclick="closeEditor()">← Retour</button>
+  <div class="admin-bar">
+    <div class="admin-bar-title">⚙️ Paramètres</div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="adminTab('textes')">Textes</button>
+      <button class="admin-tab" onclick="adminTab('questions')">Questions</button>
+      <button class="admin-tab" onclick="adminTab('photos')">Photos</button>
+    </div>
+    <button class="btn-close-admin" onclick="closeEditor()">← Retour</button>
   </div>
-  <div class="editor-body" id="editor-body"></div>
+  <div class="admin-body" id="admin-body">
+    <!-- Onglet Textes -->
+    <div id="admin-textes" class="admin-section active">
+      <div class="admin-global">
+        <div class="admin-global-title">Textes globaux</div>
+        <div class="admin-field"><div class="admin-field-lbl">Titre</div><input class="admin-inp" id="adm-titre" value="Quizz Francitan"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Sous-titre</div><input class="admin-inp" id="adm-sub" value="Vous parlez occitan sans le savoir…"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Soirée</div><input class="admin-inp" id="adm-eyebrow" value="Soirée Chancelada"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Durée timer (sec)</div><input class="admin-inp" id="adm-timer" type="number" min="10" max="90" value="30"></div>
+        <button class="btn-save-global" onclick="saveGlobal()">Enregistrer</button>
+      </div>
+    </div>
+    <!-- Onglet Questions -->
+    <div id="admin-questions" class="admin-section"></div>
+    <!-- Onglet Photos -->
+    <div id="admin-photos" class="admin-section"></div>
+  </div>
 </div>
 
 <!-- JOUEUR REJOINDRE -->
@@ -864,34 +900,40 @@ function stepResults() {
   go('p-host-res');
   $('hr-ok-txt').textContent = ['A','B','C'][q.c]+' — '+q.o[q.c];
   $('hr-qinfo').textContent = 'Q '+(hCQ>0?hCQ:0)+' / '+(Q.length-1);
-  $('hr-photo').src = q.imgs[q.c];
-  $('hr-right-mot').textContent = q.w;
-  $('hr-right-ans').textContent = '✓ '+q.o[q.c];
+
   // Réponses
   const left=$('hr-left'); left.innerHTML='';
   const tot=Object.keys(hA).length||1;
   q.o.forEach((opt,i)=>{
     const n=Object.values(hA).filter(a=>a.answer===i).length;
+    const pct=Math.round(n/tot*100);
     const isOk=i===q.c;
-    const row=document.createElement('div'); row.className='hr-ans-row '+(isOk?'ok':'ko'); row.dataset.i=i;
-    row.innerHTML=`<div class="hr-ans-img"><img src="${q.imgs[i]}" style="opacity:0;transition:opacity .4s;width:100%;height:100%;object-fit:cover"><div class="hr-ans-ltr">${['A','B','C'][i]}</div></div>
-    <div class="hr-ans-body"><div class="hr-ans-head"><div class="hr-ans-txt">${opt}</div><div class="hr-ans-tag ${isOk?'ok':'ko'}">${isOk?'✓ bonne':'✗ faux'}</div></div>
-    <div class="hr-ans-cnt">${n} vote${n>1?'s':''}</div></div>`;
-    const img=row.querySelector('img'); img.onload=()=>img.style.opacity='1';
-    left.appendChild(row);
+    const band=document.createElement('div'); band.className='hr-band '+(isOk?'ok':'ko'); band.dataset.i=i;
+    band.innerHTML=`<div class="hr-band-ltr">${['A','B','C'][i]}</div>
+    <div class="hr-band-body">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="hr-band-txt">${opt}</div>
+        <div class="hr-band-tag ${isOk?'ok':'ko'}">${isOk?'✓ bonne':'✗ faux'}</div>
+      </div>
+      <div class="hr-band-bar-wrap">
+        <div class="hr-band-bar"><div class="hr-band-fill" style="width:${pct}%"></div></div>
+        <div class="hr-band-n">${n}</div>
+      </div>
+    </div>`;
+    left.appendChild(band);
   });
-  // Podium
-  const podDiv=document.createElement('div'); podDiv.className='hr-podium';
-  podDiv.innerHTML='<div class="hr-pod-lbl">Classement</div>';
-  const podRow=document.createElement('div'); podRow.className='pod-row';
-  const top3=sb.slice(0,3), order=[1,0,2], cls=['p2','p1','p3'], medals=['🥈','🥇','🥉'];
-  order.forEach(i=>{
-    if(!top3[i])return;
-    const col=document.createElement('div'); col.className='poc '+cls[i];
-    col.innerHTML=`<div class="poc-m">${medals[i]}</div><div class="poc-n">${top3[i].name}</div><div class="poc-p">${top3[i].score}</div>`;
-    podRow.appendChild(col);
-  });
-  podDiv.appendChild(podRow); left.appendChild(podDiv);
+  // Podium colonne droite
+  const podRow=$('hr-podium-row');
+  if(podRow){
+    podRow.innerHTML='';
+    const top3=sb.slice(0,3), order=[1,0,2], cls=['p2','p1','p3'], medals=['🥈','🥇','🥉'];
+    order.forEach(i=>{
+      if(!top3[i])return;
+      const col=document.createElement('div'); col.className='pc '+cls[i];
+      col.innerHTML=`<div class="pc-m">${medals[i]}</div><div class="pc-av">${top3[i].name.slice(0,2).toUpperCase()}</div><div class="pc-n">${top3[i].name}</div><div class="pc-p">${top3[i].score}</div>`;
+      podRow.appendChild(col);
+    });
+  }
   $('btn-next').innerHTML = (q.isDemo?'Lancer le Quizz':(hCQ>=Q.length-1?'Podium':'Suite'))+' <span class="kbd-h">→</span>';
 }
 
@@ -948,31 +990,120 @@ function hUpdateBadges() {
   }
 }
 
-/* ══ ÉDITEUR ══ */
+/* ══ ADMIN ══ */
 let prevPage='p-host-q';
-function openEditor() {
+let currentAdminTab='textes';
+
+function openAdmin() {
   prevPage=document.querySelector('.page.show')?.id||'p-host-q';
-  const body=$('editor-body'); body.innerHTML='';
-  Q.forEach((q,qi)=>{
-    const div=document.createElement('div'); div.className='editor-q';
-    let html=`<div class="editor-q-title">Q${qi===0?'Essai':qi} — <em>${q.w}</em></div><div class="editor-opts">`;
-    q.o.forEach((opt,i)=>{
-      html+=`<div class="editor-opt" data-i="${i}"><div class="editor-opt-ltr">${['A','B','C'][i]}</div>
-      <div class="editor-opt-txt">${opt}${i===q.c?'<span class="editor-correct">✓</span>':''}</div>
-      <div class="editor-preview" id="eprev-${qi}-${i}"><img src="${q.imgs[i]}" style="opacity:0;transition:opacity .3s;width:100%;height:100%;object-fit:cover" onload="this.style.opacity='1'" onerror="this.style.opacity='0'"></div>
-      <div class="editor-url-wrap"><input class="editor-url" id="eurl-${qi}-${i}" value="${q.imgs[i]}" placeholder="URL image…"><button class="btn-apply" onclick="applyImg(${qi},${i})">OK</button></div></div>`;
-    });
-    html+='</div>'; div.innerHTML=html; body.appendChild(div);
-  });
+  // Charger valeurs textes
+  $('adm-titre').value=localStorage.getItem('fq_titre')||'Quizz Francitan';
+  $('adm-sub').value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
+  $('adm-eyebrow').value=localStorage.getItem('fq_eyebrow')||'Soirée Chancelada';
+  $('adm-timer').value=localStorage.getItem('fq_tsec')||30;
+  adminTab(currentAdminTab);
   go('p-editor');
 }
+
+function adminTab(tab) {
+  currentAdminTab=tab;
+  document.querySelectorAll('.admin-tab').forEach((t,i)=>{
+    t.classList.toggle('active',['textes','questions','photos'][i]===tab);
+  });
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  $('admin-'+tab)?.classList.add('active');
+  if(tab==='questions')buildAdminQuestions();
+  if(tab==='photos')buildAdminPhotos();
+}
+
+function buildAdminQuestions() {
+  const sec=$('admin-questions'); sec.innerHTML='';
+  Q.forEach((q,qi)=>{
+    const div=document.createElement('div'); div.className='admin-q';
+    div.innerHTML=`<div class="admin-q-header" onclick="toggleQ(${qi})">
+      <div class="admin-q-title">Q${qi===0?'<span style="color:var(--ocre)">Essai</span>':qi} — <em>${q.w}</em></div>
+      <div class="admin-q-chevron" id="chev${qi}">▼</div>
+    </div>
+    <div class="admin-q-body" id="qbody${qi}">
+      <div class="admin-row"><div class="admin-field-lbl" style="min-width:60px;font-size:12px;font-weight:600;color:var(--ink3)">Mot</div><input class="admin-inp" id="adm-w-${qi}" value="${q.w}" style="font-size:13px"></div>
+      ${q.o.map((opt,i)=>`<div class="admin-row">
+        <div class="admin-ltr ${['a','b','c'][i]}">${['A','B','C'][i]}</div>
+        <input class="admin-url" id="adm-o-${qi}-${i}" value="${opt}" style="flex:2">
+        ${i===q.c?'<div class="admin-correct-btn">✓ bonne</div>':'<button style="font-size:10px;background:#fff;border:1.5px solid var(--brd);border-radius:5px;padding:2px 7px;cursor:pointer;color:var(--ink3)" onclick="setCorrect('+qi+','+i+')">Bonne ?</button>'}
+      </div>`).join('')}
+      <button class="admin-save-q" onclick="saveQuestion(${qi})">💾 Enregistrer Q${qi===0?'Essai':qi}</button>
+    </div>`;
+    sec.appendChild(div);
+  });
+}
+
+function buildAdminPhotos() {
+  const sec=$('admin-photos'); sec.innerHTML='';
+  Q.forEach((q,qi)=>{
+    const div=document.createElement('div'); div.className='admin-q';
+    div.innerHTML=`<div class="admin-q-header" onclick="toggleQ2(${qi})">
+      <div class="admin-q-title">Q${qi===0?'<span style="color:var(--ocre)">Essai</span>':qi} — <em>${q.w}</em></div>
+      <div class="admin-q-chevron" id="chev2-${qi}">▼</div>
+    </div>
+    <div class="admin-q-body" id="qbody2-${qi}">
+      ${q.o.map((opt,i)=>`<div class="admin-row">
+        <div class="admin-ltr ${['a','b','c'][i]}">${['A','B','C'][i]}</div>
+        <div class="admin-preview" id="aprev-${qi}-${i}"><img src="${q.imgs[i]}" style="opacity:0;width:100%;height:100%;object-fit:cover;transition:opacity .3s" onload="this.style.opacity='1'"></div>
+        <input class="admin-url" id="aurl-${qi}-${i}" value="${q.imgs[i]}" placeholder="URL image…">
+        <button class="btn-apply-url" onclick="applyImg(${qi},${i})">OK</button>
+      </div>`).join('')}
+    </div>`;
+    sec.appendChild(div);
+  });
+}
+
+function toggleQ(qi) {
+  const body=$('qbody'+qi), chev=$('chev'+qi);
+  body.classList.toggle('open');
+  if(chev)chev.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
+}
+function toggleQ2(qi) {
+  const body=$('qbody2-'+qi), chev=$('chev2-'+qi);
+  body.classList.toggle('open');
+  if(chev)chev.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
+}
+
+function setCorrect(qi,i) {
+  Q[qi].c=i; saveImgs(); buildAdminQuestions();
+  toast('Bonne réponse mise à jour ✓',1500);
+}
+
+function saveQuestion(qi) {
+  const w=$('adm-w-'+qi)?.value.trim();
+  if(w)Q[qi].w=w;
+  Q[qi].o.forEach((_,i)=>{
+    const v=$('adm-o-'+qi+'-'+i)?.value.trim();
+    if(v)Q[qi].o[i]=v;
+  });
+  saveImgs(); buildAdminQuestions();
+  toast('Question enregistrée ✓',1800);
+}
+
+function saveGlobal() {
+  const titre=$('adm-titre').value.trim();
+  const sub=$('adm-sub').value.trim();
+  const eyebrow=$('adm-eyebrow').value.trim();
+  const tsec=parseInt($('adm-timer').value)||30;
+  if(titre){localStorage.setItem('fq_titre',titre);document.querySelectorAll('.sel-title,.hl-title,.jl-logo').forEach(el=>{if(el.querySelector('em')){el.querySelector('span')&&(el.querySelector('span').textContent=titre.split(' ')[0]);}})}
+  if(sub)localStorage.setItem('fq_sub',sub);
+  if(eyebrow){localStorage.setItem('fq_eyebrow',eyebrow);document.querySelectorAll('.sel-eyebrow').forEach(el=>el.textContent=eyebrow);}
+  localStorage.setItem('fq_tsec',tsec);
+  toast('Paramètres enregistrés ✓',1800);
+}
+
 function applyImg(qi,i) {
-  const url=$(`eurl-${qi}-${i}`).value.trim(); if(!url)return;
+  const url=$('aurl-'+qi+'-'+i)?.value.trim(); if(!url)return;
   Q[qi].imgs[i]=url; saveImgs();
-  const prev=$(`eprev-${qi}-${i}`);
+  const prev=$('aprev-'+qi+'-'+i);
   if(prev){const img=prev.querySelector('img');img.style.opacity='0';img.src=url;img.onload=()=>img.style.opacity='1';}
   toast('Photo mise à jour ✓',1500);
 }
+
 function closeEditor() { go(prevPage||'p-host-q'); }
 
 /* ══ JOUEUR ══ */
@@ -1043,7 +1174,7 @@ function pBuildGrid(state) {
   });
   // Timer rond 4e case
   const tsq=document.createElement('div'); tsq.className='pp-timer-sq'; tsq.id='pp-timer-sq';
-  tsq.innerHTML='<div class="ptr-ring"><svg width="58" height="58" viewBox="0 0 58 58"><circle class="ptr-bg" cx="29" cy="29" r="25"/><circle class="ptr-fg" id="ptr-fg" cx="29" cy="29" r="25"/></svg><div class="ptr-num" id="ptr-num">—</div></div><div class="ptr-lbl">sec</div>';
+  tsq.innerHTML='<div class="ptr-num" id="ptr-num">—</div><div class="ptr-lbl">sec</div>';
   grid.appendChild(tsq);
 }
 
@@ -1067,9 +1198,12 @@ function pStartTimer() {
       else if(pTL<=12)tb.style.background='var(--ocre)';
     }
     // Timer rond
-    const pfg=$('ptr-fg'), pnum=$('ptr-num');
-    if(pfg){pfg.style.strokeDashoffset=CIRC_SM*(1-pTL/TSEC);pfg.style.stroke=pTL<=5?'var(--red)':'var(--green)';}
-    if(pnum){pnum.textContent=pTL;pnum.className='ptr-num'+(pTL<=5?' hot':'');}
+    const tsqEl=$('pp-timer-sq'), pnum=$('ptr-num');
+    if(pnum)pnum.textContent=pTL;
+    if(tsqEl){
+      if(pTL<=10)tsqEl.classList.add('hot');
+      else tsqEl.classList.remove('hot');
+    }
     // Timer attente
     const wfg=$('wr-fg'), wnum=$('wr-num');
     if(wfg)wfg.style.strokeDashoffset=188*(1-pTL/TSEC);
