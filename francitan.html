@@ -1131,7 +1131,7 @@ function pStartTimer(){
 }
 
 function pPick(i, qi){
-  if(pSel!==null) return; pSel=i; clearInterval(pTI);
+  if(pSel!==null) return; pSel=i; // NE PAS arrêter le timer - il continue sur l'écran d'attente
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){ s.classList.add('locked'); if(idx===i) s.classList.add('sel','waiting'); });
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID, {answer:i, ts:Date.now()});
   var q=Q[qi]||{};
@@ -1143,6 +1143,10 @@ function pPick(i, qi){
   $('wr-ans').textContent=q.o?q.o[i]:'—';
   var wtb=$('wr-timefill');
   if(wtb){ wtb.style.transition='none'; wtb.style.width=(pTL/TSEC*100)+'%'; wtb.style.background=pTL<=5?'var(--red)':pTL<=12?'var(--ocre)':'var(--green)'; setTimeout(function(){wtb.style.transition='width 1s linear,background 4s';},60); }
+  // Initialiser le cercle timer sur l'écran d'attente
+  var wfg=$('wr-fg'), wnum=$('wr-num');
+  if(wfg){ wfg.style.strokeDashoffset=188*(1-pTL/TSEC); wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)'; }
+  if(wnum){ wnum.textContent=pTL; wnum.style.color=pTL<=10?'var(--red)':'var(--ocre)'; }
   go('p-wait-reveal');
 }
 
