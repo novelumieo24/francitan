@@ -1076,11 +1076,7 @@ let currentAdminTab='textes';
 
 function openAdmin() {
   prevPage=document.querySelector('.page.show')?.id||'p-host-q';
-  // Charger valeurs textes
-  // titre géré dans onglet accueil
-  $('adm-sub').value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
-  $('adm-eyebrow').value=localStorage.getItem('fq_eyebrow')||'Rencontres occitanes de Chancelade';
-  $('adm-timer').value=localStorage.getItem('fq_tsec')||30;
+  // On charge les valeurs quand les onglets sont affichés
   adminTab(currentAdminTab);
   go('p-editor');
 }
@@ -1092,6 +1088,10 @@ function adminTab(tab) {
   });
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   $('admin-'+tab)?.classList.add('active');
+  if(tab==='textes'){
+    const sub=$('adm-sub'); if(sub)sub.value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
+    const timer=$('adm-timer'); if(timer)timer.value=localStorage.getItem('fq_tsec')||30;
+  }
   if(tab==='questions')buildAdminQuestions();
   if(tab==='photos')buildAdminPhotos();
   if(tab==='accueil'){
