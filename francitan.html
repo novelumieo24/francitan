@@ -535,8 +535,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
     <div id="admin-textes" class="admin-section active">
       <div class="admin-global">
         <div class="admin-global-title">Textes globaux</div>
-        <div class="admin-field"><div class="admin-field-lbl">Titre</div><input class="admin-inp" id="adm-titre" value="Quizz Francitan"></div>
-        <div class="admin-field"><div class="admin-field-lbl">Sous-titre</div><input class="admin-inp" id="adm-sub" value="Vous parlez occitan sans le savoir…"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Titre</div><div class="admin-field"><div class="admin-field-lbl">Sous-titre</div><input class="admin-inp" id="adm-sub" value="Vous parlez occitan sans le savoir…"></div>
         <div class="admin-field"><div class="admin-field-lbl">Soirée</div><input class="admin-inp" id="adm-eyebrow" value="Rencontres occitanes de Chancelade"></div>
         <div class="admin-field"><div class="admin-field-lbl">Durée timer (sec)</div><input class="admin-inp" id="adm-timer" type="number" min="10" max="90" value="30"></div>
         <button class="btn-save-global" onclick="saveGlobal()">Enregistrer</button>
@@ -1078,7 +1077,7 @@ let currentAdminTab='textes';
 function openAdmin() {
   prevPage=document.querySelector('.page.show')?.id||'p-host-q';
   // Charger valeurs textes
-  $('adm-titre').value=localStorage.getItem('fq_titre')||'Quizz Francitan';
+  // titre géré dans onglet accueil
   $('adm-sub').value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
   $('adm-eyebrow').value=localStorage.getItem('fq_eyebrow')||'Rencontres occitanes de Chancelade';
   $('adm-timer').value=localStorage.getItem('fq_tsec')||30;
@@ -1187,13 +1186,9 @@ function saveQuestion(qi) {
 }
 
 function saveGlobal() {
-  const titre=$('adm-titre').value.trim();
-  const sub=$('adm-sub').value.trim();
-  const eyebrow=$('adm-eyebrow').value.trim();
-  const tsec=parseInt($('adm-timer').value)||30;
-  if(titre){localStorage.setItem('fq_titre',titre);document.querySelectorAll('.sel-title,.hl-title,.jl-logo').forEach(el=>{if(el.querySelector('em')){el.querySelector('span')&&(el.querySelector('span').textContent=titre.split(' ')[0]);}})}
+  const sub=$('adm-sub')?.value.trim();
+  const tsec=parseInt($('adm-timer')?.value)||30;
   if(sub)localStorage.setItem('fq_sub',sub);
-  if(eyebrow){localStorage.setItem('fq_eyebrow',eyebrow);document.querySelectorAll('.sel-eyebrow').forEach(el=>el.textContent=eyebrow);}
   localStorage.setItem('fq_tsec',tsec);
   toast('Paramètres enregistrés ✓',1800);
 }
