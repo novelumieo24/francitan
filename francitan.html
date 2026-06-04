@@ -33,6 +33,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .sel-card-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .sel-card-desc{font-size:12px;color:var(--ink3);line-height:1.5}
 
+/* ── PAGE ACCUEIL ── */
+#p-accueil{gap:0;padding:0;align-items:stretch;justify-content:stretch}
+.acc-zone{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;text-align:center;background:var(--cream)}
+.acc-eyebrow{font-size:11px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:var(--ocre)}
+.acc-free-zone{width:100%;max-width:600px;background:#fff;border:2px solid var(--brd);border-radius:18px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.acc-quiz-block{display:flex;flex-direction:column;align-items:center;gap:4px}
+.acc-quiz-lbl{font-size:11px;font-weight:700;letter-spacing:7px;text-transform:uppercase;color:var(--ink2)}
+.acc-title{font-family:'Fraunces',serif;font-size:clamp(40px,6vw,72px);font-weight:900;color:var(--ink);line-height:.9;letter-spacing:-2px}
+.acc-title em{font-style:italic;color:var(--ocre)}
+.acc-sub{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--ink3)}
+.btn-acc-next{font-family:'Fraunces',serif;font-size:17px;font-weight:700;background:var(--ink);color:#fff;border:none;border-radius:50px;padding:12px 44px;cursor:pointer;transition:transform .12s}
+.btn-acc-next:hover{transform:translateY(-2px)}
+.btn-acc-next:active{transform:translateY(2px)}
+
 /* ── HOST LOBBY ── */
 #p-host-lobby{gap:20px;padding:32px;text-align:center}
 .hl-title{font-family:'Fraunces',serif;font-size:clamp(44px,7vw,80px);font-weight:900;color:var(--ink);line-height:.88;letter-spacing:-2px}
@@ -311,11 +325,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .pp-sq.rev-ko{opacity:.18;filter:grayscale(.6)}
 
 /* ── JOUEUR ATTENTE RÉVÉLATION ── */
-#p-wait-reveal{gap:16px;text-align:center;padding:28px 20px}
-.wr-orb{width:76px;height:76px;border-radius:50%;background:var(--ocreL);border:2.5px solid rgba(212,98,10,.3);display:flex;align-items:center;justify-content:center;font-size:34px;animation:orbPulse 1.8s ease-in-out infinite}
-.wr-txt{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink)}
-.wr-choice{font-size:14px;font-weight:700;color:var(--ink2);background:#fff;border:2px solid var(--brd);border-radius:11px;padding:8px 18px}
-.wr-sub{font-size:12px;color:var(--ink3);font-family:'Fraunces',serif;font-style:italic}
+#p-wait-reveal{gap:0;text-align:center;padding:0;justify-content:flex-start}
+.wr-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#fff;border-bottom:1.5px solid var(--brd);width:100%;flex-shrink:0}
+.wr-qlbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ink3)}
+.wr-sc{font-family:'Fraunces',serif;font-size:13px;font-weight:900;color:var(--ink3)}
+.wr-timebar{width:100%;height:6px;background:var(--brd);flex-shrink:0}
+.wr-timefill{height:100%;background:var(--ocre);transition:width 1s linear,background 4s}
+.wr-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;padding:16px}
+.wr-sig{font-size:8px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:var(--ocre)}
+.wr-mot{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1}
+.wr-mot em{font-style:italic;color:var(--ocre)}
+.wr-rule{width:28px;height:2px;background:var(--brd);border-radius:1px}
+.wr-choice-lbl{font-size:10px;font-weight:700;color:var(--ink3);letter-spacing:1px}
+.wr-choice{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ocre);border-radius:11px;padding:7px 14px}
+.wr-choice-ltr{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:15px;font-weight:900;color:#fff;flex-shrink:0}
+.wr-choice-txt{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--ink)}
+.wr-question-badge{font-family:'Fraunces',serif;font-style:italic;font-size:13px;font-weight:600;color:var(--ocre)}
 /* Timer attente */
 .wr-timer{display:flex;flex-direction:column;align-items:center;gap:4px}
 .wr-ring{position:relative;width:70px;height:70px}
@@ -367,7 +392,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 
 <!-- SÉLECTION -->
 <div id="p-select" class="page show">
-  <div class="sel-eyebrow">Soirée Chancelada</div>
+  <div class="sel-eyebrow">Rencontres occitanes de Chancelade</div>
   <div class="sel-title"><span class="sel-quiz">Quizz</span>Fran<em>ci</em>tan</div>
   <div class="sel-sub">Vous parlez occitan sans le savoir…</div>
   <div class="sel-rule"></div>
@@ -377,11 +402,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
       <div class="sel-card-title">Animateur</div>
       <div class="sel-card-desc">Grand écran · piloter la partie</div>
     </div>
-    <div class="sel-card" onclick="enterPlayer()">
-      <div class="sel-icon">📱</div>
-      <div class="sel-card-title">Joueur</div>
-      <div class="sel-card-desc">Rejoindre depuis mon téléphone</div>
+  </div>
+</div>
+
+<!-- PAGE ACCUEIL -->
+<div id="p-accueil" class="page">
+  <div class="acc-zone">
+    <div class="acc-eyebrow" id="acc-eyebrow">Rencontres occitanes de Chancelade</div>
+    <div class="acc-free-zone" id="acc-free-zone">
+      <div style="font-size:48px">🌿</div>
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--ink2);line-height:1.4;text-align:center">Bienvenue aux Rencontres occitanes de Chancelade !</div>
+      <div style="width:36px;height:3px;background:var(--ocre);border-radius:2px"></div>
+      <div style="font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--ink3);line-height:1.6;text-align:center">Ce soir, testez vos connaissances<br>de la langue occitane.</div>
     </div>
+    <div class="acc-quiz-block">
+      <div class="acc-quiz-lbl">Quizz</div>
+      <div class="acc-title">Fran<em>ci</em>tan</div>
+    </div>
+    <div class="acc-sub" id="acc-sub">Vous parlez occitan sans le savoir…</div>
+    <button class="btn-acc-next" onclick="goToLobby()">Suivant →</button>
   </div>
 </div>
 
@@ -485,6 +524,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
     <div class="admin-bar-title">⚙️ Paramètres</div>
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="adminTab('textes')">Textes</button>
+      <button class="admin-tab" onclick="adminTab('accueil')">Accueil</button>
       <button class="admin-tab" onclick="adminTab('questions')">Questions</button>
       <button class="admin-tab" onclick="adminTab('photos')">Photos</button>
     </div>
@@ -497,9 +537,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
         <div class="admin-global-title">Textes globaux</div>
         <div class="admin-field"><div class="admin-field-lbl">Titre</div><input class="admin-inp" id="adm-titre" value="Quizz Francitan"></div>
         <div class="admin-field"><div class="admin-field-lbl">Sous-titre</div><input class="admin-inp" id="adm-sub" value="Vous parlez occitan sans le savoir…"></div>
-        <div class="admin-field"><div class="admin-field-lbl">Soirée</div><input class="admin-inp" id="adm-eyebrow" value="Soirée Chancelada"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Soirée</div><input class="admin-inp" id="adm-eyebrow" value="Rencontres occitanes de Chancelade"></div>
         <div class="admin-field"><div class="admin-field-lbl">Durée timer (sec)</div><input class="admin-inp" id="adm-timer" type="number" min="10" max="90" value="30"></div>
         <button class="btn-save-global" onclick="saveGlobal()">Enregistrer</button>
+      </div>
+    </div>
+    <!-- Onglet Accueil -->
+    <div id="admin-accueil" class="admin-section">
+      <div class="admin-global">
+        <div class="admin-global-title">Page d'accueil</div>
+        <div class="admin-field"><div class="admin-field-lbl">Titre événement</div><input class="admin-inp" id="adm-eyebrow" value="Rencontres occitanes de Chancelade"></div>
+        <div class="admin-field"><div class="admin-field-lbl">Sous-titre</div><input class="admin-inp" id="adm-sub-acc" value="Vous parlez occitan sans le savoir…"></div>
+        <div style="margin-bottom:6px"><div class="admin-global-title" style="font-size:12px;margin-bottom:4px">Zone libre (HTML)</div>
+        <div style="font-size:10px;color:var(--ink3);margin-bottom:6px">Texte, images, emojis… Tu peux coller du HTML simple.</div>
+        <textarea id="adm-free" style="width:100%;background:var(--cream);border:1.5px solid var(--brd);border-radius:7px;padding:8px 10px;font-size:11px;font-family:monospace;resize:vertical;min-height:100px;outline:none;line-height:1.5"></textarea></div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:6px">Aperçu</div>
+        <div id="adm-free-preview" style="background:#fff;border:1.5px dashed var(--brd);border-radius:8px;padding:10px;min-height:40px;font-size:13px;color:var(--ink3)"></div>
+        <button class="btn-save-global" onclick="saveAccueil()" style="margin-top:8px">Enregistrer</button>
       </div>
     </div>
     <!-- Onglet Questions -->
@@ -546,18 +600,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 
 <!-- JOUEUR ATTENTE RÉVÉLATION -->
 <div id="p-wait-reveal" class="page">
-  <div class="wr-orb">🤔</div>
-  <div class="wr-txt">Réponse envoyée !</div>
-  <div class="wr-choice" id="wr-choice">Tu as choisi : B</div>
-  <div class="wr-timer">
-    <div class="wr-ring">
-      <svg width="70" height="70" viewBox="0 0 70 70">
-        <circle class="wr-bg" cx="35" cy="35" r="30"/>
-        <circle id="wr-fg" class="wr-fg" cx="35" cy="35" r="30"/>
-      </svg>
-      <div class="wr-num" id="wr-num">—</div>
+  <div class="wr-header">
+    <div class="wr-qlbl" id="wr-qlbl">Q 1 / 16</div>
+    <div class="wr-sc" id="wr-sc">0 pt</div>
+  </div>
+  <div class="wr-timebar"><div class="wr-timefill" id="wr-timefill"></div></div>
+  <div class="wr-body">
+    <div class="wr-sig">Que signifie le mot</div>
+    <div class="wr-mot" id="wr-mot">—</div>
+    <div class="wr-rule"></div>
+    <div class="wr-choice-lbl">Tu as choisi</div>
+    <div class="wr-choice">
+      <div class="wr-choice-ltr" id="wr-choice-ltr" style="background:var(--B)">B</div>
+      <div class="wr-choice-txt" id="wr-choice-txt">—</div>
     </div>
-    <div class="wr-lbl">En attente de la révélation…</div>
+    <div class="wr-timer">
+      <div class="wr-ring">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <circle class="wr-bg" cx="35" cy="35" r="30"/>
+          <circle id="wr-fg" class="wr-fg" cx="35" cy="35" r="30"/>
+        </svg>
+        <div class="wr-num" id="wr-num">—</div>
+      </div>
+      <div class="wr-question-badge">Avez-vous la bonne réponse ?</div>
+    </div>
   </div>
 </div>
 
@@ -780,12 +846,9 @@ function goBack() {
 }
 
 /* ══ HOST ══ */
-function enterHost() {
-  GID = 'FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
-  const purl = location.href.split('?')[0]+'?g='+GID+'&m=play';
-  $('qr-url').textContent = purl;
-  drawQR(purl, $('qr-canvas'));
+function goToLobby() {
   go('p-host-lobby');
+  // Initialiser les listeners Firebase pour les joueurs
   dbOn('games/'+GID+'/players', val => {
     if (!val) return;
     let changed = false;
@@ -802,6 +865,24 @@ function enterHost() {
       $('qr-count').innerHTML = Object.keys(hP).length+'<small>joueur(s) connecté(s)</small>';
     }
   });
+}
+
+function enterHost() {
+  // Charger contenu accueil depuis localStorage
+  const freeZone = localStorage.getItem('fq_free_zone');
+  if(freeZone) { const el=$('acc-free-zone'); if(el)el.innerHTML=freeZone; }
+  const eyebrow = localStorage.getItem('fq_eyebrow');
+  if(eyebrow) { const el=$('acc-eyebrow'); if(el)el.textContent=eyebrow; }
+  const sub = localStorage.getItem('fq_sub');
+  if(sub) { const el=$('acc-sub'); if(el)el.textContent=sub; }
+  go('p-accueil');
+  // Créer GID et préparer Firebase en arrière-plan
+  GID = 'FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+  const purl = location.href.split('?')[0]+'?g='+GID+'&m=play';
+  $('qr-url').textContent = purl;
+  drawQR(purl, $('qr-canvas'));
+  // Ne pas aller direct au lobby — l'animateur passe par p-accueil d'abord
+
 }
 
 function hostStart() {
@@ -999,7 +1080,7 @@ function openAdmin() {
   // Charger valeurs textes
   $('adm-titre').value=localStorage.getItem('fq_titre')||'Quizz Francitan';
   $('adm-sub').value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
-  $('adm-eyebrow').value=localStorage.getItem('fq_eyebrow')||'Soirée Chancelada';
+  $('adm-eyebrow').value=localStorage.getItem('fq_eyebrow')||'Rencontres occitanes de Chancelade';
   $('adm-timer').value=localStorage.getItem('fq_tsec')||30;
   adminTab(currentAdminTab);
   go('p-editor');
@@ -1008,12 +1089,33 @@ function openAdmin() {
 function adminTab(tab) {
   currentAdminTab=tab;
   document.querySelectorAll('.admin-tab').forEach((t,i)=>{
-    t.classList.toggle('active',['textes','questions','photos'][i]===tab);
+    t.classList.toggle('active',['textes','accueil','questions','photos'][i]===tab);
   });
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   $('admin-'+tab)?.classList.add('active');
   if(tab==='questions')buildAdminQuestions();
   if(tab==='photos')buildAdminPhotos();
+  if(tab==='accueil'){
+    const free=$('adm-free');
+    if(free){
+      free.value=localStorage.getItem('fq_free_zone')||'';
+      free.oninput=()=>{const pr=$('adm-free-preview');if(pr)pr.innerHTML=free.value;};
+      const pr=$('adm-free-preview');if(pr)pr.innerHTML=free.value;
+    }
+    const ey=$('adm-eyebrow');if(ey)ey.value=localStorage.getItem('fq_eyebrow')||'Rencontres occitanes de Chancelade';
+    const su=$('adm-sub-acc');if(su)su.value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
+  }
+}
+
+function saveAccueil(){
+  const free=$('adm-free')?.value||'';
+  const ey=$('adm-eyebrow')?.value.trim()||'';
+  const su=$('adm-sub-acc')?.value.trim()||'';
+  localStorage.setItem('fq_free_zone',free);
+  if(ey){localStorage.setItem('fq_eyebrow',ey);const el=$('acc-eyebrow');if(el)el.textContent=ey;}
+  if(su){localStorage.setItem('fq_sub',su);const el=$('acc-sub');if(el)el.textContent=su;}
+  const fz=$('acc-free-zone');if(fz&&free)fz.innerHTML=free;
+  toast('Page d'accueil enregistrée ✓',1800);
 }
 
 function buildAdminQuestions() {
@@ -1204,10 +1306,12 @@ function pStartTimer() {
       if(pTL<=10)tsqEl.classList.add('hot');
       else tsqEl.classList.remove('hot');
     }
-    // Timer attente
+    // Timer attente révélation
     const wfg=$('wr-fg'), wnum=$('wr-num');
-    if(wfg)wfg.style.strokeDashoffset=188*(1-pTL/TSEC);
-    if(wnum)wnum.textContent=pTL;
+    if(wfg){wfg.style.strokeDashoffset=188*(1-pTL/TSEC);wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)';}
+    if(wnum){wnum.textContent=pTL;wnum.style.color=pTL<=10?'var(--red)':'var(--ocre)';}
+    const wtb=$('wr-timefill');
+    if(wtb){wtb.style.width=(pTL/TSEC*100)+'%';if(pTL<=5)wtb.style.background='var(--red)';else if(pTL<=12)wtb.style.background='var(--ocre)';}
     // Sons
     if(pTL>5)soundTick();
     else if(pTL>0)soundAlarm();
@@ -1219,7 +1323,18 @@ function pPick(i, qi) {
   if(pSel!==null)return; pSel=i; clearInterval(pTI);
   document.querySelectorAll('.pp-sq').forEach((s,idx)=>{s.classList.add('locked');if(idx===i)s.classList.add('sel','waiting');});
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID, {answer:i, ts:Date.now()});
-  $('wr-choice').textContent='Tu as choisi : '+['A','B','C'][i];
+  // Remplir l'écran d'attente
+  const q=Q[qi]||{};
+  const ltrColors=['var(--A)','var(--B)','var(--C)'];
+  $('wr-qlbl').textContent=(q.isDemo?'✦ ESSAI':`Q ${qi} / ${Q.length-1}`);
+  $('wr-sc').textContent=pScore+' pt'+(pScore>1?'s':'');
+  $('wr-mot').innerHTML=q.w||'—';
+  const ltrEl=$('wr-choice-ltr');
+  if(ltrEl){ltrEl.textContent=['A','B','C'][i];ltrEl.style.background=ltrColors[i];}
+  $('wr-choice-txt').textContent=q.o?q.o[i]:'—';
+  // Sync barre timer
+  const wtb=$('wr-timefill');
+  if(wtb){wtb.style.transition='none';wtb.style.width=(pTL/TSEC*100)+'%';wtb.style.background=pTL<=5?'var(--red)':pTL<=12?'var(--ocre)':'var(--green)';setTimeout(()=>wtb.style.transition='width 1s linear,background 4s',60);}
   go('p-wait-reveal');
 }
 
