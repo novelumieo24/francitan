@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Quizz Francitan</title>
+<title>Quizz Francitan v3.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,800&family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -705,15 +705,15 @@ let DB = null;
 
 /* CATALOGUE NOVELUM */
 var PUBS = [
-  {tag:'📚 Librairie Novelum', title:'Los Sendareus de l'auba', desc:'Un polar en occitan — Martial Peyrouny', img:'https://static.wixstatic.com/media/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg/v1/fill/w_306,h_456,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg', url:'https://www.novelum-ieo24.fr/product-page/los-sendareus-de-l-auba-martial-peyrouny'},
-  {tag:'📚 Librairie Novelum', title:'Flors salvatjas de Perigòrd', desc:'Fleurs sauvages du Périgord — Joan-Loís Orazio', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/flors-salvatjas-de-perigòrd-fleurs-sauvages-du-périgord-joan-loís-orazio'},
-  {tag:'📚 Librairie Novelum', title:'Contes populars de Perigòrd', desc:'Contes populaires du Périgord en occitan et français', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/contes-populars-de-perigòrd-contes-populaires-du-périgord'},
-  {tag:'📚 Librairie Novelum', title:'Enquestas a la lesta', desc:'Roman policier occitan — Joan Ganhaire', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/enquestas-a-la-lesta-joan-ganhaire'},
-  {tag:'📚 Librairie Novelum', title:'Marcelle Delpastre à fleur de l'âme', desc:'Réédition — poésie occitane du Périgord', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/marcelle-delpastre-à-fleur-de-l-âme'},
-  {tag:'📚 Librairie Novelum', title:'Des mois et des jours : Almanach occitan', desc:'Culture et patrimoine occitan en Périgord', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/des-mois-et-des-jours-almanach-occitan'},
-  {tag:'📰 Revue trimestrielle', title:'Paraulas de Novelum', desc:'Abonnement 1 an — 4 numéros sur la culture occitane', img:'', url:'https://www.novelum-ieo24.fr/product-page/paraulas-de-novelum-abonnement-1-an-4-numéros'},
-  {tag:'🌿 Novelum IEO Perigòrd', title:'Cours d'occitan en Dordogne', desc:'37 cours et ateliers pour tous les niveaux', img:'', url:'https://www.novelum-ieo24.fr/cours-d-occitan'},
-  {tag:'🌿 Novelum IEO Perigòrd', title:'Qui sommes-nous ?', desc:'Association pour la promotion de la culture occitane', img:'', url:'https://www.novelum-ieo24.fr/à-propos'},
+  {tag:"📚 Librairie Novelum", title:"Los Sendareus de l'auba", desc:"Un polar en occitan — Martial Peyrouny", img:"https://static.wixstatic.com/media/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg/v1/fill/w_306,h_456,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg", url:"https://www.novelum-ieo24.fr/product-page/los-sendareus-de-l-auba-martial-peyrouny"},
+  {tag:"📚 Librairie Novelum", title:"Flors salvatjas de Perigord", desc:"Fleurs sauvages du Perigord — Joan-Luis Orazio", img:"", url:"https://www.novelum-ieo24.fr/product-page/flors-salvatjas-de-perigord-fleurs-sauvages-du-perigord-joan-lois-orazio"},
+  {tag:"📚 Librairie Novelum", title:"Contes populars de Perigord", desc:"Contes populaires du Perigord en occitan et francais", img:"", url:"https://www.novelum-ieo24.fr/product-page/contes-populars-de-perigord-contes-populaires-du-perigord"},
+  {tag:"📚 Librairie Novelum", title:"Enquestas a la lesta", desc:"Roman policier occitan — Joan Ganhaire", img:"", url:"https://www.novelum-ieo24.fr/product-page/enquestas-a-la-lesta-joan-ganhaire"},
+  {tag:"📚 Librairie Novelum", title:"Marcelle Delpastre a fleur de l'ame", desc:"Reedition — poesie occitane du Perigord", img:"", url:"https://www.novelum-ieo24.fr/product-page/marcelle-delpastre-a-fleur-de-l-ame"},
+  {tag:"📚 Librairie Novelum", title:"Des mois et des jours", desc:"Almanach occitan — culture et patrimoine", img:"", url:"https://www.novelum-ieo24.fr/product-page/des-mois-et-des-jours-almanach-occitan"},
+  {tag:"📰 Revue trimestrielle", title:"Paraulas de Novelum", desc:"Abonnement 1 an — 4 numeros sur la culture occitane", img:"", url:"https://www.novelum-ieo24.fr/product-page/paraulas-de-novelum-abonnement-1-an-4-numeros"},
+  {tag:"🌿 Novelum IEO Perigord", title:"Cours d'occitan en Dordogne", desc:"37 cours et ateliers pour tous les niveaux", img:"", url:"https://www.novelum-ieo24.fr/cours-d-occitan"},
+  {tag:"🌿 Novelum IEO Perigord", title:"Qui sommes-nous ?", desc:"Association pour la promotion de la culture occitane", img:"", url:"https://www.novelum-ieo24.fr/a-propos"}
 ];
 try {
   firebase.initializeApp({
@@ -831,6 +831,7 @@ var adminPrevPage='p-host-q';
 
 /* ROUTING */
 window.addEventListener('DOMContentLoaded', function(){
+  console.log('Quizz Francitan v3.1 - JS chargé OK');
   loadApparence();
   var p = new URLSearchParams(location.search);
   var g = p.get('g'), m = p.get('m');
