@@ -358,6 +358,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 .pf-score{font-family:'Fraunces',serif;font-size:60px;font-weight:900;color:var(--ink);line-height:1;letter-spacing:-3px}
 .pf-sub{font-size:14px;font-weight:600;color:var(--ink2)}
 
+/* BANDEAU PUB */
+.pub-band{background:#fff;border-top:1.5px solid var(--brd);flex-shrink:0;display:none}
+.pub-band.show{display:block}
+.pub-inner{display:flex;align-items:center;height:60px;cursor:pointer;text-decoration:none}
+.pub-cover{width:40px;height:100%;flex-shrink:0;overflow:hidden;background:var(--ocreL)}
+.pub-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.pub-info{flex:1;padding:5px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+.pub-tag{font-size:7px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ocre)}
+.pub-title{font-family:'Fraunces',serif;font-size:10px;font-weight:700;color:var(--ink);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pub-desc{font-size:8px;color:var(--ink3);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+
+/* Bouton changer réponse */
+.btn-change-rep{background:#fff;border:1.5px solid var(--ocre);border-radius:8px;padding:5px 13px;font-family:'Fraunces',serif;font-size:12px;font-weight:700;color:var(--ocre);cursor:pointer;margin-top:2px}
+
 .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(52px);background:var(--ink);color:#fff;border-radius:11px;padding:10px 20px;font-size:13px;font-weight:700;transition:transform .3s,opacity .3s;z-index:9999;opacity:0;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.up{transform:translateX(-50%) translateY(0);opacity:1}
 .cf{position:fixed;top:-14px;pointer-events:none;z-index:998;animation:cfFall linear forwards}
@@ -643,8 +657,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
         </svg>
         <div class="wr-num" id="wr-num">—</div>
       </div>
-      <div class="wr-question">Avez-vous la bonne réponse ?</div>
+      <div class="wr-question">Avetz la bona responsa ?</div>
+      <button class="btn-change-rep" id="btn-change-rep" onclick="changeAnswer()">↩ Changer ma réponse</button>
     </div>
+  </div>
+  <div class="pub-band" id="wr-pub">
+    <a class="pub-inner" id="wr-pub-link" href="https://www.novelum-ieo24.fr/boutique" target="_blank" rel="noopener">
+      <div class="pub-cover"><img id="wr-pub-img" src="" alt=""></div>
+      <div class="pub-info">
+        <div class="pub-tag" id="wr-pub-tag">📚 Librairie Novelum</div>
+        <div class="pub-title" id="wr-pub-title">—</div>
+        <div class="pub-desc" id="wr-pub-desc">—</div>
+      </div>
+    </a>
   </div>
 </div>
 
@@ -677,6 +702,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);color:v
 <script>
 /* FIREBASE */
 let DB = null;
+
+/* CATALOGUE NOVELUM */
+var PUBS = [
+  {tag:'📚 Librairie Novelum', title:'Los Sendareus de l'auba', desc:'Un polar en occitan — Martial Peyrouny', img:'https://static.wixstatic.com/media/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg/v1/fill/w_306,h_456,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/f37ac5_7cb04044e84a46628d30716b33806992~mv2.jpg', url:'https://www.novelum-ieo24.fr/product-page/los-sendareus-de-l-auba-martial-peyrouny'},
+  {tag:'📚 Librairie Novelum', title:'Flors salvatjas de Perigòrd', desc:'Fleurs sauvages du Périgord — Joan-Loís Orazio', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/flors-salvatjas-de-perigòrd-fleurs-sauvages-du-périgord-joan-loís-orazio'},
+  {tag:'📚 Librairie Novelum', title:'Contes populars de Perigòrd', desc:'Contes populaires du Périgord en occitan et français', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/contes-populars-de-perigòrd-contes-populaires-du-périgord'},
+  {tag:'📚 Librairie Novelum', title:'Enquestas a la lesta', desc:'Roman policier occitan — Joan Ganhaire', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/enquestas-a-la-lesta-joan-ganhaire'},
+  {tag:'📚 Librairie Novelum', title:'Marcelle Delpastre à fleur de l'âme', desc:'Réédition — poésie occitane du Périgord', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/marcelle-delpastre-à-fleur-de-l-âme'},
+  {tag:'📚 Librairie Novelum', title:'Des mois et des jours : Almanach occitan', desc:'Culture et patrimoine occitan en Périgord', img:'https://static.wixstatic.com/media/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg/v1/fill/w_480,h_360,al_c,q_80/f37ac5_ba9c77dba691417eb732d5ca996be886~mv2.jpeg', url:'https://www.novelum-ieo24.fr/product-page/des-mois-et-des-jours-almanach-occitan'},
+  {tag:'📰 Revue trimestrielle', title:'Paraulas de Novelum', desc:'Abonnement 1 an — 4 numéros sur la culture occitane', img:'', url:'https://www.novelum-ieo24.fr/product-page/paraulas-de-novelum-abonnement-1-an-4-numéros'},
+  {tag:'🌿 Novelum IEO Perigòrd', title:'Cours d'occitan en Dordogne', desc:'37 cours et ateliers pour tous les niveaux', img:'', url:'https://www.novelum-ieo24.fr/cours-d-occitan'},
+  {tag:'🌿 Novelum IEO Perigòrd', title:'Qui sommes-nous ?', desc:'Association pour la promotion de la culture occitane', img:'', url:'https://www.novelum-ieo24.fr/à-propos'},
+];
 try {
   firebase.initializeApp({
     apiKey:"AIzaSyAFnW2DIQ0pXtY1m1sO9h5jVLuaDKlJzcg",
@@ -909,7 +947,8 @@ function stepLaunch(){
   hStep=1; hTL=TSEC;
   setBtnAdv('En cours…','');
   soundStart();
-  dbSet('games/'+GID+'/state', {status:'running', cq:hCQ, w:Q[hCQ].w, o:Q[hCQ].o, imgs:Q[hCQ].imgs, ts:Date.now()});
+  var launchTs=Date.now();
+  dbSet('games/'+GID+'/state', {status:'running', cq:hCQ, w:Q[hCQ].w, o:Q[hCQ].o, imgs:Q[hCQ].imgs, ts:launchTs, launchTs:launchTs, duration:TSEC});
   clearInterval(hTI); hSetArc(TSEC);
   hTI=setInterval(function(){
     hTL--; hSetArc(hTL);
@@ -1136,7 +1175,7 @@ function joinGame(){
   dbOn('games/'+GID+'/state', function(s){
     if(!s) return;
     if(s.status==='question' && s.cq!==pCQ){ pCQ=s.cq; pSel=null; clearInterval(pTI); if(s.imgs&&Q[s.cq]) Q[s.cq].imgs=s.imgs; pState=s; pShowQ(s); }
-    if(s.status==='running' && s.cq===pCQ){ pState=s; pStartTimer(); }
+    if(s.status==='running' && s.cq===pCQ){ pState=s; pStartTimerSync(s.launchTs, s.duration||TSEC); }
     if(s.status==='eliminated' && s.cq===pCQ){ clearInterval(pTI); pReveal(s.correct); }
     if(s.status==='reveal' && s.cq===pCQ){ pShowResult(s.correct, s.scoreboard); }
     if(s.status==='final'){ clearInterval(pTI); pFinal(s.scoreboard); }
@@ -1168,9 +1207,20 @@ function pShowQ(state){
   grid.appendChild(tsq);
 }
 
+function pStartTimerSync(launchTs, duration){
+  if(pSel!==null) return;
+  clearInterval(pTI);
+  duration=duration||TSEC;
+  // Calculer le temps restant basé sur le timestamp réel
+  var elapsed=Math.floor((Date.now()-(launchTs||Date.now()))/1000);
+  pTL=Math.max(0, duration-elapsed);
+
+  pStartTimer(); // utilise pTL déjà calculé
+}
+
 function pStartTimer(){
   if(pSel!==null) return;
-  clearInterval(pTI); pTL=TSEC;
+  clearInterval(pTI);
   $('pp-mot-zone').classList.remove('solo');
   var grid=$('pp-grid'); grid.style.display='grid';
   var tb=$('pp-timefill'); tb.style.transition='none'; tb.style.width='100%'; tb.style.background='var(--green)';
@@ -1219,6 +1269,7 @@ function pPick(i, qi){
   var wfg=$('wr-fg'), wnum=$('wr-num');
   if(wfg){ wfg.style.strokeDashoffset=188*(1-pTL/TSEC); wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)'; }
   if(wnum){ wnum.textContent=pTL; wnum.style.color=pTL<=10?'var(--red)':'var(--ocre)'; }
+  showPub(qi);
   go('p-wait-reveal');
 }
 
@@ -1313,6 +1364,34 @@ function loadApparence(){
       var el=$(clrMap[v]); if(el&&data[v]) el.value=data[v];
     });
   }catch(e){}
+}
+
+function changeAnswer(){
+  // Remettre pSel à null et revenir sur les propositions
+  pSel=null;
+  var btn=$('btn-change-rep'); if(btn) btn.style.display='none';
+  // Réactiver les carrés
+  document.querySelectorAll('.pp-sq').forEach(function(s){
+    s.classList.remove('sel','waiting','locked');
+  });
+  go('p-play');
+}
+
+function showPub(cq){
+  // Afficher une pub selon la question courante (change toutes les 2)
+  var idx=Math.floor(cq/2)%PUBS.length;
+  var pub=PUBS[idx];
+  var band=$('wr-pub'); if(!band) return;
+  band.classList.add('show');
+  var link=$('wr-pub-link'); if(link) link.href=pub.url;
+  var img=$('wr-pub-img');
+  if(img){
+    if(pub.img){ img.src=pub.img; img.style.display='block'; }
+    else{ img.style.display='none'; }
+  }
+  var tag=$('wr-pub-tag'); if(tag) tag.textContent=pub.tag;
+  var title=$('wr-pub-title'); if(title) title.textContent=pub.title;
+  var desc=$('wr-pub-desc'); if(desc) desc.textContent=pub.desc;
 }
 
 function confetti(){
