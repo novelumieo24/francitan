@@ -4358,6 +4358,596 @@ button,input{font-family:'Nunito Sans',sans-serif}
   .wr-card-photo{height:29vh!important;min-height:125px!important}.wr-wait-title{font-size:22px!important}.wr-mot{font-size:27px!important}.wr-choice-ans{font-size:18px!important}
 }
 </style>
+
+<style>
+/* ============================================================
+   FRANCITAN V13 — CONCEPT 1 / GAME SHOW
+   Refonte visuelle complète : crème / rouge / ocre,
+   cartes-photo centrales et chrono en véritable panneau.
+   ============================================================ */
+:root{
+  --v13-cream:#FFF7E5;
+  --v13-paper:#FFFFFF;
+  --v13-ink:#28180F;
+  --v13-muted:#80654E;
+  --v13-red:#B92F2B;
+  --v13-red-dark:#8F2522;
+  --v13-ocre:#E39A18;
+  --v13-gold:#F2C45A;
+  --v13-green:#3D8652;
+  --v13-blue:#4E79A5;
+  --v13-line:#E6D0AA;
+}
+
+/* ---------- écran question grand écran ---------- */
+#p-host-q{
+  background:
+    radial-gradient(circle at 4% 15%,rgba(242,196,90,.22),transparent 20%),
+    radial-gradient(circle at 96% 88%,rgba(185,47,43,.08),transparent 22%),
+    var(--v13-cream)!important;
+  overflow:hidden!important;
+}
+
+/* barre haute = bandeau de jeu, pas de chrono minuscule */
+#p-host-q .hq-bar{
+  height:104px!important;
+  min-height:104px!important;
+  padding:0 34px!important;
+  background:rgba(255,255,255,.96)!important;
+  border-bottom:2px solid var(--v13-line)!important;
+  box-shadow:0 4px 18px rgba(70,40,20,.05)!important;
+  z-index:10!important;
+}
+
+#p-host-q .hq-bar>div:first-child{
+  min-width:300px!important;
+}
+
+#p-host-q .hq-qnum{
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:12px!important;
+  letter-spacing:2px!important;
+  color:var(--v13-muted)!important;
+  font-weight:900!important;
+  text-transform:uppercase!important;
+}
+
+#p-host-q .hq-brand{
+  font-family:'Baloo 2',sans-serif!important;
+  font-style:normal!important;
+  font-size:38px!important;
+  line-height:.8!important;
+  color:var(--v13-red)!important;
+  font-weight:800!important;
+  letter-spacing:-1.5px!important;
+  margin-top:6px!important;
+}
+
+/* Badge manche : petit repère, pas une décoration */
+#p-host-q #hq-round{
+  background:var(--v13-ocre)!important;
+  border:0!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  padding:4px 12px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:10px!important;
+  letter-spacing:1.5px!important;
+  font-weight:900!important;
+}
+
+/* compteur réponses dans le bandeau */
+#p-host-q .hq-bar-right{
+  min-width:380px!important;
+  gap:10px!important;
+}
+
+#p-host-q .ans-pill{
+  background:#FFF0C8!important;
+  border:2px solid #E8BF63!important;
+  color:#85500C!important;
+  border-radius:999px!important;
+  padding:9px 17px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:0 3px 0 rgba(70,40,20,.05)!important;
+}
+
+#p-host-q .ans-pill.full{
+  background:#EAF5E9!important;
+  border-color:#A7CBAE!important;
+  color:var(--v13-green)!important;
+}
+
+#p-host-q .btn-adv{
+  background:var(--v13-red)!important;
+  box-shadow:0 4px 0 var(--v13-red-dark)!important;
+  border-radius:12px!important;
+  padding:11px 20px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-weight:900!important;
+}
+
+#p-host-q .btn-adv.green{background:var(--v13-green)!important;box-shadow:0 4px 0 #2E673D!important}
+
+/* ---------- question : grande zone centrale ---------- */
+#p-host-q .hq-mot-zone{
+  min-height:154px!important;
+  max-height:184px!important;
+  padding:17px 300px 8px 250px!important;
+  background:transparent!important;
+  justify-content:center!important;
+  gap:5px!important;
+}
+
+#p-host-q .hq-showline{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+}
+
+#p-host-q .hq-showline span{
+  background:var(--v13-red)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  padding:4px 10px!important;
+  font-size:10px!important;
+  letter-spacing:1.8px!important;
+  font-weight:900!important;
+}
+
+#p-host-q .hq-showline b{
+  color:var(--v13-muted)!important;
+  font-size:12px!important;
+  letter-spacing:1.8px!important;
+  font-weight:900!important;
+}
+
+#p-host-q .hq-mot{
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:clamp(48px,5vw,72px)!important;
+  line-height:.98!important;
+  letter-spacing:-1.5px!important;
+  color:var(--v13-ink)!important;
+  font-weight:800!important;
+}
+
+#p-host-q .demo-sub{
+  color:var(--v13-red)!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-weight:800!important;
+}
+
+/* ---------- cartes : coeur du jeu ---------- */
+#p-host-q .hq-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:22px!important;
+  padding:8px 270px 28px 250px!important;
+  max-width:none!important;
+  width:100%!important;
+  flex:1!important;
+  min-height:0!important;
+  margin:0!important;
+}
+
+#p-host-q .hq-sq{
+  position:relative!important;
+  opacity:1!important;
+  transform:none!important;
+  min-height:0!important;
+  border-radius:22px!important;
+  background:var(--v13-paper)!important;
+  border:3px solid #E4D1B2!important;
+  box-shadow:0 8px 0 rgba(77,43,20,.08),0 16px 30px rgba(77,43,20,.07)!important;
+  overflow:hidden!important;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,opacity .25s ease,filter .25s ease!important;
+}
+
+#p-host-q .hq-sq.visible{opacity:1!important;transform:none!important}
+#p-host-q .hq-sq:hover{
+  transform:translateY(-5px)!important;
+  box-shadow:0 13px 0 rgba(77,43,20,.08),0 20px 34px rgba(77,43,20,.10)!important;
+}
+
+/* photos plus présentes */
+#p-host-q .hq-sq-img{
+  flex:1!important;
+  min-height:0!important;
+  background:#EEE2CE!important;
+}
+
+#p-host-q .hq-sq-img img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+}
+
+/* lettre colorée type jeu */
+#p-host-q .hq-sq-ltr{
+  top:14px!important;
+  left:14px!important;
+  width:54px!important;
+  height:54px!important;
+  border-radius:15px!important;
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:31px!important;
+  font-weight:800!important;
+  box-shadow:0 5px 0 rgba(0,0,0,.13)!important;
+  z-index:4!important;
+}
+
+#p-host-q .hq-sq[data-i="0"] .hq-sq-ltr{background:var(--v13-red)!important}
+#p-host-q .hq-sq[data-i="1"] .hq-sq-ltr{background:var(--v13-ocre)!important}
+#p-host-q .hq-sq[data-i="2"] .hq-sq-ltr{background:var(--v13-blue)!important}
+
+#p-host-q .hq-sq-bot{
+  min-height:82px!important;
+  padding:12px 16px!important;
+  background:#fff!important;
+  border:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+#p-host-q .hq-sq-txt{
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:clamp(19px,1.55vw,26px)!important;
+  line-height:1.08!important;
+  font-weight:900!important;
+  color:var(--v13-ink)!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  text-align:center!important;
+}
+
+/* compteur par proposition discret mais lisible */
+#p-host-q .sq-vbadge{
+  bottom:12px!important;
+  right:12px!important;
+  background:rgba(40,24,15,.82)!important;
+  border:2px solid rgba(255,255,255,.8)!important;
+  border-radius:999px!important;
+  padding:5px 11px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:13px!important;
+  font-weight:900!important;
+}
+
+/* élimination : la carte reste visible */
+#p-host-q .hq-sq.eliminated{
+  opacity:.32!important;
+  filter:grayscale(.9)!important;
+  transform:none!important;
+  border-color:#CDBDA4!important;
+  box-shadow:none!important;
+}
+#p-host-q .hq-sq.eliminated .hq-sq-bot{background:#F1E9DB!important}
+#p-host-q .hq-sq.eliminated .hq-sq-txt{
+  color:#8C7965!important;
+  text-decoration:line-through!important;
+}
+#p-host-q .hq-sq.ok{
+  border-color:var(--v13-green)!important;
+  box-shadow:0 0 0 5px rgba(61,134,82,.18),0 10px 0 rgba(61,134,82,.15)!important;
+}
+#p-host-q .hq-sq.ok .hq-sq-bot{background:#EAF5EB!important}
+#p-host-q .hq-sq.ok .hq-sq-txt{color:var(--v13-green)!important}
+
+/* ---------- chrono : énorme panneau à droite ---------- */
+#p-host-q .timer-center{
+  position:fixed!important;
+  left:auto!important;
+  top:48%!important;
+  right:38px!important;
+  transform:translateY(-50%)!important;
+  z-index:30!important;
+}
+
+#p-host-q .timer-wrap{
+  width:190px!important;
+  height:190px!important;
+  padding:10px!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  box-shadow:0 10px 0 rgba(185,47,43,.10),0 18px 38px rgba(77,43,20,.12)!important;
+  filter:none!important;
+}
+
+#p-host-q .timer-wrap svg{
+  width:100%!important;
+  height:100%!important;
+}
+
+#p-host-q .t-bg{stroke:#F0DFC1!important;stroke-width:7!important}
+#p-host-q .t-fg{
+  stroke:var(--v13-red)!important;
+  stroke-width:9!important;
+  stroke-linecap:round!important;
+}
+
+#p-host-q .t-num{
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:67px!important;
+  letter-spacing:-2px!important;
+  color:var(--v13-ink)!important;
+  font-weight:800!important;
+}
+
+#p-host-q .timer-wrap:after{
+  content:'SECONDES';
+  position:absolute;
+  left:50%;
+  bottom:38px;
+  transform:translateX(-50%);
+  font-family:'Nunito Sans',sans-serif;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--v13-muted);
+}
+
+#p-host-q .t-num.hot{
+  color:var(--v13-red)!important;
+  animation:v13TimerPulse .55s ease-in-out infinite!important;
+}
+@keyframes v13TimerPulse{50%{transform:scale(1.12)}}
+
+/* petit texte territorial à gauche, sans faux logo */
+#p-host-q:after{
+  content:'RENCONTRES OCCITANES\\A DE CHANCELADE';
+  white-space:pre;
+  position:absolute;
+  left:34px;
+  top:48%;
+  transform:translateY(-50%);
+  width:190px;
+  font-family:'Nunito Sans',sans-serif;
+  font-size:11px;
+  line-height:1.55;
+  letter-spacing:2px;
+  font-weight:900;
+  color:var(--v13-muted);
+  text-align:left;
+  opacity:.95;
+  z-index:2;
+}
+#p-host-q:before{
+  content:'FRANCITAN';
+  position:absolute;
+  left:30px;
+  top:37%;
+  font-family:'Baloo 2',sans-serif;
+  font-size:45px;
+  line-height:.8;
+  letter-spacing:-2px;
+  font-weight:800;
+  color:var(--v13-red);
+  z-index:2;
+}
+
+/* ---------- mobile : question + 3 cartes verticales ---------- */
+@media (max-width:700px){
+  #p-host-q:before,#p-host-q:after{display:none}
+
+  #p-host-q .hq-bar{
+    height:72px!important;
+    min-height:72px!important;
+    padding:7px 10px!important;
+  }
+
+  #p-host-q .hq-bar>div:first-child{min-width:125px!important}
+  #p-host-q .hq-brand{font-size:22px!important;margin-top:2px!important}
+  #p-host-q .hq-qnum{font-size:8px!important;letter-spacing:1.2px!important}
+  #p-host-q #hq-round{font-size:8px!important;padding:3px 8px!important}
+
+  #p-host-q .hq-bar-right{
+    min-width:0!important;
+    gap:5px!important;
+  }
+
+  #p-host-q .ans-pill{
+    font-size:9px!important;
+    padding:6px 8px!important;
+  }
+
+  #p-host-q .btn-back,#p-host-q .btn-gear{display:none!important}
+  #p-host-q .btn-adv{font-size:10px!important;padding:8px 10px!important}
+
+  #p-host-q .timer-center{
+    position:absolute!important;
+    top:16px!important;
+    right:10px!important;
+    transform:none!important;
+  }
+
+  #p-host-q .timer-wrap{
+    width:58px!important;
+    height:58px!important;
+    padding:3px!important;
+    box-shadow:0 3px 0 rgba(185,47,43,.12)!important;
+  }
+
+  #p-host-q .t-num{font-size:23px!important}
+  #p-host-q .t-fg{stroke-width:8!important}
+  #p-host-q .t-bg{stroke-width:8!important}
+  #p-host-q .timer-wrap:after{display:none}
+
+  #p-host-q .hq-mot-zone{
+    min-height:112px!important;
+    max-height:145px!important;
+    padding:10px 12px 6px!important;
+  }
+
+  #p-host-q .hq-showline span{font-size:8px!important;padding:3px 7px!important}
+  #p-host-q .hq-showline b{font-size:9px!important;letter-spacing:1px!important}
+  #p-host-q .hq-mot{font-size:clamp(34px,10vw,50px)!important}
+
+  #p-host-q .hq-grid{
+    grid-template-columns:1fr!important;
+    grid-template-rows:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+    padding:6px 10px calc(10px + env(safe-area-inset-bottom,0px))!important;
+  }
+
+  #p-host-q .hq-sq{border-radius:15px!important}
+  #p-host-q .hq-sq-ltr{
+    width:38px!important;
+    height:38px!important;
+    top:7px!important;
+    left:7px!important;
+    border-radius:10px!important;
+    font-size:22px!important;
+  }
+
+  #p-host-q .hq-sq-img{min-height:0!important}
+  #p-host-q .hq-sq-bot{min-height:44px!important;padding:6px 9px!important}
+  #p-host-q .hq-sq-txt{font-size:14px!important;line-height:1.05!important}
+}
+
+/* ---------- joueur : même identité, sans écran qui casse le fil ---------- */
+#p-play{
+  background:
+    radial-gradient(circle at 10% 20%,rgba(242,196,90,.16),transparent 28%),
+    var(--v13-cream)!important;
+}
+
+#p-play .pp-header{
+  height:68px!important;
+  background:#fff!important;
+  border-bottom:2px solid var(--v13-line)!important;
+}
+
+#p-play .pp-brand{
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:20px!important;
+  color:var(--v13-red)!important;
+  font-weight:800!important;
+}
+
+#p-play .pp-qlbl{
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:8px!important;
+  color:var(--v13-muted)!important;
+  font-weight:900!important;
+}
+
+#p-play .pp-timer{
+  min-width:58px!important;
+  height:50px!important;
+  border-radius:15px!important;
+  background:#FFF0C8!important;
+  border:2px solid #E7BC5C!important;
+  color:var(--v13-red)!important;
+  box-shadow:0 3px 0 rgba(70,40,20,.08)!important;
+}
+
+#p-play .pp-timer span{
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:27px!important;
+  font-weight:800!important;
+}
+
+#p-play .pp-timebar{height:8px!important;background:#EBDDC5!important}
+#p-play .pp-timefill{background:var(--v13-green)!important}
+#p-play .pp-status{
+  min-height:31px!important;
+  padding:7px 10px!important;
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:11px!important;
+  font-weight:900!important;
+}
+
+#p-play .pp-mot-zone{
+  flex:0 0 auto!important;
+  min-height:112px!important;
+  padding:11px 12px 8px!important;
+  gap:4px!important;
+}
+
+#p-play .pp-signifie{
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:8px!important;
+  letter-spacing:2.5px!important;
+  color:var(--v13-muted)!important;
+}
+
+#p-play .pp-mot{
+  font-family:'Baloo 2',sans-serif!important;
+  font-size:clamp(34px,10vw,52px)!important;
+  color:var(--v13-ink)!important;
+  line-height:.98!important;
+}
+
+#p-play .pp-grid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,minmax(0,1fr))!important;
+  gap:8px!important;
+  padding:6px 10px calc(10px + env(safe-area-inset-bottom,0px))!important;
+}
+
+#p-play .pp-sq{
+  border-radius:15px!important;
+  border:2px solid #E4D1B1!important;
+  box-shadow:0 4px 0 rgba(77,43,20,.07)!important;
+}
+
+#p-play .pp-sq-img{height:64%!important}
+#p-play .pp-sq-bot{height:36%!important;background:#fff!important;border-top:0!important;padding:4px 8px!important}
+#p-play .pp-sq-ltr{
+  width:34px!important;height:34px!important;top:7px!important;left:7px!important;
+  border-radius:9px!important;font-family:'Baloo 2',sans-serif!important;font-size:21px!important;
+}
+#p-play .pp-sq-txt{
+  font-family:'Nunito Sans',sans-serif!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1.05!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+#p-play .pp-sq[data-i="0"] .pp-sq-ltr{background:var(--v13-red)!important}
+#p-play .pp-sq[data-i="1"] .pp-sq-ltr{background:var(--v13-ocre)!important}
+#p-play .pp-sq[data-i="2"] .pp-sq-ltr{background:var(--v13-blue)!important}
+
+#p-play .pp-sq.sel{
+  border-color:var(--v13-red)!important;
+  box-shadow:0 0 0 3px rgba(185,47,43,.16),0 5px 0 rgba(77,43,20,.07)!important;
+  transform:scale(.985)!important;
+}
+
+#p-play .pp-sq.elim-now{
+  opacity:.30!important;
+  filter:grayscale(.9)!important;
+}
+
+#p-play .pp-sq.rev-ok{
+  border-color:var(--v13-green)!important;
+  box-shadow:0 0 0 4px rgba(61,134,82,.18),0 5px 0 rgba(61,134,82,.10)!important;
+}
+
+/* résultats / finale : même langage */
+#p-host-res,#p-host-final,#p-answered,#p-final{
+  background:var(--v13-cream)!important;
+}
+#p-host-res .hr-bar{
+  background:#fff!important;
+  border-bottom:2px solid var(--v13-line)!important;
+}
+#p-host-final .hf-title,#p-final .pf-h{
+  font-family:'Baloo 2',sans-serif!important;
+  color:var(--v13-red)!important;
+  font-style:normal!important;
+}
+</style>
+
 </head>
 <body>
 
