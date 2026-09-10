@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Quizz Francitan</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,800&family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -1052,6 +1052,665 @@ button,.btn-big{
   .btn-big{padding:14px 34px!important}
 }
 
+
+/* ============================================================
+   V5 — FRANCITAN / IDENTITÉ OCCITANE — SHOW
+   Palette chaude + rouge occitan + ocre, typographie élégante,
+   animations de plateau et profondeur sans look futuriste.
+   ============================================================ */
+:root{
+  --cream:#FFF8EA;
+  --ink:#24170D;
+  --ink2:#6D5035;
+  --ink3:#A48768;
+  --ocre:#D4620A;
+  --ocreL:#FFF0D8;
+  --brd:#E8D5BB;
+  --red:#B9362D;
+  --redL:#F9E2DE;
+  --gold:#E3A62F;
+  --green:#477A4A;
+}
+
+/* BASE */
+html,body{
+  background:var(--cream)!important;
+  color:var(--ink)!important;
+  font-family:'Bricolage Grotesque',sans-serif!important;
+}
+.page{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(212,98,10,.10),transparent 32%),
+    radial-gradient(circle at 100% 100%,rgba(185,54,45,.07),transparent 28%),
+    var(--cream)!important;
+}
+.page:before{
+  content:"";
+  position:absolute;inset:0;pointer-events:none;opacity:.24;
+  background-image:
+    linear-gradient(rgba(36,23,13,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(36,23,13,.035) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to bottom,black,transparent 88%);
+}
+.page>*{position:relative;z-index:1}
+
+/* TYPOGRAPHIE : élégante, pas "techno" */
+.sel-title,.acc-title,.hl-title,
+.hq-mot,.reveal-mot,.hr-ok-txt,.final-podium,
+.qr-count,.sel-card-title,.acc-sub{
+  font-family:'Fraunces',serif!important;
+}
+.sel-title,.acc-title,.hl-title,.hq-mot,.reveal-mot,.final-podium{
+  text-transform:none!important;
+  letter-spacing:-2px!important;
+}
+.sel-title em,.acc-title em,.hl-title em{
+  color:var(--red)!important;
+}
+.sel-eyebrow,.acc-eyebrow,.hl-quiz,.qr-lbl,.sel-quiz{
+  color:var(--ocre)!important;
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  letter-spacing:4px!important;
+}
+.sel-rule,.hl-rule{background:var(--red)!important;box-shadow:0 0 14px rgba(185,54,45,.18)}
+
+/* CARTES / ACCUEIL */
+.sel-card,.acc-free{
+  background:rgba(255,255,255,.74)!important;
+  border:1px solid var(--brd)!important;
+  border-radius:18px!important;
+  box-shadow:0 16px 45px rgba(83,51,22,.10)!important;
+  backdrop-filter:blur(8px);
+}
+.sel-card{transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s,border-color .28s!important}
+.sel-card:hover{
+  border-color:var(--ocre)!important;
+  transform:translateY(-6px)!important;
+  box-shadow:0 24px 55px rgba(83,51,22,.16),0 0 0 1px rgba(212,98,10,.12)!important;
+}
+.sel-card-title{color:var(--ink)!important}
+.sel-card-desc{color:var(--ink3)!important}
+.acc-sub{color:var(--ink3)!important}
+
+.btn-big{
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  background:var(--ink)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  box-shadow:0 10px 25px rgba(36,23,13,.18)!important;
+}
+.btn-big:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 16px 35px rgba(36,23,13,.24)!important;
+}
+
+/* LOBBY */
+#p-lobby{
+  background:
+    radial-gradient(circle at 50% 20%,rgba(212,98,10,.13),transparent 28%),
+    radial-gradient(circle at 85% 80%,rgba(185,54,45,.09),transparent 25%),
+    var(--cream)!important;
+}
+.qr-box{
+  background:rgba(255,255,255,.88)!important;
+  border:1px solid var(--brd)!important;
+  border-radius:20px!important;
+  box-shadow:0 25px 65px rgba(83,51,22,.13)!important;
+}
+.qr-url{
+  background:var(--ocreL)!important;
+  border-color:rgba(212,98,10,.25)!important;
+  color:var(--ink2)!important;
+  border-radius:10px!important;
+}
+.qr-count{color:var(--ink)!important}
+.qr-count small{color:var(--ink3)!important}
+.chip{
+  background:var(--ocreL)!important;
+  border:1px solid rgba(212,98,10,.24)!important;
+  color:var(--ocre)!important;
+  border-radius:999px!important;
+}
+
+/* HEADER SHOW */
+.hq-top,.pp-top,.wr-top{
+  background:rgba(255,248,234,.88)!important;
+  border-color:var(--brd)!important;
+  backdrop-filter:blur(12px);
+}
+.hq-brand,.pp-brand,.wr-brand{
+  color:var(--red)!important;
+  font-family:'Fraunces',serif!important;
+  font-style:italic;
+}
+.hq-qnum,.pp-qlbl,.wr-qlbl{color:var(--ink3)!important}
+#hq-round,#pp-round,#wr-round{
+  background:var(--redL)!important;
+  border:1px solid rgba(185,54,45,.25)!important;
+  color:var(--red)!important;
+  border-radius:999px!important;
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  letter-spacing:1px!important;
+}
+#t-num{
+  color:var(--ink)!important;
+  font-family:'Fraunces',serif!important;
+}
+#t-fg{background:var(--red)!important;box-shadow:0 0 14px rgba(185,54,45,.22)}
+#ans-pill{
+  background:var(--ocreL)!important;
+  border-color:rgba(212,98,10,.22)!important;
+  color:var(--ocre)!important;
+  border-radius:999px!important;
+}
+
+/* QUESTION — vrai plateau chaleureux */
+#p-host-q,#p-play{
+  background:
+    radial-gradient(circle at 50% 20%,rgba(212,98,10,.12),transparent 27%),
+    radial-gradient(circle at 10% 90%,rgba(185,54,45,.08),transparent 25%),
+    var(--cream)!important;
+}
+#hq-mot{
+  color:var(--ink)!important;
+  text-shadow:0 10px 35px rgba(83,51,22,.10)!important;
+  animation:v5Word .65s cubic-bezier(.16,1,.3,1);
+}
+@keyframes v5Word{
+  from{opacity:0;transform:translateY(24px) scale(.94);filter:blur(5px)}
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+
+/* Petit motif occitan décoratif autour de la scène */
+#p-host-q:after,#p-play:after{
+  content:"✦  ✦  ✦";
+  position:absolute;
+  top:82px;left:50%;
+  transform:translateX(-50%);
+  color:rgba(185,54,45,.14);
+  font-family:'Fraunces',serif;
+  font-size:20px;
+  letter-spacing:18px;
+  pointer-events:none;
+  animation:v5Twinkle 2.8s ease-in-out infinite;
+}
+@keyframes v5Twinkle{0%,100%{opacity:.25}50%{opacity:.75}}
+
+/* RÉPONSES */
+.hq-grid{gap:15px!important}
+.hq-grid .ans-card,#pp-grid .ans-card{
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid var(--brd)!important;
+  border-radius:16px!important;
+  box-shadow:0 12px 28px rgba(83,51,22,.08)!important;
+  transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,border-color .25s!important;
+}
+.hq-grid .ans-card:hover{
+  transform:translateY(-5px)!important;
+  border-color:rgba(212,98,10,.45)!important;
+  box-shadow:0 20px 40px rgba(83,51,22,.14)!important;
+}
+.hq-grid .ans-letter,#pp-grid .ans-letter{
+  font-family:'Fraunces',serif!important;
+  border-radius:10px!important;
+}
+.hq-grid .ans-card:nth-child(1) .ans-letter{background:var(--red)!important}
+.hq-grid .ans-card:nth-child(2) .ans-letter{background:var(--ocre)!important}
+.hq-grid .ans-card:nth-child(3) .ans-letter{background:var(--gold)!important}
+.hq-grid .ans-text,#pp-grid .ans-text{
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  font-weight:700!important;
+  text-transform:none!important;
+}
+
+/* RÉVÉLATION */
+#p-reveal{background:#22140C!important}
+#p-reveal:after{
+  background:
+    radial-gradient(circle at 50% 40%,transparent 0%,rgba(30,15,8,.10) 42%,rgba(30,15,8,.76) 100%),
+    linear-gradient(to top,rgba(30,15,8,.94),transparent 58%);
+}
+#reveal-img{filter:saturate(.95) contrast(1.05)!important}
+.reveal-mot{
+  color:#fff!important;
+  text-shadow:0 8px 45px rgba(0,0,0,.55)!important;
+}
+.reveal-ans{
+  background:var(--ocre)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.20)!important;
+  animation:v5Reveal .55s .12s both cubic-bezier(.16,1,.3,1);
+}
+@keyframes v5Reveal{
+  from{opacity:0;transform:translateY(18px) scale(.9)}
+  to{opacity:1;transform:none}
+}
+
+/* RÉSULTATS */
+#p-host-res,#p-host-final,#p-answered,#p-final{
+  background:
+    radial-gradient(circle at 50% 15%,rgba(212,98,10,.12),transparent 28%),
+    radial-gradient(circle at 50% 90%,rgba(185,54,45,.09),transparent 32%),
+    var(--cream)!important;
+}
+.hr-ok-txt{color:var(--red)!important}
+#hr-qinfo{color:var(--ink3)!important}
+#hr-bands .result-band{
+  background:rgba(255,255,255,.80)!important;
+  border:1px solid var(--brd)!important;
+  border-radius:14px!important;
+  box-shadow:0 9px 25px rgba(83,51,22,.07)!important;
+}
+#hr-bands .result-band.is-me{
+  border-color:var(--ocre)!important;
+  box-shadow:0 0 0 2px rgba(212,98,10,.10),0 12px 30px rgba(83,51,22,.10)!important;
+}
+#hr-podium .pod-card,.final-podium .pod-card{
+  background:rgba(255,255,255,.86)!important;
+  border:1px solid var(--brd)!important;
+  border-radius:16px!important;
+  box-shadow:0 20px 50px rgba(83,51,22,.10)!important;
+}
+.final-podium{color:var(--ink)!important}
+.final-podium .pod-card:first-child{
+  border-color:var(--ocre)!important;
+  box-shadow:0 0 0 2px rgba(212,98,10,.10),0 24px 55px rgba(83,51,22,.13)!important;
+}
+
+/* JOUEUR */
+#pp-score{color:var(--red)!important;font-family:'Fraunces',serif!important}
+#pp-timefill,#wr-fg{background:var(--red)!important}
+.pp-demo-banner{
+  background:var(--redL)!important;
+  border-color:rgba(185,54,45,.22)!important;
+  color:var(--red)!important;
+}
+#pp-mot{
+  font-family:'Fraunces',serif!important;
+  color:var(--ink)!important;
+}
+#pp-grid .ans-card:active{transform:scale(.97)!important}
+#pp-grid .ans-card.selected{
+  border-color:var(--ocre)!important;
+  box-shadow:0 0 0 2px rgba(212,98,10,.14),0 0 30px rgba(212,98,10,.10)!important;
+}
+
+/* ATTENTE RÉVÉLATION */
+#p-wait-reveal{background:#22140C!important}
+#p-wait-reveal .wr-photo:after{
+  background:linear-gradient(to bottom,rgba(30,15,8,.16),rgba(30,15,8,.94))!important;
+}
+#p-wait-reveal .wr-content{
+  background:linear-gradient(to top,rgba(30,15,8,.98),rgba(30,15,8,.10))!important;
+}
+#wr-ans{color:#FFD978!important;font-family:'Fraunces',serif!important}
+#btn-change-rep{
+  background:rgba(255,255,255,.12)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.25)!important;
+}
+
+/* VALIDATION */
+#pa-orb{
+  background:var(--ocre)!important;
+  color:#fff!important;
+  box-shadow:0 0 45px rgba(212,98,10,.20)!important;
+}
+#pa-pts{color:var(--red)!important}
+#pa-total{color:var(--ink)!important}
+
+/* MOTION GLOBALE */
+.hq-grid .ans-card:nth-child(1),#pp-grid .ans-card:nth-child(1){animation:v5Card .45s .08s both}
+.hq-grid .ans-card:nth-child(2),#pp-grid .ans-card:nth-child(2){animation:v5Card .45s .16s both}
+.hq-grid .ans-card:nth-child(3),#pp-grid .ans-card:nth-child(3){animation:v5Card .45s .24s both}
+@keyframes v5Card{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  .sel-title,.acc-title,.hl-title,.hq-mot,#pp-mot,.reveal-mot{letter-spacing:-1px!important}
+  .sel-card,.acc-free{border-radius:15px!important}
+  .hq-grid .ans-card,#pp-grid .ans-card{border-radius:13px!important}
+}
+
+
+/* ============================================================
+   V6 — FRANCITAN : OCCITAN SHOW / LISIBLE / SYNCHRONISÉ
+   ============================================================ */
+:root{
+  --cream:#FFF6D9;
+  --paper:#FFFDF6;
+  --ink:#2A1A0F;
+  --ink2:#6F4B2E;
+  --ink3:#9B7958;
+  --ocre:#D46A13;
+  --ocreL:#FFF0CF;
+  --brd:#E6CDA7;
+  --A:#B9362D;
+  --B:#477A4A;
+  --C:#2459A6;
+  --green:#477A4A;
+  --greenL:#E8F4E9;
+  --red:#B9362D;
+  --gold:#D99A24;
+  --stage:#FFF1B8;
+}
+
+/* Tout reste clair et contrasté. */
+html,body{background:var(--cream)!important;color:var(--ink)!important}
+.page{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(217,154,36,.16),transparent 34%),
+    radial-gradient(circle at 100% 100%,rgba(185,54,45,.07),transparent 30%),
+    var(--cream)!important;
+  color:var(--ink)!important;
+}
+.page:before{
+  opacity:.16!important;
+  background-image:
+    linear-gradient(rgba(42,26,15,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(42,26,15,.045) 1px,transparent 1px)!important;
+  background-size:38px 38px!important;
+}
+.sel-title,.acc-title,.hl-title,.hq-mot,.reveal-mot,.hr-ok-txt,.final-podium,
+.qr-count,.sel-card-title,.acc-sub,.pf-h,.pf-score,.pa-verd,.pa-pts{
+  font-family:'Fraunces',serif!important;
+}
+.sel-title,.acc-title,.hl-title{color:var(--ink)!important}
+.sel-title em,.acc-title em,.hl-title em,.hq-mot em{color:var(--red)!important}
+.sel-eyebrow,.acc-eyebrow,.hl-quiz,.qr-lbl,.sel-quiz,
+.hq-signifie,.round-title{
+  color:var(--ocre)!important;
+}
+
+/* BOUTONS : gros, simples, tactiles. */
+.btn-big,.btn-adv{
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  font-weight:800!important;
+  background:var(--ink)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  min-height:44px;
+}
+.btn-adv.green{background:var(--green)!important}
+.btn-back,.btn-gear{
+  background:var(--paper)!important;
+  color:var(--ink)!important;
+  border-color:var(--brd)!important;
+  min-height:40px;
+}
+
+/* Accueil / sélection / lobby */
+.sel-card,.acc-free,.qr-box{
+  background:rgba(255,253,246,.92)!important;
+  border:2px solid var(--brd)!important;
+  box-shadow:0 16px 42px rgba(80,49,20,.10)!important;
+}
+.sel-card:hover{border-color:var(--ocre)!important}
+.qr-url{background:var(--ocreL)!important;color:var(--ink2)!important}
+.chip{background:var(--ocreL)!important;color:var(--ocre)!important;border-color:rgba(212,106,19,.25)!important}
+#p-lobby{color:var(--ink)!important}
+
+/* Animateur */
+#p-host-q,#p-host-res,#p-host-final{
+  background:
+    radial-gradient(circle at 50% 10%,rgba(217,154,36,.18),transparent 30%),
+    linear-gradient(180deg,#FFF9E9,#FFF0B8)!important;
+  color:var(--ink)!important;
+}
+.hq-bar,.hr-bar{
+  background:rgba(255,253,246,.96)!important;
+  border-bottom:2px solid var(--brd)!important;
+  color:var(--ink)!important;
+  backdrop-filter:blur(10px);
+}
+.hq-qnum,.hr-qinfo{color:var(--ink3)!important}
+.hq-brand{color:rgba(42,26,15,.28)!important}
+#hq-round,#pp-round,#wr-round{
+  background:var(--redL)!important;
+  color:var(--red)!important;
+  border-color:rgba(185,54,45,.24)!important;
+}
+#t-num{color:var(--ink)!important}
+#t-fg{stroke:var(--ocre)!important}
+#ans-pill{background:var(--ocreL)!important;color:var(--ocre)!important;border-color:rgba(212,106,19,.25)!important}
+#ans-pill.full{background:var(--greenL)!important;color:var(--green)!important;border-color:rgba(71,122,74,.3)!important}
+
+/* Question : lisibilité d'abord. */
+.hq-mot-zone{background:transparent!important}
+.hq-mot-zone.solo{padding:20px 5vw 30px!important}
+.hq-mot{
+  color:var(--ink)!important;
+  text-shadow:0 8px 25px rgba(80,49,20,.10)!important;
+  font-size:clamp(60px,9vw,122px)!important;
+}
+.hq-grid{padding:10px 26px 22px!important;gap:15px!important}
+.hq-sq{
+  background:var(--paper)!important;
+  border:2px solid var(--brd)!important;
+  border-radius:18px!important;
+  box-shadow:0 12px 30px rgba(80,49,20,.10)!important;
+}
+.hq-sq-bot{background:var(--paper)!important;border-top:2px solid var(--brd)!important}
+.hq-sq-txt{color:var(--ink)!important;font-family:'Bricolage Grotesque',sans-serif!important;font-weight:800!important}
+.hq-sq[data-i="0"] .hq-sq-ltr{background:var(--A)!important}
+.hq-sq[data-i="1"] .hq-sq-ltr{background:var(--B)!important}
+.hq-sq[data-i="2"] .hq-sq-ltr{background:var(--C)!important}
+
+/* ÉLIMINATION : on ne fait PLUS disparaître la carte.
+   Elle reste visible, barrée et estampillée. */
+.hq-sq.eliminated{
+  opacity:.42!important;
+  transform:scale(.96)!important;
+  filter:grayscale(.75)!important;
+  border-color:rgba(185,54,45,.65)!important;
+  position:relative;
+}
+.hq-sq.eliminated:after{
+  content:"ÉLIMINÉE";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(185,54,45,.10);
+  color:var(--red);
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(18px,2.5vw,30px);
+  font-weight:900;
+  letter-spacing:2px;
+  transform:rotate(-7deg);
+  text-shadow:0 1px 0 #fff;
+  pointer-events:none;
+  animation:v6Stamp .32s cubic-bezier(.16,1,.3,1);
+}
+@keyframes v6Stamp{
+  from{opacity:0;transform:rotate(-7deg) scale(1.4)}
+  to{opacity:1;transform:rotate(-7deg) scale(1)}
+}
+
+/* Révélation : on conserve la photo mais avec texte très contrasté. */
+#p-reveal{background:#3A2415!important}
+.reveal-grad{background:linear-gradient(0deg,rgba(35,20,10,.92),rgba(35,20,10,.08) 62%,rgba(35,20,10,.20))!important}
+.reveal-signifie{color:#FFD36A!important}
+.reveal-ans{background:var(--ocre)!important;color:#fff!important;border-radius:999px!important}
+
+/* Résultats / podium */
+#p-host-res,#p-host-final,#p-answered,#p-final{
+  color:var(--ink)!important;
+}
+.hr-ok-txt{color:var(--red)!important}
+.hr-band{
+  background:rgba(255,253,246,.94)!important;
+  border:2px solid var(--brd)!important;
+  color:var(--ink)!important;
+  box-shadow:0 8px 22px rgba(80,49,20,.08)!important;
+}
+.hr-band.ok{
+  background:var(--greenL)!important;
+  border-color:var(--green)!important;
+}
+.hr-band-body{color:var(--ink)!important}
+.hr-band-bar{background:#EBDDC6!important}
+.hr-band-fill{background:var(--ocre)!important}
+.pw,.fpod,.pa-pc{
+  box-shadow:0 15px 35px rgba(80,49,20,.10)!important;
+}
+
+/* Joueur : fond crème, cartes assez grandes et très contrastées. */
+#p-play{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(217,154,36,.18),transparent 32%),
+    var(--cream)!important;
+  color:var(--ink)!important;
+}
+.pp-top,.wr-top{
+  background:rgba(255,253,246,.96)!important;
+  border-bottom:2px solid var(--brd)!important;
+  color:var(--ink)!important;
+}
+.pp-brand,.wr-brand{color:var(--red)!important}
+#pp-score{color:var(--red)!important}
+#pp-timefill{background:var(--ocre)!important}
+#pp-mot{color:var(--ink)!important}
+#pp-grid{padding:8px 10px calc(14px + env(safe-area-inset-bottom,0px))!important}
+#pp-grid .pp-sq{
+  background:var(--paper)!important;
+  border:2px solid var(--brd)!important;
+  border-radius:16px!important;
+  box-shadow:0 9px 22px rgba(80,49,20,.08)!important;
+}
+#pp-grid .pp-sq-txt{color:var(--ink)!important;font-family:'Bricolage Grotesque',sans-serif!important;font-weight:800!important}
+#pp-grid .pp-sq.selected,#pp-grid .pp-sq.sel{
+  border-color:var(--ocre)!important;
+  box-shadow:0 0 0 3px rgba(212,106,19,.14),0 12px 28px rgba(80,49,20,.12)!important;
+}
+#pp-grid .pp-sq.sel:after{
+  content:"CHOIX";
+  position:absolute;
+  right:7px;bottom:7px;
+  background:var(--ocre);color:#fff;
+  border-radius:999px;padding:4px 7px;
+  font:800 8px 'Bricolage Grotesque',sans-serif;
+  letter-spacing:1px;
+}
+.pp-timer-sq{
+  background:var(--ocreL)!important;
+  border:2px solid var(--ocre)!important;
+}
+.ptr-num{color:var(--ocre)!important}
+.pp-timer-sq.hot{background:#FBE3E0!important;border-color:var(--red)!important}
+.pp-timer-sq.hot .ptr-num{color:var(--red)!important}
+
+/* Élimination côté téléphone : état synchronisé et visible. */
+#pp-grid .pp-sq.elim-now{
+  opacity:.42!important;
+  filter:grayscale(.8)!important;
+  transform:scale(.96)!important;
+  border-color:rgba(185,54,45,.7)!important;
+  position:relative;
+}
+#pp-grid .pp-sq.elim-now:after{
+  content:"ÉLIMINÉE";
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(185,54,45,.10);
+  color:var(--red);
+  font:900 18px 'Bricolage Grotesque',sans-serif;
+  letter-spacing:1.5px;
+  transform:rotate(-7deg);
+  text-shadow:0 1px #fff;
+  pointer-events:none;
+  animation:v6Stamp .32s cubic-bezier(.16,1,.3,1);
+}
+.pp-elim-msg{
+  position:fixed;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  z-index:50;
+  background:var(--red);
+  color:#fff;
+  padding:12px 20px;
+  border-radius:999px;
+  box-shadow:0 12px 30px rgba(80,20,10,.22);
+  font:800 13px 'Bricolage Grotesque',sans-serif;
+  animation:v6Msg .25s both;
+  pointer-events:none;
+}
+@keyframes v6Msg{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+/* Choix validé / réponse finale */
+#pp-grid .pp-sq.rev-ok{
+  border-color:var(--green)!important;
+  background:var(--greenL)!important;
+  opacity:1!important;
+  filter:none!important;
+}
+#pp-grid .pp-sq.rev-ok .pp-sq-txt{color:var(--green)!important}
+#pp-grid .pp-sq.rev-ko{opacity:.28!important;filter:grayscale(.8)!important}
+
+/* Attente après choix : même identité. */
+#p-wait-reveal{background:#3A2415!important}
+.wr-photo:after{background:linear-gradient(180deg,rgba(40,22,8,.12),rgba(40,22,8,.93))!important}
+.wr-choice{border-color:var(--ocre)!important;background:#FFFDF6!important}
+.wr-choice-ans{color:var(--ink)!important}
+.wr-selected-tag{background:var(--ocre)!important}
+.wr-fg{stroke:var(--ocre)!important}
+
+/* Final téléphone : toujours fond clair et texte lisible. */
+#p-final,#p-answered{
+  background:
+    radial-gradient(circle at 50% 15%,rgba(217,154,36,.18),transparent 28%),
+    var(--cream)!important;
+}
+#pa-orb{background:var(--ocreL)!important;border-color:var(--ocre)!important}
+#pa-pts{color:var(--red)!important}
+#pa-total{color:var(--ink)!important}
+.pf-h{color:var(--red)!important}
+.pf-score{color:var(--ink)!important}
+
+/* ADMIN : lisibilité */
+#p-admin{background:var(--cream)!important;color:var(--ink)!important}
+#p-admin input,#p-admin textarea,#p-admin select{
+  background:#FFFDF6!important;color:var(--ink)!important;border-color:var(--brd)!important;
+}
+
+/* Mobile : pas de débordement, boutons accessibles. */
+@media(max-width:700px){
+  html,body{overflow:hidden!important}
+  .hq-bar{min-height:72px;height:auto;padding:8px 9px!important}
+  .hq-bar-right{flex-wrap:wrap;justify-content:flex-end}
+  .hq-mot-zone.solo{min-height:0;padding:18px 16px 24px!important}
+  .hq-mot-zone.solo .hq-mot{font-size:clamp(48px,14vw,78px)!important}
+  .hq-grid{padding:8px 9px 13px!important;gap:8px!important}
+  .hq-sq{border-radius:13px!important}
+  .hq-sq-txt{font-size:clamp(13px,3.7vw,17px)!important;line-height:1.12!important}
+  .hq-sq-bot{padding:8px 5px!important}
+  .hq-sq-ltr{width:30px!important;height:30px!important;border-radius:8px!important}
+  .sq-vbadge{font-size:12px!important;padding:2px 7px!important}
+  .pp-top{min-height:62px!important}
+  #pp-grid{gap:7px!important}
+  #pp-grid .pp-sq{border-radius:13px!important}
+  #pp-grid .pp-sq-txt{font-size:clamp(13px,3.8vw,16px)!important}
+  .pp-timer-sq{border-radius:13px!important}
+  .ptr-num{font-size:40px!important}
+  .reveal-content{left:18px!important;right:18px!important;bottom:56px!important}
+  .reveal-mot{font-size:clamp(48px,14vw,78px)!important}
+  .hr-bands{padding:8px!important}
+  .hr-band{height:64px!important}
+  .hr-band-txt{font-size:13px!important}
+  .btn-adv{min-height:42px!important;padding:8px 13px!important}
+}
+
+/* Réduction des animations si le téléphone le demande. */
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -1550,32 +2209,86 @@ function stepLaunch(){
 }
 function stepEliminate(){
   var q=Q[hCQ];
-  if(!ELIM_ON){hElimIdx=2;hElimOrder=[0,1];hStep=4;}
+
+  /* Sans élimination progressive : on passe directement à la révélation. */
+  if(!ELIM_ON){
+    hElimOrder=[];
+    hElimIdx=2;
+    hStep=4;
+  }
 
   if(!hElimOrder){
     var counts=[0,0,0];
-    Object.keys(hA).forEach(function(pid){if(hA[pid].answer!==undefined)counts[hA[pid].answer]++;});
+    Object.keys(hA).forEach(function(pid){
+      if(hA[pid]&&hA[pid].answer!==undefined)counts[hA[pid].answer]++;
+    });
     hElimOrder=[];
     q.o.forEach(function(_,i){if(i!==q.c)hElimOrder.push(i);});
     hElimOrder.sort(function(a,b){return counts[a]-counts[b];});
     hElimIdx=0;
   }
+
   if(hElimIdx<hElimOrder.length){
     var idx=hElimOrder[hElimIdx];
-    var c=$('hcard'+idx);if(c)c.classList.add('eliminated');
+    var c=$('hcard'+idx);
+    if(c){
+      c.classList.remove('eliminated');
+      void c.offsetWidth;
+      c.classList.add('eliminated');
+    }
     hElimIdx++;
-    if(hElimIdx<hElimOrder.length){setBtnAdv('Eliminer encore','green');hStep=2;}
-    else{setBtnAdv('Reveler la reponse','green');hStep=4;}
-  } else if(hStep===4){
-    hStep=5;hElimOrder=null;hElimIdx=0;
-    Object.keys(hA).forEach(function(pid){if(hP[pid]&&hA[pid].answer===q.c&&!q.isDemo){hP[pid].score=(hP[pid].score||0)+1;dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);}});
+
+    /* Synchronisation immédiate avec tous les téléphones. */
+    dbSet('games/'+GID+'/state',{
+      status:'eliminating',
+      cq:hCQ,
+      w:q.w,
+      o:q.o,
+      imgs:q.imgs,
+      eliminated:hElimOrder.slice(0,hElimIdx),
+      isDemo:q.isDemo===true,
+      ts:Date.now()
+    });
+
+    if(hElimIdx<hElimOrder.length){
+      setBtnAdv('Éliminer encore','green');
+      hStep=2;
+    }else{
+      setBtnAdv('Révéler la réponse','green');
+      hStep=4;
+    }
+    return;
+  }
+
+  if(hStep===4){
+    hStep=5;
+    var finalEliminated=hElimOrder.slice();
+    hElimOrder=null;
+    hElimIdx=0;
+
+    Object.keys(hA).forEach(function(pid){
+      if(hP[pid]&&hA[pid].answer===q.c&&!q.isDemo){
+        hP[pid].score=(hP[pid].score||0)+1;
+        dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
+      }
+    });
+
     var sb=getSB();
     soundReveal();
     $('reveal-img').src=q.imgs[q.c];
     $('reveal-mot').textContent=q.w;
     $('reveal-ans').textContent=['A','B','C'][q.c]+' - '+q.o[q.c];
     go('p-reveal');
-    dbSet('games/'+GID+'/state',{status:'eliminated',cq:hCQ,correct:q.c,scoreboard:sb,isDemo:q.isDemo===true,ts:Date.now()});
+
+    dbSet('games/'+GID+'/state',{
+      status:'eliminated',
+      cq:hCQ,
+      correct:q.c,
+      eliminated:finalEliminated,
+      scoreboard:sb,
+      isDemo:q.isDemo===true,
+      ts:Date.now()
+    });
   }
 }
 function stepResults(){
@@ -1704,7 +2417,8 @@ function joinGame(){
     if(!s)return;
     if(s.status==='question'&&s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;clearInterval(pTI);pShowQ(s);}
     if(s.status==='running'){if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;pShowQ(s);}else{pCurrentState=s;}pStartTimerSync(s.launchTs,s.duration||TSEC);}
-    if(s.status==='eliminated'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pReveal(s.correct);}
+    if(s.status==='eliminating'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
+    if(s.status==='eliminated'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pReveal(s.correct,s.eliminated||[]);}
     if(s.status==='reveal'&&s.cq===pCQ){pCurrentState=s;pShowResult(s.correct,s.scoreboard);}
     if(s.status==='final'){clearInterval(pTI);pFinal(s.scoreboard);}
   });
@@ -1791,18 +2505,52 @@ function changeAnswer(){
   $('pp-grid').style.display='grid';
   go('p-play');
 }
-function pReveal(correctIdx){
+function pShowElimination(list){
+  $('pp-mot-zone').style.display='none';
+  $('pp-grid').style.display='grid';
+  go('p-play');
+
+  var arr=Array.isArray(list)?list:[];
+  document.querySelectorAll('.pp-sq').forEach(function(s,idx){
+    s.classList.add('locked');
+    s.classList.remove('elim-now');
+    if(arr.indexOf(idx)>=0){
+      void s.offsetWidth;
+      s.classList.add('elim-now');
+    }
+  });
+
+  var first=$('pp-grid').querySelector('.pp-elim-msg');
+  if(!first){
+    first=document.createElement('div');
+    first.className='pp-elim-msg';
+    first.textContent='Une réponse vient d’être éliminée';
+    $('pp-grid').appendChild(first);
+  }
+  setTimeout(function(){
+    var m=$('pp-grid').querySelector('.pp-elim-msg');
+    if(m)m.remove();
+  },1300);
+}
+
+function pReveal(correctIdx,eliminated){
   go('p-play');
   $('pp-mot-zone').style.display='none';
   $('pp-grid').style.display='grid';
+  var arr=Array.isArray(eliminated)?eliminated:[];
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){
-    s.classList.remove('sel','locked');
+    s.classList.remove('sel','locked','elim-now','rev-ok','rev-ko');
     if(idx===correctIdx){
-      s.classList.add('rev-ok');
+      s.classList.add('rev-ok','locked');
       var imgDiv=s.querySelector('.pp-sq-img');
-      if(imgDiv&&!imgDiv.querySelector('.rev-checkmark')){var ck=document.createElement('div');ck.className='rev-checkmark';ck.textContent='v';imgDiv.appendChild(ck);}
+      if(imgDiv&&!imgDiv.querySelector('.rev-checkmark')){
+        var ck=document.createElement('div');
+        ck.className='rev-checkmark';
+        ck.textContent='✓';
+        imgDiv.appendChild(ck);
+      }
     } else {
-      s.classList.add('rev-ko');
+      s.classList.add('rev-ko','locked');
     }
   });
 }
