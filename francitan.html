@@ -1711,6 +1711,379 @@ html,body{background:var(--cream)!important;color:var(--ink)!important}
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}
 }
 
+
+/* ============================================================
+   V7 — LIVE QUIZ / KAHOOT-INSPIRED
+   Référence d'usage : question lisible + réponses visibles
+   ensemble, chrono central très lisible, interactions évidentes.
+   Identité propre à Francitan : crème, ocre, rouge occitan.
+   ============================================================ */
+:root{
+  --cream:#FFF7E7!important;
+  --ink:#2B1B10!important;
+  --ink2:#6E5038!important;
+  --ink3:#9C8064!important;
+  --ocre:#D87512!important;
+  --ocreL:#FFF0D8!important;
+  --red:#B6382E!important;
+  --redL:#F7E1DD!important;
+  --gold:#E2A52B!important;
+  --green:#39824C!important;
+  --greenL:#E2F0E4!important;
+  --blue:#3D6FA3!important;
+  --brd:#E4D0B6!important;
+}
+
+/* Tout doit être immédiatement lisible */
+html,body{background:var(--cream)!important;color:var(--ink)!important}
+.page{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(226,165,43,.17),transparent 34%),
+    linear-gradient(180deg,#FFF9EE 0%,#FFF4DD 100%)!important;
+}
+.page:before{
+  opacity:.14!important;
+  background-image:
+    linear-gradient(rgba(93,55,20,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(93,55,20,.05) 1px,transparent 1px)!important;
+  background-size:38px 38px!important;
+}
+button{font-family:'Bricolage Grotesque',sans-serif!important}
+
+/* ---------- ÉCRAN QUESTION ANIMATEUR ---------- */
+#p-host-q{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(226,165,43,.20),transparent 30%),
+    #FFF7E7!important;
+}
+
+/* Barre haute : stable, simple, utile */
+#p-host-q .hq-bar{
+  height:88px!important;
+  background:#FFFDF8!important;
+  color:var(--ink)!important;
+  border-bottom:2px solid var(--brd)!important;
+  box-shadow:0 3px 16px rgba(76,43,13,.08)!important;
+}
+
+/* Chrono géant et impossible à rater */
+#p-host-q .timer-center{
+  z-index:20!important;
+  top:50%!important;
+}
+#p-host-q .timer-wrap{
+  width:104px!important;
+  height:104px!important;
+  filter:drop-shadow(0 5px 14px rgba(184,93,8,.14));
+}
+#p-host-q .timer-wrap svg{
+  width:104px!important;
+  height:104px!important;
+}
+#p-host-q .t-bg{
+  stroke:#E9D8C0!important;
+  stroke-width:8!important;
+}
+#p-host-q .t-fg{
+  stroke:var(--ocre)!important;
+  stroke-width:8!important;
+}
+#p-host-q .t-num{
+  font-family:'Fraunces',serif!important;
+  font-size:44px!important;
+  color:var(--ink)!important;
+  font-weight:900!important;
+}
+#p-host-q .t-num:after{
+  content:"s";
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:12px;
+  font-weight:800;
+  margin-left:2px;
+  color:var(--ink3);
+  align-self:flex-end;
+  margin-bottom:28px;
+}
+#p-host-q .t-num.hot{
+  color:var(--red)!important;
+}
+#p-host-q .t-fg[style*="red"]{filter:drop-shadow(0 0 8px rgba(182,56,46,.35))}
+
+/* Mot/question : zone compacte pour laisser toute la place aux réponses */
+#p-host-q .hq-mot-zone{
+  flex:0 0 auto!important;
+  padding:24px 40px 18px!important;
+  text-align:center!important;
+  min-height:0!important;
+  background:transparent!important;
+}
+#p-host-q .hq-signifie{
+  font-size:12px!important;
+  letter-spacing:4px!important;
+  color:var(--ocre)!important;
+  margin-bottom:8px!important;
+}
+#p-host-q .hq-mot{
+  color:var(--ink)!important;
+  font-size:clamp(54px,7vw,108px)!important;
+  line-height:.95!important;
+  letter-spacing:-3px!important;
+  text-shadow:none!important;
+}
+
+/* Propositions TOUJOURS visibles sur le grand écran */
+#p-host-q .hq-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  padding:12px 28px 28px!important;
+  gap:18px!important;
+  opacity:1!important;
+}
+
+/* Cartes très contrastées, façon jeu live */
+#p-host-q .hq-sq{
+  opacity:1!important;
+  transform:none!important;
+  min-height:0!important;
+  background:#fff!important;
+  border:3px solid transparent!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  box-shadow:0 10px 26px rgba(75,42,13,.12)!important;
+}
+#p-host-q .hq-sq.visible{
+  opacity:1!important;
+  transform:none!important;
+}
+#p-host-q .hq-sq-img{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  background:#F0E4D2!important;
+}
+#p-host-q .hq-sq-img img{object-fit:cover!important}
+#p-host-q .hq-sq-ltr{
+  top:14px!important;left:14px!important;
+  width:48px!important;height:48px!important;
+  border-radius:14px!important;
+  font-size:24px!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.16)!important;
+}
+#p-host-q .hq-sq[data-i="0"]{border-color:#D95A50!important}
+#p-host-q .hq-sq[data-i="1"]{border-color:#D87512!important}
+#p-host-q .hq-sq[data-i="2"]{border-color:#E2A52B!important}
+#p-host-q .hq-sq[data-i="0"] .hq-sq-ltr{background:#D95A50!important}
+#p-host-q .hq-sq[data-i="1"] .hq-sq-ltr{background:#D87512!important}
+#p-host-q .hq-sq[data-i="2"] .hq-sq-ltr{background:#E2A52B!important}
+#p-host-q .hq-sq-bot{
+  min-height:86px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:14px 18px!important;
+  background:#fff!important;
+  border-top:1px solid var(--brd)!important;
+}
+#p-host-q .hq-sq-txt{
+  color:var(--ink)!important;
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  font-size:clamp(20px,2.2vw,31px)!important;
+  line-height:1.08!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+#p-host-q .sq-vbadge{
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  background:rgba(43,27,16,.82)!important;
+  font-size:14px!important;
+}
+
+/* Élimination : on NE FAIT PAS disparaître la réponse */
+#p-host-q .hq-sq.eliminated{
+  opacity:.38!important;
+  transform:scale(.97)!important;
+  filter:grayscale(.8)!important;
+  border-color:#B9AB99!important;
+  position:relative!important;
+}
+#p-host-q .hq-sq.eliminated:after{
+  content:"RÉPONSE ÉLIMINÉE";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(43,27,16,.62);
+  color:#fff;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(17px,2vw,28px);
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  z-index:10;
+  animation:v7Elim .35s ease-out;
+}
+@keyframes v7Elim{
+  from{opacity:0;transform:scale(1.08)}
+  to{opacity:1;transform:scale(1)}
+}
+#p-host-q .hq-sq.ok{
+  border-color:var(--green)!important;
+  box-shadow:0 0 0 4px rgba(57,130,76,.16),0 16px 36px rgba(57,130,76,.15)!important;
+}
+#p-host-q .hq-sq.ok:after{
+  content:"✓ BONNE RÉPONSE";
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(57,130,76,.78);color:#fff;font-weight:900;font-size:28px;z-index:10;
+}
+
+/* ---------- BARRE D'ACTION ---------- */
+#p-host-q .btn-adv{
+  background:var(--red)!important;
+  color:#fff!important;
+  min-height:44px!important;
+  padding:9px 20px!important;
+  border-radius:999px!important;
+  font-weight:800!important;
+  box-shadow:0 7px 18px rgba(182,56,46,.20)!important;
+}
+#p-host-q .btn-adv.green{background:var(--green)!important}
+#p-host-q .ans-pill{
+  font-weight:900!important;
+  font-size:14px!important;
+  min-width:66px!important;
+  text-align:center!important;
+}
+
+/* ---------- PLAYER : même langage visuel ---------- */
+#p-play{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(226,165,43,.16),transparent 32%),
+    #FFF7E7!important;
+}
+#p-play .pp-top{
+  background:#FFFDF8!important;
+  border-bottom:2px solid var(--brd)!important;
+  box-shadow:0 3px 14px rgba(76,43,13,.07)!important;
+}
+#p-play #pp-mot{
+  color:var(--ink)!important;
+  font-size:clamp(42px,11vw,68px)!important;
+  line-height:.98!important;
+  text-shadow:none!important;
+}
+#p-play #pp-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+  padding:12px!important;
+}
+#p-play .pp-sq{
+  background:#fff!important;
+  border:3px solid transparent!important;
+  border-radius:16px!important;
+  box-shadow:0 8px 20px rgba(75,42,13,.10)!important;
+  min-height:150px!important;
+}
+#p-play .pp-sq-bot{
+  background:#fff!important;
+  border-top:1px solid var(--brd)!important;
+  padding:11px!important;
+}
+#p-play .pp-sq-txt{
+  color:var(--ink)!important;
+  font-family:'Bricolage Grotesque',sans-serif!important;
+  font-weight:800!important;
+  font-size:16px!important;
+  white-space:normal!important;
+}
+#p-play .pp-sq[data-i="0"]{border-color:#D95A50!important}
+#p-play .pp-sq[data-i="1"]{border-color:#D87512!important}
+#p-play .pp-sq[data-i="2"]{border-color:#E2A52B!important}
+#p-play .pp-sq.selected{
+  transform:scale(.985)!important;
+  box-shadow:0 0 0 4px rgba(57,130,76,.16),0 10px 25px rgba(75,42,13,.13)!important;
+}
+#p-play .pp-sq.elim-now{
+  opacity:.42!important;
+  filter:grayscale(.8)!important;
+  position:relative!important;
+}
+#p-play .pp-sq.elim-now:after{
+  content:"ÉLIMINÉE";
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(43,27,16,.62);color:#fff;font-weight:900;font-size:20px;z-index:20;
+}
+#p-play .pp-sq.rev-ok{
+  border-color:var(--green)!important;
+  box-shadow:0 0 0 4px rgba(57,130,76,.16),0 10px 28px rgba(57,130,76,.16)!important;
+}
+#p-play .pp-sq.rev-ok:after{
+  content:"✓ BONNE RÉPONSE";
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(57,130,76,.76);color:#fff;font-weight:900;font-size:18px;z-index:20;
+}
+#p-play .pp-sq.rev-ko{
+  opacity:.42!important;
+  filter:grayscale(.8)!important;
+}
+
+/* Le chrono joueur doit être lisible sans regarder l'animateur */
+#p-play #pp-timefill{
+  height:9px!important;
+  background:var(--ocre)!important;
+}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:700px){
+  #p-host-q .hq-bar{
+    height:76px!important;
+    padding:0 10px!important;
+  }
+  #p-host-q .timer-wrap,
+  #p-host-q .timer-wrap svg{
+    width:72px!important;height:72px!important;
+  }
+  #p-host-q .t-bg,#p-host-q .t-fg{stroke-width:6px!important}
+  #p-host-q .t-num{font-size:30px!important}
+  #p-host-q .t-num:after{font-size:9px;margin-bottom:20px}
+  #p-host-q .hq-bar-right .btn-back,
+  #p-host-q .hq-bar-right .btn-gear{display:none!important}
+  #p-host-q .hq-mot-zone{
+    padding:18px 14px 12px!important;
+  }
+  #p-host-q .hq-mot{
+    font-size:clamp(44px,14vw,72px)!important;
+  }
+  #p-host-q .hq-grid{
+    grid-template-columns:1fr 1fr!important;
+    padding:8px 10px 16px!important;
+    gap:9px!important;
+  }
+  #p-host-q .hq-sq-bot{min-height:64px!important;padding:8px!important}
+  #p-host-q .hq-sq-txt{font-size:15px!important}
+  #p-host-q .hq-sq-ltr{width:34px!important;height:34px!important;font-size:17px!important}
+  #p-play .pp-sq{min-height:135px!important}
+}
+
+/* très petit téléphone */
+@media(max-width:390px){
+  #p-play .pp-grid{gap:8px!important;padding:8px!important}
+  #p-play .pp-sq{min-height:120px!important}
+  #p-play .pp-sq-txt{font-size:14px!important}
+}
+
+/* Respect du mouvement réduit */
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition:none!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1767,7 +2140,7 @@ html,body{background:var(--cream)!important;color:var(--ink)!important}
       <div class="hq-qnum" id="hq-qnum">Q 1 / 16<div class="round-badge" id="hq-round">Manche 1</div></div>
       <div class="hq-brand">Quizz Francitan</div>
     </div>
-    <div class="timer-center">
+    <div class="timer-center" aria-label="Temps restant">
       <div class="timer-wrap">
         <svg width="90" height="90" viewBox="0 0 90 90">
           <circle class="t-bg" cx="45" cy="45" r="40"/>
@@ -2165,12 +2538,13 @@ function hPrepareQ(){
   $('hq-mot').textContent=q.w;
   $('hq-mot').classList.remove('question-pop');void $('hq-mot').offsetWidth;$('hq-mot').classList.add('question-pop');
   $('hq-round').textContent=roundLabel(hCQ);
-  // Mot seul en grand
-  $('hq-mot-zone').classList.add('solo');
-  var grid=$('hq-grid');grid.style.display='none';grid.innerHTML='';
-  setBtnAdv('Lancer','');
-  $('t-num').textContent='—';$('t-fg').style.strokeDashoffset=0;
-  // Pré-construire les carrés (cachés)
+  // Présentation type jeu live : question + propositions visibles AVANT le lancement du chrono.
+  // L'animateur peut ainsi vérifier que tout est bien affiché sur le vidéoprojecteur.
+  $('hq-mot-zone').classList.remove('solo');
+  var grid=$('hq-grid');grid.style.display='grid';grid.innerHTML='';
+  setBtnAdv('Démarrer le chrono','');
+  $('t-num').textContent=TSEC;$('t-fg').style.strokeDashoffset=0;
+  // Pré-construire les propositions
   q.o.forEach(function(opt,i){
     var div=document.createElement('div');div.className='hq-sq';div.dataset.i=i;div.id='hcard'+i;
     div.innerHTML='<div class="hq-sq-img"><img src="'+q.imgs[i]+'" alt="" loading="lazy" style="opacity:0;transition:opacity .5s"><div class="hq-sq-ltr">'+['A','B','C'][i]+'</div><div class="sq-vbadge" id="svb'+i+'">0</div></div><div class="hq-sq-bot"><span class="hq-sq-txt">'+opt+'</span></div>';
@@ -2192,11 +2566,14 @@ function stepLaunch(){
   hStep=1;hTL=TSEC;
   setBtnAdv('En cours...','');
   soundStart();
-  // Afficher grille avec animation
-  $('hq-mot-zone').classList.remove('solo');
+  // Les propositions sont déjà visibles : le lancement anime seulement leur mise en évidence.
   var grid=$('hq-grid');grid.style.display='grid';
   var sqs=grid.querySelectorAll('.hq-sq');
-  sqs.forEach(function(sq,i){setTimeout(function(){sq.classList.add('visible');},i*180);});
+  sqs.forEach(function(sq,i){
+    sq.classList.remove('visible');
+    void sq.offsetWidth;
+    setTimeout(function(){sq.classList.add('visible');},i*110);
+  });
   var launchTs=Date.now();
   dbSet('games/'+GID+'/state',{status:'running',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,isDemo:Q[hCQ].isDemo===true,ts:launchTs,launchTs:launchTs,duration:TSEC});
   clearInterval(hTI);hSetArc(TSEC);
@@ -2210,11 +2587,34 @@ function stepLaunch(){
 function stepEliminate(){
   var q=Q[hCQ];
 
-  /* Sans élimination progressive : on passe directement à la révélation. */
+  // Si l'option est désactivée : aucune élimination, révélation immédiate.
   if(!ELIM_ON){
     hElimOrder=[];
     hElimIdx=2;
     hStep=4;
+  }
+
+  // Révélation directe quand les éliminations sont désactivées.
+  if(!ELIM_ON){
+    hStep=5;
+    var directEliminated=[];
+    Object.keys(hA).forEach(function(pid){
+      if(hP[pid]&&hA[pid].answer===q.c&&!q.isDemo){
+        hP[pid].score=(hP[pid].score||0)+1;
+        dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
+      }
+    });
+    var directSB=getSB();
+    soundReveal();
+    $('reveal-img').src=q.imgs[q.c];
+    $('reveal-mot').textContent=q.w;
+    $('reveal-ans').textContent=['A','B','C'][q.c]+' - '+q.o[q.c];
+    go('p-reveal');
+    dbSet('games/'+GID+'/state',{
+      status:'eliminated',cq:hCQ,correct:q.c,eliminated:directEliminated,
+      scoreboard:directSB,isDemo:q.isDemo===true,ts:Date.now()
+    });
+    return;
   }
 
   if(!hElimOrder){
@@ -2238,16 +2638,11 @@ function stepEliminate(){
     }
     hElimIdx++;
 
-    /* Synchronisation immédiate avec tous les téléphones. */
     dbSet('games/'+GID+'/state',{
       status:'eliminating',
-      cq:hCQ,
-      w:q.w,
-      o:q.o,
-      imgs:q.imgs,
+      cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,
       eliminated:hElimOrder.slice(0,hElimIdx),
-      isDemo:q.isDemo===true,
-      ts:Date.now()
+      isDemo:q.isDemo===true,ts:Date.now()
     });
 
     if(hElimIdx<hElimOrder.length){
@@ -2281,13 +2676,9 @@ function stepEliminate(){
     go('p-reveal');
 
     dbSet('games/'+GID+'/state',{
-      status:'eliminated',
-      cq:hCQ,
-      correct:q.c,
-      eliminated:finalEliminated,
-      scoreboard:sb,
-      isDemo:q.isDemo===true,
-      ts:Date.now()
+      status:'eliminated',cq:hCQ,correct:q.c,
+      eliminated:finalEliminated,scoreboard:sb,
+      isDemo:q.isDemo===true,ts:Date.now()
     });
   }
 }
