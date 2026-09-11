@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V6 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V7 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
 html[data-francitan-mode="player"] #p-select{display:none!important}
 html[data-francitan-mode="host"] #p-join,html[data-francitan-mode="host"] #p-wait,html[data-francitan-mode="host"] #p-play,html[data-francitan-mode="host"] #p-wait-reveal,html[data-francitan-mode="host"] #p-answered,html[data-francitan-mode="host"] #p-final{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -182,6 +182,70 @@ body.player-mode #p-final .pf-score{font-size:52px!important;}
 @media(min-width:431px){body.player-mode .page{min-height:100vh!important;height:100vh!important;}}
 @media(max-width:430px){body.player-mode .page{width:100vw!important;max-width:100vw!important;box-shadow:none!important;}}
 
+/* ===== V7 — MISE EN PAGE CIBLEE SUR LA MAQUETTE ===== */
+@media(min-width:901px){
+  #p-host-q .hq-brand{left:3.5vw!important;top:122px!important;width:22%!important;}
+  #p-host-q .hq-brand-title{font-size:clamp(30px,2.5vw,42px)!important;}
+  #p-host-q .hq-brand-sub{font-size:clamp(17px,1.45vw,23px)!important;max-width:240px!important;margin-top:24px!important;}
+  #p-host-q .hq-tagline{right:4.5vw!important;top:116px!important;font-size:clamp(23px,2vw,34px)!important;line-height:.92!important;}
+  #p-host-q .hq-mot-zone.solo{left:25%!important;right:25%!important;top:112px!important;bottom:360px!important;gap:8px!important;}
+  #p-host-q .hq-showline b{font-size:24px!important;}
+  #p-host-q .hq-mot{font-size:clamp(64px,6vw,92px)!important;}
+  #p-host-q .hq-grid{left:20%!important;right:22%!important;bottom:54px!important;height:300px!important;gap:18px!important;}
+  #p-host-q .hq-sq{height:300px!important;border-width:3px!important;border-radius:20px!important;}
+  #p-host-q .hq-sq-img{height:68%!important;flex-basis:68%!important;}
+  #p-host-q .hq-sq-ltr{width:62px!important;height:62px!important;font-size:29px!important;border-radius:0 0 15px 0!important;}
+  #p-host-q .hq-sq-txt{font-size:21px!important;line-height:1.08!important;}
+  #p-host-q .timer-center{right:4.8vw!important;top:43%!important;}
+  #p-host-q .timer-wrap{width:190px!important;height:190px!important;}
+  #p-host-q .t-num{font-size:76px!important;}
+  #p-host-q .ans-pill{right:5vw!important;top:calc(43% + 112px)!important;}
+  #p-host-q .ans-text strong{font-size:25px!important;}
+}
+/* Joueur : composition de la maquette */
+body.player-mode #p-play .pp-header{height:82px!important;grid-template-columns:1fr auto!important;padding:8px 14px!important;}
+body.player-mode #p-play .pp-head-left{flex-direction:column!important;align-items:flex-start!important;gap:4px!important;padding:31px 0 0!important;}
+body.player-mode #p-play .pp-qlbl{font-size:12px!important;order:2!important;}
+body.player-mode #p-play .pp-round{order:1!important;font-size:10px!important;padding:6px 10px!important;}
+body.player-mode #p-play .pp-brand{display:block!important;position:absolute!important;left:14px!important;top:8px!important;font-size:23px!important;text-align:left!important;}
+body.player-mode #p-play .pp-timer{width:78px!important;height:78px!important;box-shadow:0 4px 0 rgba(104,67,28,.08),0 8px 18px rgba(104,67,28,.16)!important;}
+body.player-mode #p-play .pp-timer span{font-size:31px!important;}
+body.player-mode #p-play .pp-score{top:86px!important;}
+body.player-mode #p-play .pp-mot-zone{margin:14px 14px 8px!important;padding:15px 12px 16px!important;background:rgba(255,253,247,.94)!important;border:2px solid #EAD9B8!important;border-radius:16px!important;box-shadow:0 6px 0 rgba(104,67,28,.07),0 10px 20px rgba(104,67,28,.08)!important;min-height:122px!important;}
+body.player-mode #p-play .pp-signifie{font-size:14px!important;}
+body.player-mode #p-play .pp-mot{font-size:42px!important;line-height:.94!important;letter-spacing:-2px!important;margin-top:7px!important;}
+body.player-mode #p-play .pp-grid{flex:none!important;display:flex!important;flex-direction:column!important;gap:9px!important;padding:6px 14px 14px!important;height:calc(100% - 222px)!important;}
+body.player-mode #p-play .pp-sq{height:calc((100% - 18px)/3)!important;min-height:78px!important;max-height:104px!important;display:flex!important;flex-direction:row!important;align-items:stretch!important;border-radius:15px!important;border-width:3px!important;box-shadow:0 5px 0 rgba(104,67,28,.08),0 8px 16px rgba(104,67,28,.08)!important;}
+body.player-mode #p-play .pp-sq-img{display:block!important;position:relative!important;flex:0 0 96px!important;width:96px!important;height:100%!important;overflow:hidden!important;}
+body.player-mode #p-play .pp-sq-img img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;}
+body.player-mode #p-play .pp-sq-ltr{position:absolute!important;left:0!important;top:0!important;width:43px!important;height:43px!important;min-width:0!important;border-radius:0 0 12px 0!important;font-size:22px!important;}
+body.player-mode #p-play .pp-sq-bot{flex:1!important;min-width:0!important;padding:0 12px!important;display:flex!important;align-items:center!important;}
+body.player-mode #p-play .pp-sq-txt{font-size:16px!important;line-height:1.08!important;font-weight:800!important;text-align:left!important;}
+body.player-mode #p-play .pp-sq.sel{transform:scale(1.01)!important;box-shadow:0 0 0 4px var(--yellow),0 5px 0 rgba(104,67,28,.08)!important;}
+body.player-mode #p-play .pp-timebar{height:7px!important;}
+/* Révélation grand écran : toujours remplie */
+#p-host-res .hr-bar{height:76px!important;}
+#p-host-res .hr-bands{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;padding:30px 5vw 24px!important;align-items:center!important;}
+#p-host-res .hr-band{height:360px!important;border-radius:20px!important;border-width:3px!important;box-shadow:0 8px 0 rgba(104,67,28,.08),0 14px 28px rgba(104,67,28,.10)!important;}
+#p-host-res .hr-band-ltr{width:62px!important;height:62px!important;font-size:29px!important;}
+#p-host-res .hr-band-img{height:205px!important;}
+#p-host-res .hr-band-body{padding:14px 16px!important;gap:12px!important;}
+#p-host-res .hr-band-txt{font-size:21px!important;line-height:1.08!important;}
+#p-host-res .hr-band-tag{font-size:11px!important;padding:4px 9px!important;}
+#p-host-res .hr-band-bar{height:9px!important;}
+#p-host-res .hr-band-n{font-size:16px!important;}
+#p-host-res .hr-band.ok{box-shadow:0 0 0 4px var(--green),0 10px 25px rgba(61,139,91,.20)!important;transform:translateY(-5px)!important;}
+#p-host-res .hr-ok-txt{font-size:20px!important;}
+#p-host-res .hr-qinfo{font-size:15px!important;}
+@media(max-width:600px){
+  body.player-mode #p-play .pp-header{height:82px!important;}
+  body.player-mode #p-play .pp-brand{font-size:22px!important;}
+  body.player-mode #p-play .pp-timer{width:76px!important;height:76px!important;}
+  body.player-mode #p-play .pp-mot-zone{min-height:118px!important;margin-top:12px!important;}
+  body.player-mode #p-play .pp-mot{font-size:39px!important;}
+  body.player-mode #p-play .pp-grid{height:calc(100% - 212px)!important;}
+  body.player-mode #p-play .pp-sq{min-height:72px!important;max-height:98px!important;}
+}
 </style></head><body>
 
 <div id="p-select" class="page">
@@ -828,6 +892,25 @@ function scoreCurrentQuestion(q){
   });}
   hScoredQ=hCQ;
 }
+function renderHostReveal(q,sb){
+  var bands=$('hr-bands');
+  if(!bands)return;
+  bands.innerHTML='';
+  var pids=Object.keys(hP),tot=pids.length||1;
+  q.o.forEach(function(opt,i){
+    var n=pids.filter(function(pid){return hA[pid]&&hA[pid].answer===i;}).length;
+    var pct=Math.round(n/tot*100),ok=i===q.c;
+    var band=document.createElement('div');
+    band.className='hr-band '+(ok?'ok':'ko');
+    band.dataset.i=i;
+    band.innerHTML='<div class="hr-band-ltr">'+['A','B','C'][i]+'</div><div class="hr-band-img"><img src="'+(q.imgs[i]||'')+'" alt="" style="opacity:0;width:100%;height:100%;object-fit:cover;transition:opacity .4s"></div><div class="hr-band-body"><div class="hr-band-txt">'+opt+' <span class="hr-band-tag '+(ok?'ok':'ko')+'">'+(ok?'✓ BONNE RÉPONSE':'FAUX')+'</span></div><div class="hr-band-barwrap"><div class="hr-band-bar"><div class="hr-band-fill" style="width:0%"></div></div><div class="hr-band-n">'+n+'</div></div><div style="font-size:12px;font-weight:800;opacity:.72">'+pct+' % des joueurs</div></div>';
+    var img=band.querySelector('img');
+    if(img)img.onload=function(){img.style.opacity='1';};
+    bands.appendChild(band);
+    setTimeout(function(){var fill=band.querySelector('.hr-band-fill');if(fill)fill.style.width=pct+'%';},80+i*120);
+  });
+}
+
 function stepEliminate(){
   var q=Q[hCQ];
 
@@ -846,8 +929,9 @@ function stepEliminate(){
     var directSB=getSB();
     soundReveal();
     go('p-host-res');
-    $('hr-ok-txt').textContent=['A','B','C'][q.c]+' - '+q.o[q.c];
+    $('hr-ok-txt').textContent='✓ Bonne réponse : '+['A','B','C'][q.c]+' — '+q.o[q.c];
     $('hr-qinfo').textContent='Q '+hCQ+' / '+(Q.length-1);
+    renderHostReveal(q,directSB||getSB());
     dbSet('games/'+GID+'/state',{
       status:'eliminated',cq:hCQ,correct:q.c,eliminated:directEliminated,
       scoreboard:directSB,isDemo:q.isDemo===true,ts:Date.now()
@@ -904,8 +988,9 @@ function stepEliminate(){
     var sb=getSB();
     soundReveal();
     go('p-host-res');
-    $('hr-ok-txt').textContent=['A','B','C'][q.c]+' - '+q.o[q.c];
+    $('hr-ok-txt').textContent='✓ Bonne réponse : '+['A','B','C'][q.c]+' — '+q.o[q.c];
     $('hr-qinfo').textContent='Q '+hCQ+' / '+(Q.length-1);
+    renderHostReveal(q,sb);
 
     dbSet('games/'+GID+'/state',{
       status:'eliminated',cq:hCQ,correct:q.c,
@@ -919,7 +1004,7 @@ function stepResults(){
   var q=Q[hCQ];var sb=getSB();
   dbSet('games/'+GID+'/state',{status:'reveal',cq:hCQ,correct:q.c,scoreboard:sb,isDemo:q.isDemo===true,ts:Date.now()});
   go('p-host-res');
-  $('hr-ok-txt').textContent=['A','B','C'][q.c]+' - '+q.o[q.c];
+  $('hr-ok-txt').textContent='✓ Bonne réponse : '+['A','B','C'][q.c]+' — '+q.o[q.c];
   $('hr-qinfo').textContent='Q '+(hCQ>0?hCQ:0)+' / '+(Q.length-1);
   var bands=$('hr-bands');bands.innerHTML='';
   var tot=Object.keys(hA).length||1;
