@@ -397,24 +397,49 @@ button,input,textarea{font-family:inherit}
 <div class="toast" id="toast"></div>
 
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script><script>
-/* FIREBASE */
+<script>
+/* FIREBASE — chargement non bloquant : l'interface doit s'afficher même si le réseau Firebase est lent ou indisponible. */
 var DB = null;
-try {
-  firebase.initializeApp({
-    apiKey:"AIzaSyAFnW2DIQ0pXtY1m1sO9h5jVLuaDKlJzcg",
-    authDomain:"francitan-quiz.firebaseapp.com",
-    databaseURL:"https://francitan-quiz-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId:"francitan-quiz",
-    storageBucket:"francitan-quiz.firebasestorage.app",
-    messagingSenderId:"482469750738",
-    appId:"1:482469750738:web:edede3472f14a99ee98a0b"
+var FIREBASE_READY = false;
+var FIREBASE_QUEUE = [];
+function initFirebase(){
+  if(window.__firebaseLoading)return;
+  window.__firebaseLoading=true;
+  function load(src,next){
+    var s=document.createElement('script');
+    s.src=src; s.async=true;
+    s.onload=next;
+    s.onerror=function(){console.warn('Impossible de charger Firebase:',src);next();};
+    document.head.appendChild(s);
+  }
+  load('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js',function(){
+    load('https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js',function(){
+      try{
+        if(!window.firebase)throw new Error('Firebase indisponible');
+        firebase.initializeApp({
+          apiKey:"AIzaSyAFnW2DIQ0pXtY1m1sO9h5jVLuaDKlJzcg",
+          authDomain:"francitan-quiz.firebaseapp.com",
+          databaseURL:"https://francitan-quiz-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId:"francitan-quiz",
+          storageBucket:"francitan-quiz.firebasestorage.app",
+          messagingSenderId:"482469750738",
+          appId:"1:482469750738:web:edede3472f14a99ee98a0b"
+        });
+        DB=firebase.database(); FIREBASE_READY=true;
+      }catch(e){console.warn('Firebase:',e);}
+      var q=FIREBASE_QUEUE.splice(0); q.forEach(function(fn){try{fn();}catch(e){console.warn(e);}});
+    });
   });
-  DB = firebase.database();
-} catch(e){ console.warn('Firebase:',e); }
-function dbSet(p,v){ if(DB) return DB.ref(p).set(v); return Promise.resolve(); }
-function dbOn(p,cb){ if(DB) DB.ref(p).on('value',function(s){cb(s.val());}); }
-function dbOff(p){ if(DB) DB.ref(p).off(); }
+}
+function dbSet(path,val){
+  if(DB)return DB.ref(path).set(val);
+  return Promise.resolve();
+}
+function dbOn(path,cb){
+  if(DB){DB.ref(path).on('value',function(s){cb(s.val());});return;}
+  FIREBASE_QUEUE.push(function(){if(DB)DB.ref(path).on('value',function(s){cb(s.val());});});
+}
+function dbOff(path){if(DB)DB.ref(path).off();}
 
 /* SONS */
 var ac = null;
@@ -563,15 +588,16 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
-  /* Démarrage robuste : aucune page de jeu ne doit pouvoir apparaître vide. */
+  /* Afficher immédiatement un écran valide, sans attendre Firebase. */
   if(g&&m==='play'){
     GID=g;
     go('p-join');
     setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
-    return;
+  }else{
+    go('p-select');
   }
-  /* En mode animateur, on repart toujours par l'écran de sélection. */
-  go('p-select');
+  /* Firebase se charge ensuite en arrière-plan. */
+  setTimeout(initFirebase,0);
 });
 window.addEventListener('load',function(){
   if(!document.querySelector('.page.show')) go('p-select');
