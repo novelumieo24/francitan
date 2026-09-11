@@ -573,6 +573,9 @@ window.addEventListener('DOMContentLoaded',function(){
   /* En mode animateur, on repart toujours par l'écran de sélection. */
   go('p-select');
 });
+window.addEventListener('load',function(){
+  if(!document.querySelector('.page.show')) go('p-select');
+});
 window.addEventListener('keydown',function(e){
   if([' ','ArrowRight','ArrowDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
   if(['ArrowLeft','ArrowUp'].indexOf(e.key)>=0){e.preventDefault();goBack();}
@@ -583,8 +586,13 @@ function advance(){
   var id=document.querySelector('.page.show').id;
   if(id==='p-lobby'){hostStart();return;}
   if(id==='p-host-q'){
-    if(hStep===0)stepLaunch();
-    else if(hStep===2||hStep===4)stepEliminate();
+    if(hStep===0){stepLaunch();return;}
+    if(hStep===1){
+      var pids=Object.keys(hP),answered=pids.filter(function(pid){return hA[pid]&&hA[pid].answer!==undefined;}).length;
+      if((pids.length>0&&answered>=pids.length)||hTL<=0){hStep=2;stepEliminate();}
+      return;
+    }
+    if(hStep===2||hStep===4){stepEliminate();return;}
     return;
   }
   if(id==='p-reveal'){stepResults();return;}
@@ -857,7 +865,7 @@ function hUpdatePill(){
   if(!el)return;
   el.innerHTML='<span class="ans-icon" aria-hidden="true"><svg viewBox="0 0 48 34"><circle cx="24" cy="9" r="7" fill="currentColor"/><circle cx="9" cy="13" r="5" fill="currentColor"/><circle cx="39" cy="13" r="5" fill="currentColor"/><path d="M12 31c0-8 5-13 12-13s12 5 12 13H12Z" fill="currentColor"/><path d="M0 31c0-6 3-10 8-10 3 0 5 1 7 4-2 2-3 4-3 6H0Zm48 0H36c0-2-1-4-3-6 2-3 4-4 7-4 5 0 8 4 8 10Z" fill="currentColor"/></svg></span><span class="ans-text"><strong>'+a+' / '+p+'</strong><small>joueurs ont répondu</small></span>';
   el.className='ans-pill'+(p>0&&a===p?' full':'');
-  if(p>0&&a>=p&&hStep===1){setBtnAdv('Tout le monde a répondu','green');}
+  if(p>0&&a>=p&&hStep===1)setBtnAdv('Tout le monde a répondu','green');
 }
 function hUpdateBadges(){
   for(var i=0;i<3;i++){
