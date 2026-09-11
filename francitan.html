@@ -137,6 +137,49 @@ html,body{width:100%;height:100%;overflow:hidden;}
   #p-host-q .hq-sq{height:245px!important;}
   #p-host-q .hq-showline b{font-size:15px!important;}
 }
+/* ===== PLAYER MODE FINAL : même interface téléphone sur mobile ET sur grand écran ===== */
+body.player-mode{background:#D8C9A9!important;overflow:hidden!important;}
+body.player-mode .page{width:min(430px,100vw)!important;min-width:0!important;max-width:430px!important;margin:0 auto!important;left:auto!important;right:auto!important;overflow:hidden!important;box-shadow:0 0 0 1px rgba(104,67,28,.10),0 0 35px rgba(50,30,10,.18)!important;}
+body.player-mode #p-join,
+body.player-mode #p-wait,
+body.player-mode #p-answered,
+body.player-mode #p-final{flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:12px!important;padding:28px 20px!important;}
+body.player-mode #p-join .jl-logo{font-size:54px!important;line-height:.9!important;letter-spacing:-3px!important;white-space:nowrap!important;}
+body.player-mode #p-join>div:nth-child(2){font-style:normal!important;font-size:15px!important;line-height:1.3!important;max-width:300px!important;}
+body.player-mode #p-join .jl-form{width:100%!important;max-width:360px!important;display:flex!important;flex-direction:column!important;gap:10px!important;}
+body.player-mode #p-join .jl-input,
+body.player-mode #p-join .jl-btn{width:100%!important;height:52px!important;min-width:0!important;font-size:16px!important;}
+body.player-mode #p-wait .pw-orb{font-size:52px!important;line-height:1!important;}
+body.player-mode #p-wait .pw-h{font-size:27px!important;font-weight:800!important;line-height:1.1!important;}
+body.player-mode #p-wait .pw-name{font-size:48px!important;line-height:1!important;color:var(--red)!important;}
+body.player-mode #p-wait .pw-hint{font-size:15px!important;line-height:1.35!important;max-width:300px!important;}
+body.player-mode #p-wait .dots{display:flex!important;gap:7px!important;}
+body.player-mode #p-play{flex-direction:column!important;}
+body.player-mode #p-play .pp-header{height:76px!important;grid-template-columns:1fr auto!important;padding:7px 10px!important;}
+body.player-mode #p-play .pp-brand{display:none!important;}
+body.player-mode #p-play .pp-timer{width:66px!important;height:66px!important;}
+body.player-mode #p-play .pp-score{display:block!important;position:absolute!important;left:10px!important;top:79px!important;font-size:12px!important;font-weight:800!important;color:var(--ink)!important;}
+body.player-mode #p-play .pp-mot-zone{padding:30px 16px 18px!important;}
+body.player-mode #p-play .pp-mot{font-size:48px!important;}
+body.player-mode #p-play .pp-grid{grid-template-columns:1fr!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;padding:8px 14px 16px!important;gap:10px!important;}
+body.player-mode #p-play .pp-sq{min-height:0!important;}
+body.player-mode #p-play .pp-sq-img{display:block!important;flex:0 0 96px!important;width:96px!important;height:100%!important;object-fit:cover!important;}
+body.player-mode #p-play .pp-sq-bot{min-width:0!important;padding:0 10px!important;}
+body.player-mode #p-play .pp-sq-ltr{width:46px!important;min-width:46px!important;font-size:23px!important;}
+body.player-mode #p-play .pp-sq-txt{font-size:16px!important;white-space:normal!important;}
+body.player-mode #p-wait-reveal{flex-direction:column!important;padding:78px 14px 18px!important;}
+body.player-mode #p-wait-reveal .wr-header{height:66px!important;}
+body.player-mode #p-wait-reveal .wr-wait-stage{width:100%!important;max-width:400px!important;margin-top:0!important;}
+body.player-mode #p-wait-reveal .wr-card-photo{height:145px!important;}
+body.player-mode #p-answered .pa-orb{width:92px!important;height:92px!important;font-size:44px!important;}
+body.player-mode #p-answered .pa-verd{font-size:26px!important;}
+body.player-mode #p-answered .pa-pts{font-size:64px!important;}
+body.player-mode #p-final .pf-h{font-size:32px!important;}
+body.player-mode #p-final .pf-rank{font-size:64px!important;}
+body.player-mode #p-final .pf-score{font-size:52px!important;}
+@media(min-width:431px){body.player-mode .page{min-height:100vh!important;height:100vh!important;}}
+@media(max-width:430px){body.player-mode .page{width:100vw!important;max-width:100vw!important;box-shadow:none!important;}}
+
 </style></head><body>
 
 <div id="p-select" class="page show" style="display:flex !important;">
@@ -629,6 +672,8 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
+  /* Le lien ?g=...&m=play est le mode joueur. On force l'interface téléphone même si elle est ouverte sur un grand écran pour les tests. */
+  document.body.classList.toggle('player-mode', !!(g&&m==='play'));
   /* Afficher immédiatement un écran valide, sans attendre Firebase. */
   if(g&&m==='play'){
     GID=g;
