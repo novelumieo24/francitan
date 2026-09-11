@@ -525,7 +525,13 @@ function saveImgs(){saveQ();}
 var Q = loadQ();
 var CIRC = 251.3;
 function $(id){return document.getElementById(id);}
-function go(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('show');});$(id).classList.add('show');}
+function go(id){
+  var target=$(id);
+  if(!target){console.error('Écran introuvable :',id);return false;}
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('show');});
+  target.classList.add('show');
+  return true;
+}
 function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTimeout(function(){t.classList.remove('up');},d||2800);}
 
 function loadGameSettings(){
@@ -557,7 +563,15 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
-  if(g&&m==='play'){GID=g;go('p-join');setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);}
+  /* Démarrage robuste : aucune page de jeu ne doit pouvoir apparaître vide. */
+  if(g&&m==='play'){
+    GID=g;
+    go('p-join');
+    setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
+    return;
+  }
+  /* En mode animateur, on repart toujours par l'écran de sélection. */
+  go('p-select');
 });
 window.addEventListener('keydown',function(e){
   if([' ','ArrowRight','ArrowDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
@@ -587,6 +601,7 @@ function goBack(){
 /* HOST */
 function enterHost(){
   loadGameSettings();
+  /* Nouvelle partie animateur : GID créé ici, puis écran lobby. */
   GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
   var ey=localStorage.getItem('fq_eyebrow');if(ey&&$('acc-eyebrow'))$('acc-eyebrow').textContent=ey;
   var sb=localStorage.getItem('fq_sub');if(sb&&$('acc-sub'))$('acc-sub').textContent=sb;
@@ -1107,4 +1122,4 @@ function confetti(){
 }
 </script>
 </body>
-</html></html>
+</html>
