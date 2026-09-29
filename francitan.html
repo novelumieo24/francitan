@@ -8538,6 +8538,75 @@ html,body{
 }
 </style>
 
+
+<style id="v30-lobby-final">
+/* ============================================================
+   V30 — LOBBY GAME-SHOW FINAL
+   Public-facing host lobby: one clear action, two join methods,
+   readable from a projector, no technical URL clutter.
+   ============================================================ */
+#p-lobby{padding:0!important;overflow:hidden!important;background:#FFF7E6!important;color:#2A1710!important}
+#p-lobby .lobby-v30{width:100%;height:100%;display:flex;flex-direction:column;position:relative;padding:clamp(18px,2.4vh,28px) clamp(24px,4vw,64px) clamp(18px,2.2vh,28px);overflow:hidden}
+#p-lobby .l30-header{text-align:center;flex:0 0 auto}
+#p-lobby .l30-kicker{font:900 11px/1 'Nunito Sans',Arial,sans-serif;letter-spacing:5px;color:#B7352E;margin-bottom:5px}
+#p-lobby .l30-brand{font:900 clamp(42px,5.2vw,70px)/.86 'Fraunces',Georgia,serif;letter-spacing:-2px;color:#2A1710}
+#p-lobby .l30-brand span{color:#D96B16}
+#p-lobby .l30-sub{font:italic 600 clamp(12px,1.25vw,16px)/1.2 'Nunito Sans',Arial,sans-serif;color:#86664A;margin-top:7px}
+#p-lobby .l30-main{width:min(1180px,100%);margin:clamp(10px,1.8vh,18px) auto 0;display:flex;flex-direction:column;flex:1;min-height:0}
+#p-lobby .l30-title-block{text-align:center;flex:0 0 auto}
+#p-lobby .l30-eyebrow{font:900 10px/1 'Nunito Sans',Arial,sans-serif;letter-spacing:3px;color:#D96B16;margin-bottom:7px}
+#p-lobby .l30-title-block h1{font:900 clamp(30px,3.5vw,52px)/.95 'Nunito Sans',Arial,sans-serif;letter-spacing:1px;color:#B7352E;margin:0}
+#p-lobby .l30-title-block p{font:600 clamp(12px,1.25vw,16px)/1.35 'Nunito Sans',Arial,sans-serif;color:#73533A;margin-top:8px}
+#p-lobby .l30-title-block p b{color:#2A1710}
+#p-lobby .l30-join-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px);margin-top:clamp(14px,2.2vh,22px);flex:0 0 auto}
+#p-lobby .l30-card{background:#fffdf8;border:2px solid #E8C987;border-radius:20px;box-shadow:0 6px 0 rgba(89,48,24,.10);min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px}
+#p-lobby .l30-card-label{font:900 clamp(10px,1vw,13px)/1 'Nunito Sans',Arial,sans-serif;letter-spacing:2px;color:#73533A;margin-bottom:12px}
+#p-lobby .l30-qr-frame{width:clamp(150px,16vw,205px);height:clamp(150px,16vw,205px);background:#fff;border:2px solid #E8D7B9;border-radius:13px;padding:8px;display:flex;align-items:center;justify-content:center}
+#p-lobby #qr-canvas{display:block;width:100%!important;height:100%!important;border:0!important;background:#fff!important;border-radius:3px}
+#p-lobby .l30-small-url{font:800 11px/1 'Nunito Sans',Arial,sans-serif;color:#9A7654;margin-top:10px}
+#p-lobby .l30-hidden-url{display:none!important}
+#p-lobby .l30-code-card{background:linear-gradient(145deg,#FFFDF8 0%,#FFF2CF 100%);border-color:#E7BF63}
+#p-lobby .l30-code{font:900 clamp(70px,9vw,125px)/.9 'Nunito Sans',Arial,sans-serif;letter-spacing:clamp(7px,1.2vw,16px);color:#23140E;margin:4px 0 13px;padding-left:clamp(7px,1.2vw,16px)}
+#p-lobby .l30-code-help{font:600 clamp(12px,1.15vw,15px)/1.35 'Nunito Sans',Arial,sans-serif;color:#75563D}
+#p-lobby .l30-code-help strong{font-weight:900;color:#B7352E}
+#p-lobby .l30-players{margin-top:clamp(12px,1.8vh,18px);background:#fffdf8;border:2px solid #E8D7B9;border-radius:16px;padding:10px 16px;min-height:72px;box-shadow:0 4px 0 rgba(89,48,24,.06);display:flex;flex-direction:column;justify-content:center;flex:1;min-height:0}
+#p-lobby .l30-players-head{display:flex;align-items:center;gap:12px;min-height:42px}
+#p-lobby .l30-players-number{font:900 clamp(36px,4.2vw,56px)/.9 'Nunito Sans',Arial,sans-serif;color:#B7352E;min-width:55px;text-align:center}
+#p-lobby .l30-players-title{font:900 12px/1 'Nunito Sans',Arial,sans-serif;letter-spacing:2px;color:#2A1710}
+#p-lobby .l30-players-sub{font:600 11px/1.2 'Nunito Sans',Arial,sans-serif;color:#92765B;margin-top:4px}
+#p-lobby .l30-connection{margin-left:auto!important;flex-shrink:0}
+#p-lobby .l30-chips{margin-top:8px!important;display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;gap:5px!important;max-height:42px;overflow:hidden}
+#p-lobby .l30-chips .chip{background:#FFF3D5!important;border:1px solid #E8D7B9!important;color:#493225!important;padding:4px 9px!important;font-size:10px!important;font-weight:800!important}
+#p-lobby .l30-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;width:min(1180px,100%);margin:clamp(10px,1.5vh,16px) auto 0;flex:0 0 auto}
+#p-lobby .l30-foot-note{font:600 12px/1.25 'Nunito Sans',Arial,sans-serif;color:#86664A}
+#p-lobby .l30-start{border:0;border-radius:999px;background:#B7352E;color:#fff;min-height:52px;padding:0 30px;font:900 14px/1 'Nunito Sans',Arial,sans-serif;letter-spacing:1px;box-shadow:0 5px 0 #84241F;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+#p-lobby .l30-start:active{transform:translateY(4px);box-shadow:0 1px 0 #84241F}
+@media(max-width:700px){
+  #p-lobby .lobby-v30{overflow:auto;padding:22px 14px 28px}
+  #p-lobby .l30-main{overflow:visible}
+  #p-lobby .l30-join-grid{grid-template-columns:1fr;margin-top:14px}
+  #p-lobby .l30-card{min-height:210px}
+  #p-lobby .l30-code{font-size:68px}
+  #p-lobby .l30-players{flex:0 0 auto;min-height:90px}
+  #p-lobby .l30-footer{flex-direction:column;align-items:stretch;text-align:center}
+  #p-lobby .l30-start{width:100%}
+  #p-lobby .l30-foot-note{order:2}
+}
+@media(max-height:700px) and (min-width:701px){
+  #p-lobby .l30-brand{font-size:45px}
+  #p-lobby .l30-sub{margin-top:3px}
+  #p-lobby .l30-title-block h1{font-size:32px}
+  #p-lobby .l30-title-block p{margin-top:4px}
+  #p-lobby .l30-join-grid{margin-top:10px}
+  #p-lobby .l30-card{min-height:175px;padding:10px}
+  #p-lobby .l30-qr-frame{width:145px;height:145px}
+  #p-lobby .l30-code{font-size:72px}
+  #p-lobby .l30-players{margin-top:9px;min-height:62px;padding:7px 12px}
+  #p-lobby .l30-footer{margin-top:8px}
+  #p-lobby .l30-start{min-height:44px}
+}
+</style>
+
 </head>
 <body>
 
@@ -8571,27 +8640,51 @@ html,body{
 </div>
 
 <div id="p-lobby" class="page">
-  <div class="ref-lobby">
-    <div class="ref-lobby-brand"><span>Quizz</span>Fran<em>ci</em>tan</div>
-    <div class="ref-lobby-sub">Vous parlez occitan sans le savoir !</div>
-    <div class="ref-lobby-rule"></div>
-    <div class="ref-lobby-content">
-      <div class="ref-lobby-card">
-        <div class="ref-lobby-label">REJOIGNEZ LA PARTIE</div>
-        <div class="ref-lobby-address" id="qr-url">Génération…</div>
-        <canvas id="qr-canvas" width="220" height="220"></canvas>
-        <div class="ref-lobby-code-label">CODE DE LA PARTIE</div>
-        <div class="ref-lobby-code" id="lobby-code">—</div>
+  <div class="lobby-v30">
+    <header class="l30-header">
+      <div class="l30-kicker">QUIZ OCCITAN</div>
+      <div class="l30-brand">Fran<span>ci</span>tan</div>
+      <div class="l30-sub">Vous parlez occitan sans le savoir !</div>
+    </header>
+
+    <main class="l30-main">
+      <div class="l30-title-block">
+        <div class="l30-eyebrow">LA PARTIE EST PRÊTE</div>
+        <h1>REJOIGNEZ LA PARTIE</h1>
+        <p>Scannez le QR code avec votre téléphone<br><b>ou utilisez le code ci-dessous.</b></p>
       </div>
-      <div class="ref-lobby-players">
-        <div class="ref-players-head"><span class="ref-people-icon">♟♟</span><strong id="qr-count-big">0</strong><span>joueurs connectés</span></div>
-        <div class="chips ref-chips" id="chips"></div>
+
+      <div class="l30-join-grid">
+        <section class="l30-card l30-qr-card">
+          <div class="l30-card-label">① SCANNEZ POUR JOUER</div>
+          <div class="l30-qr-frame"><canvas id="qr-canvas" width="220" height="220"></canvas></div>
+          <div class="l30-small-url">francitan-quiz.web.app</div><div id="qr-url" class="l30-hidden-url" aria-hidden="true"></div>
+        </section>
+
+        <section class="l30-card l30-code-card">
+          <div class="l30-card-label">② OU ENTREZ LE CODE</div>
+          <div class="l30-code" id="lobby-code">—</div>
+          <div class="l30-code-help">sur <strong>francitan-quiz.web.app</strong><br>puis indiquez votre prénom</div>
+        </section>
       </div>
-    </div>
-    <div class="ref-lobby-bottom">
-      <div id="lobby-status">En attente des joueurs…</div><div id="fq-connection" class="fq-connection unknown"><span class="fq-connection-dot"></span><span class="fq-connection-text">Connexion…</span></div>
-      <button class="ref-home-btn" id="btn-lobby-start" onclick="hostStart()">LANCER LA PARTIE →</button>
-    </div>
+
+      <section class="l30-players">
+        <div class="l30-players-head">
+          <div class="l30-players-number" id="qr-count-big">0</div>
+          <div>
+            <div class="l30-players-title">JOUEURS PRÊTS</div>
+            <div class="l30-players-sub" id="lobby-status">En attente des joueurs…</div>
+          </div>
+          <div id="fq-connection" class="fq-connection unknown l30-connection"><span class="fq-connection-dot"></span><span class="fq-connection-text">Connexion…</span></div>
+        </div>
+        <div class="chips ref-chips l30-chips" id="chips"></div>
+      </section>
+    </main>
+
+    <footer class="l30-footer">
+      <div class="l30-foot-note">L'animateur lancera la partie quand tout le monde sera prêt.</div>
+      <button class="l30-start" id="btn-lobby-start" onclick="hostStart()">LANCER LA PARTIE <span>→</span></button>
+    </footer>
   </div>
 </div>
 
@@ -9027,6 +9120,8 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m'),host=p.get('host')==='1';
+  var ua=navigator.userAgent||navigator.vendor||window.opera||'';
+  var isPhone=/Android|iPhone|iPad|iPod|IEMobile|Mobile/i.test(ua);
   if(g&&m==='play'){
     GID=g.toUpperCase();
     var gc=$('game-code-inp');
@@ -9035,20 +9130,27 @@ window.addEventListener('DOMContentLoaded',function(){
     if(gw)gw.style.display='none';
     go('p-join');
     setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
-  }else if(host || !window.matchMedia || !window.matchMedia('(max-width:700px)').matches){
-    // Ordinateur/tablette : mode animateur par défaut.
+  }else if(host){
     if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
     var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
     var qru=$('qr-url'); if(qru)qru.textContent=purl;
     if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
     if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
     go('p-accueil');
-  }else{
-    // Téléphone sans QR : demander simplement le code de la partie.
+  }else if(isPhone){
+    // Sur téléphone, l'adresse courte ouvre toujours le parcours joueur.
     GID=null;
     var gw=document.getElementById('join-code-wrap');if(gw)gw.style.display='flex';
     go('p-join');
     setTimeout(function(){try{$('game-code-inp').focus();}catch(e){}},300);
+  }else{
+    // Ordinateur : mode animateur par défaut.
+    if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+    var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
+    var qru=$('qr-url'); if(qru)qru.textContent=purl;
+    if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
+    if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
+    go('p-accueil');
   }
 });
 window.addEventListener('keydown',function(e){
