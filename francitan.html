@@ -8218,6 +8218,326 @@ img,canvas{max-width:100%}
   #p-play .pp-sq-bot{grid-column:1!important;grid-row:2!important}
 }
 </style>
+
+<style id="v29-final-polish">
+/* ============================================================
+   V29 — FINAL POLISH
+   One coherent light identity + correct player routing.
+   This block is deliberately LAST so older visual versions
+   cannot override the final appearance.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=Nunito+Sans:wght@600;700;800;900&display=swap');
+
+:root{
+  --cream:#FFF8E8!important;
+  --cream2:#FFF1C9!important;
+  --ink:#28170E!important;
+  --ink2:#67432A!important;
+  --ink3:#987653!important;
+  --ocre:#D96B16!important;
+  --ocre2:#F0A52C!important;
+  --red:#B7352E!important;
+  --red2:#E45B42!important;
+  --green:#3E8050!important;
+  --blue:#3C6796!important;
+  --brd:#E5CDAA!important;
+}
+
+/* Global typography / background */
+html,body{
+  background:var(--cream)!important;
+  color:var(--ink)!important;
+  font-family:'Nunito Sans',Arial,sans-serif!important;
+}
+.page{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(240,165,44,.16),transparent 30%),
+    radial-gradient(circle at 100% 100%,rgba(183,53,46,.07),transparent 28%),
+    var(--cream)!important;
+  color:var(--ink)!important;
+}
+.page:before,.page:after{pointer-events:none!important}
+
+/* All display typography uses the same readable serif */
+.sel-title,.acc-title,.hl-title,.ref-home-title,.ref-lobby-brand,
+.hq-mot,.mock-word,.reveal-mot,.hf-title,.ref-result-title,
+.pp-mot,.wr-mot,.wr-choice-ans,.fpod-name,.fpod-pts,
+.qr-count,.pw-h,.pa-verd,.pa-pts,.pf-h,.pf-score{
+  font-family:'Fraunces',Georgia,serif!important;
+}
+
+/* ---------------- PLAYER JOIN ---------------- */
+#p-join{
+  gap:14px!important;
+  padding:24px 18px!important;
+  overflow:auto!important;
+}
+#p-join .jl-logo{
+  font-family:'Fraunces',Georgia,serif!important;
+  color:var(--ink)!important;
+}
+#p-join .jl-logo em{color:var(--red)!important}
+#p-join .jl-quiz{color:var(--ocre)!important}
+#p-join .jl-rule{background:var(--ocre2)!important}
+#p-join .jl-form{max-width:330px!important;gap:10px!important}
+#p-join .jl-code-wrap{display:flex;flex-direction:column;gap:5px;width:100%}
+#p-join .jl-code-label{
+  font-size:10px!important;font-weight:900!important;letter-spacing:2.5px!important;
+  color:var(--ink3)!important;text-align:center!important;
+}
+#p-join .jl-input{
+  color:var(--ink)!important;background:#fff!important;
+  border:2px solid var(--brd)!important;
+  box-shadow:0 3px 0 rgba(83,51,22,.06)!important;
+}
+#p-join .jl-code-input{
+  font-size:28px!important;letter-spacing:7px!important;
+  text-transform:uppercase!important;
+}
+#p-join .jl-input::placeholder{color:#B69A7B!important}
+#p-join .jl-input:focus{border-color:var(--ocre)!important;box-shadow:0 0 0 4px rgba(217,107,22,.10)!important}
+#p-join .jl-btn{
+  background:var(--red)!important;color:#fff!important;
+  box-shadow:0 5px 0 #84241F!important;
+}
+#p-join .jl-btn:active{transform:translateY(4px)!important;box-shadow:0 1px 0 #84241F!important}
+#p-join .jl-host-link{
+  border:0!important;background:transparent!important;color:var(--ink3)!important;
+  font-family:'Nunito Sans',Arial,sans-serif!important;font-size:12px!important;
+  font-weight:800!important;text-decoration:underline!important;text-underline-offset:3px!important;
+  cursor:pointer!important;padding:7px 12px!important;
+}
+
+/* ---------------- HOME / LOBBY ---------------- */
+#p-accueil,#p-lobby{
+  color:var(--ink)!important;
+}
+#p-lobby .ref-lobby{
+  color:var(--ink)!important;
+}
+#p-lobby .ref-lobby-brand{
+  color:var(--ink)!important;
+  text-shadow:none!important;
+}
+#p-lobby .ref-lobby-brand span{
+  color:var(--ocre)!important;
+}
+#p-lobby .ref-lobby-brand em{color:var(--red)!important}
+#p-lobby .ref-lobby-sub{
+  color:var(--ink2)!important;
+  text-shadow:none!important;
+}
+#p-lobby .ref-lobby-rule{background:var(--brd)!important}
+#p-lobby .ref-lobby-card,
+#p-lobby .ref-lobby-players{
+  background:#fff!important;
+  border:2px solid #F0D39B!important;
+  box-shadow:0 6px 0 rgba(83,51,22,.08)!important;
+  color:var(--ink)!important;
+}
+#p-lobby .ref-lobby-label,
+#p-lobby .ref-lobby-code-label{color:var(--red)!important}
+#p-lobby .ref-lobby-address{
+  color:var(--ink2)!important;background:#FFF9ED!important;
+  border-color:#E8D6B8!important;
+}
+#p-lobby .ref-lobby-code{color:var(--ink)!important}
+#p-lobby .ref-players-head{color:var(--ink)!important}
+#p-lobby .ref-players-head strong{color:var(--red)!important}
+#p-lobby #lobby-status{color:var(--ink2)!important;text-shadow:none!important}
+#p-lobby .chip{
+  color:var(--ink)!important;background:#FFF9ED!important;
+  border:1px solid #E8D6B8!important;
+}
+#p-lobby .ref-lobby-bottom .ref-home-btn{
+  background:var(--red)!important;color:#fff!important;
+  border:0!important;box-shadow:0 5px 0 #84241F!important;
+}
+#p-lobby #qr-canvas{border-color:#E8D6B8!important}
+
+/* ---------------- PROJECTOR QUESTION ---------------- */
+#p-host-q{
+  background:linear-gradient(180deg,#FFFDF7 0%,#FFF5DB 100%)!important;
+  color:var(--ink)!important;
+}
+#p-host-q .mock-topbar{
+  height:70px!important;min-height:70px!important;
+  background:#fff!important;border-bottom:2px solid #E5CDAA!important;
+  box-shadow:0 4px 16px rgba(76,43,13,.08)!important;
+}
+#p-host-q .mock-top-left strong{color:var(--ink)!important}
+#p-host-q .mock-round{background:#FFF1C9!important;color:var(--ocre)!important}
+#p-host-q .mock-top-center{color:var(--ink2)!important}
+#p-host-q .mock-actions .mock-answer-pill{
+  background:#FFF1C9!important;color:var(--red)!important;border-color:#E8D6B8!important;
+}
+#p-host-q .mock-btn{
+  background:#fff!important;color:var(--ink2)!important;border-color:#E5CDAA!important;
+}
+#p-host-q .mock-btn.primary{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important}
+#p-host-q .mock-stage{
+  grid-template-columns:minmax(0,1fr) minmax(190px,18vw)!important;
+  gap:18px!important;padding:18px!important;
+  background:transparent!important;
+}
+#p-host-q .mock-brand{display:none!important}
+#p-host-q .mock-question{
+  background:transparent!important;
+  padding:16px 14px 18px!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  min-width:0!important;
+}
+#p-host-q .mock-kicker{
+  color:var(--ocre)!important;font-size:11px!important;
+  letter-spacing:4px!important;margin:0 0 8px!important;
+}
+#p-host-q .mock-word{
+  color:var(--ink)!important;
+  font-size:clamp(58px,6.2vw,96px)!important;
+  line-height:.9!important;text-align:center!important;
+}
+#p-host-q .mock-demo{color:var(--ink3)!important}
+#p-host-q .mock-cards{
+  width:min(100%,1080px)!important;
+  margin-top:28px!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:14px!important;flex:0 0 auto!important;height:auto!important;
+}
+#p-host-q .mock-card{
+  aspect-ratio:1.08/1!important;
+  max-height:360px!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-rows:minmax(0,67%) minmax(62px,33%)!important;
+  background:#fff!important;border:2px solid #E5CDAA!important;
+  border-radius:16px!important;overflow:hidden!important;
+  box-shadow:0 5px 0 rgba(83,51,22,.08)!important;
+}
+#p-host-q .mock-card-img{min-height:0!important;height:100%!important;overflow:hidden!important}
+#p-host-q .mock-card-img img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+#p-host-q .mock-card-text{
+  height:100%!important;min-height:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:9px 8px!important;color:var(--ink)!important;
+  font-family:'Nunito Sans',Arial,sans-serif!important;
+  font-size:clamp(15px,1.25vw,20px)!important;line-height:1.08!important;
+  font-weight:900!important;text-align:center!important;
+  white-space:normal!important;overflow:hidden!important;
+}
+#p-host-q .mock-letter{
+  width:44px!important;height:44px!important;font-size:23px!important;
+  border-radius:0 0 12px 0!important;
+}
+#p-host-q .mock-timer-panel{
+  min-width:0!important;width:auto!important;
+  background:#fff!important;border:2px solid #E5CDAA!important;
+  border-radius:20px!important;
+  box-shadow:0 6px 0 rgba(83,51,22,.08)!important;
+  padding:20px 10px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:flex-start!important;overflow:hidden!important;
+}
+#p-host-q .mock-slogan{color:var(--red)!important;font-weight:900!important}
+#p-host-q .mock-timer{margin:26px auto 0!important;width:min(190px,90%)!important;max-width:190px!important}
+#p-host-q .mock-timer-inner strong{font-family:'Fraunces',Georgia,serif!important;color:var(--ink)!important;font-size:clamp(58px,5vw,84px)!important}
+#p-host-q .mock-timer-inner span{color:var(--ink3)!important}
+#p-host-q .mock-count{
+  background:#FFF1D2!important;border:1px solid #E8D6B8!important;
+  color:var(--ink)!important;border-radius:13px!important;
+  width:min(100%,190px)!important;margin-top:22px!important;
+}
+#p-host-q .mock-count strong{color:var(--red)!important}
+
+/* ---------------- REVEAL / RESULTS / FINAL ---------------- */
+#p-reveal{background:#17100B!important}
+#p-reveal .reveal-signifie{color:#F0A52C!important}
+#p-reveal .reveal-mot{font-family:'Fraunces',Georgia,serif!important}
+#p-host-res,#p-host-final{
+  background:linear-gradient(180deg,#FFFDF7,#FFF5DB)!important;color:var(--ink)!important;
+}
+#p-host-res .res-topbar,#p-host-rank .rank-ref-top{
+  background:#fff!important;border-bottom:2px solid #E5CDAA!important;color:var(--ink)!important;
+}
+#p-host-res .res-correct{color:var(--green)!important}
+#p-host-res .res-qinfo{color:var(--ink3)!important}
+#p-host-res .res-answer,#p-host-res .res-ranking{color:var(--ink)!important}
+#p-host-final .ref-final-title,#p-host-final .hf-title{color:var(--red)!important}
+#p-host-final .ref-final-sub{color:var(--ink2)!important}
+
+/* ---------------- PHONE QUESTION ---------------- */
+#p-play{
+  background:var(--cream)!important;color:var(--ink)!important;
+}
+#p-play .v15-mobile-head{
+  background:#fff!important;border-bottom:2px solid #E5CDAA!important;
+}
+#p-play .pp-round{background:var(--red)!important;color:#fff!important}
+#p-play .pp-qlbl{color:var(--ink3)!important}
+#p-play .pp-brand{color:var(--red)!important;font-family:'Fraunces',Georgia,serif!important}
+#p-play .pp-timer{
+  background:#FFF1D2!important;border-color:var(--ocre)!important;
+  color:var(--red)!important;box-shadow:0 3px 0 rgba(83,51,22,.10)!important;
+}
+#p-play .pp-timer span{font-family:'Fraunces',Georgia,serif!important;color:var(--red)!important}
+#p-play .pp-timebar{background:#E8DCC8!important}
+#p-play .pp-timefill{background:var(--green)!important}
+#p-play .pp-status{color:var(--ink2)!important}
+#p-play .v15-mobile-question{
+  background:transparent!important;color:var(--ink)!important;
+}
+#p-play .pp-signifie{color:var(--ocre)!important}
+#p-play .pp-mot{color:var(--ink)!important;font-family:'Fraunces',Georgia,serif!important}
+#p-play .pp-grid{
+  grid-template-columns:1fr!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;
+  gap:8px!important;padding:7px 10px calc(10px + env(safe-area-inset-bottom,0px))!important;
+}
+#p-play .pp-sq{
+  background:#fff!important;border:2px solid #E5CDAA!important;
+  box-shadow:0 4px 0 rgba(83,51,22,.08)!important;border-radius:14px!important;
+}
+#p-play .pp-sq-img img{object-fit:cover!important}
+#p-play .pp-sq-bot{background:#fff!important;border-color:#E5CDAA!important}
+#p-play .pp-sq-txt{
+  color:var(--ink)!important;font-family:'Nunito Sans',Arial,sans-serif!important;
+  font-size:clamp(14px,4.2vw,18px)!important;font-weight:900!important;
+}
+#p-play .pp-sq.sel{
+  border-color:var(--red)!important;
+  box-shadow:0 0 0 3px rgba(183,53,46,.18),0 4px 0 rgba(83,51,22,.08)!important;
+}
+#p-play .pp-status.waiting{color:var(--ink2)!important}
+
+/* ---------------- PLAYER WAIT / RESULT / FINAL ---------------- */
+#p-wait,#p-answered,#p-final{color:var(--ink)!important}
+#p-wait .pw-h{color:var(--ink)!important}
+#p-wait .pw-name{color:var(--ink)!important;background:#fff!important;border-color:var(--brd)!important}
+#p-wait .pw-hint,#p-answered .pa-total,#p-answered .pa-wait,#p-final .pf-sub{color:var(--ink2)!important}
+#p-answered .pa-verd{color:var(--ink)!important}
+#p-final .pf-h{color:var(--red)!important}
+
+/* ---------------- MOBILE / TABLET SAFETY ---------------- */
+@media(max-width:700px){
+  #p-host-q .mock-stage{grid-template-columns:1fr!important;padding:10px!important}
+  #p-host-q .mock-timer-panel{display:none!important}
+  #p-host-q .mock-question{padding:12px 8px!important}
+  #p-host-q .mock-cards{grid-template-columns:1fr!important}
+  #p-host-q .mock-card{aspect-ratio:auto!important;height:94px!important;max-height:none!important;grid-template-columns:38% 62%!important;grid-template-rows:1fr!important}
+  #p-host-q .mock-card-img{grid-column:1!important;grid-row:1!important}
+  #p-host-q .mock-card-text{grid-column:2!important;grid-row:1!important}
+  #p-play .v15-mobile-head{height:70px!important;min-height:70px!important}
+}
+@media(max-width:390px){
+  #p-play .v15-mobile-head{height:64px!important;min-height:64px!important}
+  #p-play .pp-timer{width:52px!important;height:52px!important;min-width:52px!important}
+  #p-play .pp-timer span{font-size:22px!important}
+  #p-play .v15-mobile-question{min-height:96px!important;padding:10px 12px 7px!important}
+  #p-play .pp-mot{font-size:34px!important}
+  #p-play .pp-sq-txt{font-size:13px!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -8427,9 +8747,14 @@ img,canvas{max-width:100%}
   <div class="jl-rule"></div>
   <div id="fq-connection-player" class="fq-connection unknown"><span class="fq-connection-dot"></span><span class="fq-connection-text">Connexion…</span></div>
   <div class="jl-form">
+    <div id="join-code-wrap" class="jl-code-wrap">
+      <label class="jl-code-label" for="game-code-inp">CODE DE LA PARTIE</label>
+      <input class="jl-input jl-code-input" id="game-code-inp" type="text" placeholder="Ex. KI8" maxlength="3" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="characters">
+    </div>
     <input class="jl-input" id="name-inp" type="text" placeholder="Ton prénom…" maxlength="14" autocomplete="given-name" autocorrect="off" autocapitalize="words" onkeydown="if(event.key==='Enter'){event.preventDefault();joinGame()}">
     <button class="jl-btn" onclick="joinGame()">Rejoindre</button>
   </div>
+  <button class="jl-host-link" type="button" onclick="location.href=location.pathname+'?host=1'">Je suis l’animateur</button>
 </div>
 
 <div id="p-wait" class="page">
@@ -8701,22 +9026,29 @@ var adminPrev='p-host-q';
 window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
-  var g=p.get('g'),m=p.get('m');
+  var g=p.get('g'),m=p.get('m'),host=p.get('host')==='1';
   if(g&&m==='play'){
-    GID=g;
+    GID=g.toUpperCase();
+    var gc=$('game-code-inp');
+    if(gc){gc.value=GID.indexOf('FQ')===0?GID.slice(2):GID;gc.style.display='none';}
+    var gw=document.getElementById('join-code-wrap');
+    if(gw)gw.style.display='none';
     go('p-join');
     setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
-  }else{
-    // Mode animateur : créer la partie dès l'ouverture de l'écran d'accueil.
-    if(!GID){
-      GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
-    }
+  }else if(host || !window.matchMedia || !window.matchMedia('(max-width:700px)').matches){
+    // Ordinateur/tablette : mode animateur par défaut.
+    if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
     var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
-    var qru=$('qr-url');
-    if(qru)qru.textContent=purl;
+    var qru=$('qr-url'); if(qru)qru.textContent=purl;
     if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
     if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
     go('p-accueil');
+  }else{
+    // Téléphone sans QR : demander simplement le code de la partie.
+    GID=null;
+    var gw=document.getElementById('join-code-wrap');if(gw)gw.style.display='flex';
+    go('p-join');
+    setTimeout(function(){try{$('game-code-inp').focus();}catch(e){}},300);
   }
 });
 window.addEventListener('keydown',function(e){
@@ -9103,6 +9435,11 @@ function loadStyleControls(){try{var s=localStorage.getItem('fq_style');if(!s)re
 /* JOUEUR */
 function joinGame(){
   var inp=$('name-inp'),n=inp.value.trim();
+  if(!GID){
+    var ci=$('game-code-inp'),code=ci?ci.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''):'';
+    if(code.length<3){toast('Entre le code de la partie');if(ci)ci.focus();return;}
+    GID=code.indexOf('FQ')===0?code:('FQ'+code);
+  }
   if(!n){toast('Entre ton prenom!');inp.focus();return;}
   PID='p'+Math.random().toString(36).slice(2,10);
   try{sessionStorage.setItem('fq_player',JSON.stringify({g:GID,pid:PID,name:n}));}catch(e){}
