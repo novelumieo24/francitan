@@ -8607,6 +8607,12 @@ html,body{
 }
 </style>
 
+
+<style id="sync-fix-css">
+/* Synchronisation joueur/animateur : l'écran d'attente est toujours prioritaire avant le lancement. */
+#p-wait .pw-hint{max-width:320px;text-align:center;line-height:1.45}
+#p-wait .pw-orb{pointer-events:none}
+</style>
 </head>
 <body>
 
@@ -9109,6 +9115,7 @@ function roundLabel(qi){
 
 /* STATE */
 var GID=null,PID=null;
+var APP_MODE='unknown';
 var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0;
 var hElimOrder=null,hElimIdx=0;
 var ELIM_ON=true,SHOW_RANK=true,SHOW_IMAGES=true,SOUND_ON=true,ADV_LOCK=false;
@@ -9122,7 +9129,10 @@ window.addEventListener('DOMContentLoaded',function(){
   var g=p.get('g'),m=p.get('m'),host=p.get('host')==='1';
   var ua=navigator.userAgent||navigator.vendor||window.opera||'';
   var isPhone=/Android|iPhone|iPad|iPod|IEMobile|Mobile/i.test(ua);
+  // Règle stricte : un joueur n'entre jamais dans le mode animateur par défaut.
+  // Le mode animateur n'est accessible que par ?host=1 ou depuis le bouton dédié.
   if(g&&m==='play'){
+    APP_MODE='player';
     GID=g.toUpperCase();
     var gc=$('game-code-inp');
     if(gc){gc.value=GID.indexOf('FQ')===0?GID.slice(2):GID;gc.style.display='none';}
@@ -9131,21 +9141,25 @@ window.addEventListener('DOMContentLoaded',function(){
     go('p-join');
     setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
   }else if(host){
-    if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+    APP_MODE='host';
+    try{sessionStorage.removeItem('fq_player');}catch(e){}
+    GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
     var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
     var qru=$('qr-url'); if(qru)qru.textContent=purl;
     if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
     if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
     go('p-accueil');
   }else if(isPhone){
-    // Sur téléphone, l'adresse courte ouvre toujours le parcours joueur.
+    APP_MODE='player';
     GID=null;
+    try{sessionStorage.removeItem('fq_player');}catch(e){}
     var gw=document.getElementById('join-code-wrap');if(gw)gw.style.display='flex';
     go('p-join');
     setTimeout(function(){try{$('game-code-inp').focus();}catch(e){}},300);
   }else{
-    // Ordinateur : mode animateur par défaut.
-    if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+    APP_MODE='host';
+    try{sessionStorage.removeItem('fq_player');}catch(e){}
+    GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
     var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
     var qru=$('qr-url'); if(qru)qru.textContent=purl;
     if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
@@ -9159,6 +9173,7 @@ window.addEventListener('keydown',function(e){
 });
 
 function advance(){
+  if(APP_MODE!=='host')return;
   if(ADV_LOCK)return;ADV_LOCK=true;setTimeout(function(){ADV_LOCK=false;},350);
   var id=document.querySelector('.page.show').id;
   if(id==='p-lobby'){hostStart();return;}
@@ -9181,6 +9196,7 @@ function goBack(){
 
 /* HOST */
 function enterHost(){
+  APP_MODE='host';
   loadGameSettings();
   if(!GID)GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
   var ey=localStorage.getItem('fq_eyebrow');if(ey&&$('acc-eyebrow'))$('acc-eyebrow').textContent=ey;
@@ -9194,8 +9210,11 @@ function enterHost(){
   go('p-accueil');
 }
 function goToLobby(){
+  if(APP_MODE!=='host')return;
   go('p-lobby');
   hP={};$('chips').innerHTML='';updateLobbyUI();
+  // Etat neutre : les joueurs restent en attente tant que l'animateur n'a pas lancé.
+  dbSet('games/'+GID+'/state',{status:'lobby',ts:Date.now()});
   dbOff('games/'+GID+'/players');
   dbOn('games/'+GID+'/players',function(val){
     hP={};
@@ -9214,6 +9233,7 @@ function updateLobbyUI(){
 }
 
 function hostStart(){
+  if(APP_MODE!=='host'){return;}
   ADV_LOCK=false;
   soundLaunch();hCQ=0;hA={};hElimOrder=null;hElimIdx=0;
   hPrepareQ();
@@ -9536,6 +9556,7 @@ function loadStyleControls(){try{var s=localStorage.getItem('fq_style');if(!s)re
 
 /* JOUEUR */
 function joinGame(){
+  APP_MODE='player';
   var inp=$('name-inp'),n=inp.value.trim();
   if(!GID){
     var ci=$('game-code-inp'),code=ci?ci.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''):'';
@@ -9550,7 +9571,14 @@ function joinGame(){
   $('pw-name').textContent=n;go('p-wait');
   dbOn('games/'+GID+'/state',function(s){
     if(!s)return;
-    if(s.status==='question'&&s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;clearInterval(pTI);pShowQ(s);}
+    // L'animateur prépare d'abord la question. Le téléphone reste sur l'écran d'attente.
+    // La question n'apparaît sur le téléphone qu'au passage explicite à 'running'.
+    if(s.status==='lobby'||s.status==='question'){
+      clearInterval(pTI);
+      pCurrentState=s;
+      if($('pw-hint'))$('pw-hint').textContent=s.status==='question'?'La question arrive… L’animateur va lancer le chrono.':'L’animateur va lancer la partie…';
+      go('p-wait');
+    }
     if(s.status==='running'){if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;pShowQ(s);}else{pCurrentState=s;}pStartTimerSync(s.launchTs,s.duration||TSEC);}
     if(s.status==='eliminating'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
     if(s.status==='eliminated'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pReveal(s.correct,s.eliminated||[]);}
