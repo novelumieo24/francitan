@@ -8613,6 +8613,316 @@ html,body{
 #p-wait .pw-hint{max-width:320px;text-align:center;line-height:1.45}
 #p-wait .pw-orb{pointer-events:none}
 </style>
+
+<style id="v31-sync-ux">
+/* ============================================================
+   V31 — SYNCHRO + UX
+   ============================================================ */
+
+/* Téléphone : une mauvaise réponse éliminée devient simplement grisée.
+   Aucun gros tampon "ÉLIMINÉE", aucun effet agressif. */
+#pp-grid .pp-sq.elim-now{
+  opacity:.38!important;
+  filter:grayscale(1)!important;
+  transform:none!important;
+  border-color:#CFC6B8!important;
+  box-shadow:0 2px 0 rgba(70,40,20,.04)!important;
+}
+#pp-grid .pp-sq.elim-now:after{
+  content:none!important;
+}
+#p-play .pp-status.eliminating{
+  background:#F0E8DC!important;
+  color:#806B58!important;
+}
+
+/* Écran animateur des résultats : vrai écran de jeu, images grandes,
+   réponses lisibles et classement immédiatement compréhensible. */
+#p-host-res{
+  background:#FFF8E8!important;
+  overflow:hidden!important;
+}
+#p-host-res .res-topbar{
+  height:68px!important;
+  min-height:68px!important;
+  background:#fff!important;
+  border-bottom:3px solid #E5CDAA!important;
+  padding:0 22px!important;
+}
+#p-host-res .res-correct{
+  color:#3E8050!important;
+  font-size:clamp(13px,1.35vw,20px)!important;
+  font-weight:1000!important;
+}
+#p-host-res .res-qinfo{
+  font-weight:900!important;
+  color:#987653!important;
+}
+#p-host-res .res-main{
+  height:calc(100vh - 68px)!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,64%) minmax(300px,36%)!important;
+  background:#FFF8E8!important;
+}
+#p-host-res .res-answer{
+  background:#B7352E!important;
+  padding:18px 20px 20px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+#p-host-res .res-answer-title{
+  color:#fff!important;
+  font-size:clamp(14px,1.3vw,19px)!important;
+  letter-spacing:1.5px!important;
+  text-align:left!important;
+  margin:0 0 7px!important;
+}
+#p-host-res .res-good{
+  align-self:center!important;
+  background:#fff!important;
+  color:#3E8050!important;
+  border:3px solid #3E8050!important;
+  border-radius:999px!important;
+  padding:7px 20px!important;
+  margin:0 0 14px!important;
+  font-size:clamp(14px,1.2vw,18px)!important;
+  box-shadow:0 4px 0 rgba(40,80,50,.18)!important;
+}
+#p-host-res .res-mini-cards{
+  width:100%!important;
+  flex:1!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:14px!important;
+  padding:0!important;
+  align-items:stretch!important;
+}
+#p-host-res .res-mini-cards .hr-band{
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  background:#FFFDF7!important;
+  border:3px solid rgba(255,255,255,.95)!important;
+  border-radius:16px!important;
+  overflow:hidden!important;
+  box-shadow:0 7px 0 rgba(70,40,20,.12)!important;
+  opacity:1!important;
+}
+#p-host-res .res-mini-cards .hr-band.ok{
+  border-color:#55A56B!important;
+  box-shadow:0 0 0 4px rgba(85,165,107,.28),0 8px 0 rgba(50,90,55,.15)!important;
+}
+#p-host-res .res-mini-cards .hr-band.ko{
+  opacity:.72!important;
+}
+#p-host-res .res-mini-cards .hr-band-ltr{
+  position:absolute!important;
+  z-index:4!important;
+  width:48px!important;
+  height:48px!important;
+  border-radius:0 0 14px 0!important;
+  font-size:25px!important;
+}
+#p-host-res .res-mini-cards .hr-band-img{
+  width:100%!important;
+  height:clamp(150px,25vh,245px)!important;
+  min-height:150px!important;
+  flex:0 0 auto!important;
+}
+#p-host-res .res-mini-cards .hr-band-img img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+#p-host-res .res-mini-cards .hr-band-body{
+  flex:1!important;
+  min-width:0!important;
+  padding:12px 13px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  text-align:center!important;
+}
+#p-host-res .res-mini-cards .hr-band-txt{
+  overflow:visible!important;
+  text-overflow:clip!important;
+  white-space:normal!important;
+  font-family:'Fraunces',Georgia,serif!important;
+  font-size:clamp(15px,1.55vw,23px)!important;
+  line-height:1.05!important;
+  font-weight:900!important;
+  color:#28170E!important;
+}
+#p-host-res .res-mini-cards .hr-band.ok .hr-band-txt{
+  color:#3E8050!important;
+}
+#p-host-res .res-mini-cards .hr-band-tag{
+  border-radius:999px!important;
+  padding:4px 11px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+}
+#p-host-res .res-mini-cards .hr-band-barwrap{
+  width:100%!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+#p-host-res .res-mini-cards .hr-band-bar{
+  height:7px!important;
+  flex:1!important;
+  background:#EDE2D1!important;
+}
+#p-host-res .res-mini-cards .hr-band-n{
+  min-width:auto!important;
+  font-size:11px!important;
+  white-space:nowrap!important;
+  color:#806B58!important;
+}
+
+/* Classement : liste claire, pas un grand rectangle vide. */
+#p-host-res .res-ranking{
+  background:#FFF8E8!important;
+  padding:18px 18px 18px 12px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+#p-host-res .res-ranking-title{
+  flex:0 0 auto!important;
+  background:#B7352E!important;
+  color:#fff!important;
+  border-radius:15px 15px 0 0!important;
+  padding:13px 17px!important;
+  font-size:clamp(16px,1.5vw,22px)!important;
+  letter-spacing:2px!important;
+}
+#p-host-res .res-pod-wide{
+  flex:1!important;
+  min-height:0!important;
+  background:#fff!important;
+  border:2px solid #E5CDAA!important;
+  border-top:0!important;
+  border-radius:0 0 15px 15px!important;
+  padding:12px!important;
+  overflow:auto!important;
+}
+#p-host-res .ref-result-rank-row{
+  min-height:54px!important;
+  display:grid!important;
+  grid-template-columns:42px 1fr auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  border-bottom:1px solid #EFE3D2!important;
+  padding:5px 3px!important;
+  color:#28170E!important;
+}
+#p-host-res .ref-result-rank-row:last-child{border-bottom:0!important}
+#p-host-res .ref-result-rank-row .rr-pos{
+  width:34px!important;height:34px!important;border-radius:50%!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:#FFF0C8!important;color:#8E560D!important;font-weight:1000!important;
+}
+#p-host-res .ref-result-rank-row strong{
+  min-width:0!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  font-size:clamp(13px,1.1vw,17px)!important;
+}
+#p-host-res .ref-result-rank-row b{
+  overflow:visible!important;text-overflow:clip!important;
+  font-size:clamp(12px,1vw,15px)!important;color:#806B58!important;
+}
+
+/* Le bouton de révélation reste bien visible. */
+#p-reveal .reveal-next-btn{
+  z-index:20!important;
+}
+
+/* Joueur : aucune commande d'animateur ne doit apparaître. */
+#p-join .jl-host-link,
+#p-join [onclick*="enterHost"],
+#p-join [onclick*="host"]{
+  display:none!important;
+}
+
+/* Écran d'attente joueur plus explicite. */
+#p-wait{
+  gap:10px!important;
+  padding:30px 20px!important;
+  text-align:center!important;
+}
+#p-wait .pw-orb{
+  width:92px!important;height:92px!important;
+  background:#FFF0C8!important;
+  border:3px solid #E5CDAA!important;
+  box-shadow:0 7px 0 rgba(70,40,20,.08)!important;
+}
+#p-wait .pw-h{
+  color:#28170E!important;
+  font-size:30px!important;
+}
+#p-wait .pw-name{
+  color:#B7352E!important;
+  font-size:20px!important;
+}
+#p-wait .pw-hint{
+  max-width:320px!important;
+  color:#806B58!important;
+  line-height:1.35!important;
+}
+
+/* Résultat joueur : simple et fluide. */
+#p-answered{
+  padding:30px 20px!important;
+}
+#p-answered .pa-wait{
+  color:#806B58!important;
+}
+
+/* Responsive animateur */
+@media(max-width:900px){
+  #p-host-res{
+    overflow:auto!important;
+  }
+  #p-host-res .res-main{
+    height:auto!important;
+    min-height:calc(100vh - 68px)!important;
+    grid-template-columns:1fr!important;
+    overflow:visible!important;
+  }
+  #p-host-res .res-answer{
+    min-height:560px!important;
+  }
+  #p-host-res .res-mini-cards{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  #p-host-res .res-ranking{
+    min-height:360px!important;
+    padding:14px!important;
+  }
+}
+@media(max-width:600px){
+  #p-host-res .res-mini-cards{
+    grid-template-columns:1fr!important;
+  }
+  #p-host-res .res-answer{
+    min-height:0!important;
+  }
+  #p-host-res .res-mini-cards .hr-band{
+    min-height:210px!important;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -8848,12 +9158,11 @@ html,body{
   <div class="jl-form">
     <div id="join-code-wrap" class="jl-code-wrap">
       <label class="jl-code-label" for="game-code-inp">CODE DE LA PARTIE</label>
-      <input class="jl-input jl-code-input" id="game-code-inp" type="text" placeholder="Ex. KI8" maxlength="3" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="characters">
+      <input class="jl-input jl-code-input" id="game-code-inp" type="text" placeholder="Ex. KI8" maxlength="3" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="characters" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3)" onkeydown="if(event.key==='Enter'){event.preventDefault();$('name-inp').focus();}">
     </div>
     <input class="jl-input" id="name-inp" type="text" placeholder="Ton prénom…" maxlength="14" autocomplete="given-name" autocorrect="off" autocapitalize="words" onkeydown="if(event.key==='Enter'){event.preventDefault();joinGame()}">
     <button class="jl-btn" onclick="joinGame()">Rejoindre</button>
   </div>
-  <button class="jl-host-link" type="button" onclick="location.href=location.pathname+'?host=1'">Je suis l’animateur</button>
 </div>
 
 <div id="p-wait" class="page">
@@ -9126,47 +9435,68 @@ var adminPrev='p-host-q';
 window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadGameSettings();
   var p=new URLSearchParams(location.search);
-  var g=p.get('g'),m=p.get('m'),host=p.get('host')==='1';
+  var g=p.get('g') || p.get('code') || '';
+  /* Accepte aussi les liens de partage du type ?game=ABC. */
+  if(!g)g=p.get('game') || '';
+  var m=p.get('m') || '';
+  var host=p.get('host')==='1';
   var ua=navigator.userAgent||navigator.vendor||window.opera||'';
   var isPhone=/Android|iPhone|iPad|iPod|IEMobile|Mobile/i.test(ua);
-  // Règle stricte : un joueur n'entre jamais dans le mode animateur par défaut.
-  // Le mode animateur n'est accessible que par ?host=1 ou depuis le bouton dédié.
-  if(g&&m==='play'){
+
+  // IMPORTANT : une URL de joueur est reconnue avec ?g=XXX, avec ou sans ?m=play.
+  // Le préfixe FQ est facultatif : le code affiché au public ne contient que les 3 caractères.
+  if(g){
     APP_MODE='player';
-    GID=g.toUpperCase();
-    var gc=$('game-code-inp');
-    if(gc){gc.value=GID.indexOf('FQ')===0?GID.slice(2):GID;gc.style.display='none';}
-    var gw=document.getElementById('join-code-wrap');
-    if(gw)gw.style.display='none';
-    go('p-join');
-    setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
-  }else if(host){
+    GID=normalizeGameCode(g);
+    if(GID){
+      var gc=$('game-code-inp');
+      if(gc){
+        gc.value=GID.slice(2);
+        gc.style.display='none';
+      }
+      var gw=document.getElementById('join-code-wrap');
+      if(gw)gw.style.display='none';
+      go('p-join');
+      setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
+      return;
+    }
+  }
+
+  // Le mode animateur est EXPLICITE et ne peut jamais être déclenché depuis le bouton joueur.
+  if(host){
     APP_MODE='host';
     try{sessionStorage.removeItem('fq_player');}catch(e){}
     GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
-    var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
-    var qru=$('qr-url'); if(qru)qru.textContent=purl;
-    if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
-    if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
-    go('p-accueil');
-  }else if(isPhone){
+    enterHost();
+    return;
+  }
+
+  // Sur téléphone : toujours le parcours joueur avec saisie du code.
+  if(isPhone){
     APP_MODE='player';
     GID=null;
     try{sessionStorage.removeItem('fq_player');}catch(e){}
     var gw=document.getElementById('join-code-wrap');if(gw)gw.style.display='flex';
+    var gc=$('game-code-inp');if(gc){gc.style.display='';gc.value='';}
     go('p-join');
     setTimeout(function(){try{$('game-code-inp').focus();}catch(e){}},300);
-  }else{
-    APP_MODE='host';
-    try{sessionStorage.removeItem('fq_player');}catch(e){}
-    GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
-    var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
-    var qru=$('qr-url'); if(qru)qru.textContent=purl;
-    if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
-    if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
-    go('p-accueil');
+    return;
   }
+
+  // Sur ordinateur/tablette non mobile : parcours animateur.
+  APP_MODE='host';
+  try{sessionStorage.removeItem('fq_player');}catch(e){}
+  GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+  enterHost();
 });
+
+function normalizeGameCode(raw){
+  var code=String(raw||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(code.indexOf('FQ')===0)code=code.slice(2);
+  if(code.length<3)return null;
+  return 'FQ'+code.slice(0,3);
+}
+
 window.addEventListener('keydown',function(e){
   if([' ','ArrowRight','ArrowDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
   if(['ArrowLeft','ArrowUp'].indexOf(e.key)>=0){e.preventDefault();goBack();}
@@ -9203,7 +9533,7 @@ function enterHost(){
   var sb=localStorage.getItem('fq_sub');if(sb&&$('acc-sub'))$('acc-sub').textContent=sb;
   var fr=localStorage.getItem('fq_free');if(fr&&$('acc-free'))$('acc-free').innerHTML=fr;
   var ts=parseInt(localStorage.getItem('fq_tsec')||30);if(ts)TSEC=ts;
-  var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
+  var purl=location.href.split('?')[0]+'?code='+GID.slice(2)+'&m=play';
   if($('qr-url'))$('qr-url').textContent=purl;
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
   if($('qr-canvas'))drawQR(purl,$('qr-canvas'));
@@ -9266,7 +9596,8 @@ function hPrepareQ(){
   // L'animateur peut ainsi vérifier que tout est bien affiché sur le vidéoprojecteur.
   renderMockCards();
   hUpdatePill();
-  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,isDemo:q.isDemo===true,ts:Date.now()});
+  var qTs=Date.now();
+  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,isDemo:q.isDemo===true,ts:qTs,syncId:'Q'+hCQ+'-'+qTs});
   dbOff('games/'+GID+'/answers/'+hCQ);
   dbOn('games/'+GID+'/answers/'+hCQ,function(val){
     if(!val)return;
@@ -9289,7 +9620,18 @@ function stepLaunch(){
     setTimeout(function(){sq.classList.add('visible');},i*110);
   });
   var launchTs=Date.now();
-  dbSet('games/'+GID+'/state',{status:'running',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,isDemo:Q[hCQ].isDemo===true,ts:launchTs,launchTs:launchTs,duration:TSEC});
+  dbSet('games/'+GID+'/state',{
+    status:'running',
+    cq:hCQ,
+    w:Q[hCQ].w,
+    o:Q[hCQ].o,
+    imgs:Q[hCQ].imgs,
+    isDemo:Q[hCQ].isDemo===true,
+    ts:launchTs,
+    launchTs:launchTs,
+    duration:TSEC,
+    syncId:'Q'+hCQ+'-'+launchTs
+  });
   clearInterval(hTI);hSetArc(TSEC);
   hTI=setInterval(function(){
     hTL--;hSetArc(hTL);
@@ -9453,7 +9795,7 @@ function hShowRank(){
 function hostNext(){
   hCQ++;hA={};
   if(hCQ>=Q.length){hShowFinal();}
-  else{dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,ts:Date.now()});hPrepareQ();}
+  else{hPrepareQ();}
 }
 function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
@@ -9555,37 +9897,179 @@ function loadStyle(){try{var s=localStorage.getItem('fq_style');if(!s)return;var
 function loadStyleControls(){try{var s=localStorage.getItem('fq_style');if(!s)return;var d=JSON.parse(s);var root=document.documentElement;var lblMap={'--sz-mot-hq':'lbl-sz-mot-hq','--sz-rep-hq':'lbl-sz-rep-hq','--sz-mot-mob':'lbl-sz-mot-mob','--sz-rep-mob':'lbl-sz-rep-mob'};Object.keys(lblMap).forEach(function(v){var lbl=$(lblMap[v]);if(lbl&&d[v])lbl.textContent=d[v];});var clrMap={'--ocre':'clr-ocre','--cream':'clr-cream','--ink':'clr-ink'};Object.keys(clrMap).forEach(function(v){var el=$(clrMap[v]);if(el&&d[v])el.value=d[v];});}catch(e){}}
 
 /* JOUEUR */
+/* JOUEUR — SYNCHRONISATION ROBUSTE */
+var pSyncTimer=null;
+var pLastStateTs=0;
+
+function pStopSyncWatch(){
+  if(pSyncTimer){clearInterval(pSyncTimer);pSyncTimer=null;}
+}
+
+function pHandleState(s){
+  if(!s || APP_MODE!=='player')return;
+  pCurrentState=s;
+
+  /* Une partie peut être rejointe à n'importe quel moment.
+     Le téléphone suit TOUJOURS l'état courant de Firebase. */
+  if(typeof s.ts==='number' && s.ts<pLastStateTs && s.status!=='running')return;
+  if(typeof s.ts==='number')pLastStateTs=s.ts;
+
+  if(s.status==='lobby' || s.status==='question'){
+    clearInterval(pTI);
+    pStopSyncWatch();
+    if($('pw-name'))$('pw-name').textContent=sessionStorage.getItem('fq_player_name')||'';
+    if($('pw-hint')){
+      $('pw-hint').textContent=s.status==='question'
+        ? 'La question est prête. L’animateur va lancer le chrono…'
+        : 'L’animateur prépare la partie…';
+    }
+    go('p-wait');
+    return;
+  }
+
+  if(s.status==='running'){
+    var cq=Number(s.cq);
+    if(!Number.isFinite(cq))return;
+
+    /* Important : on redessine même si cq est identique.
+       Cela répare le cas où le téléphone avait reçu "question"
+       mais pas l'événement "running". */
+    var needQuestion=(cq!==pCQ || !document.getElementById('p-play').classList.contains('show'));
+    if(needQuestion){
+      pCQ=cq;
+      pSel=null;
+      pResultQ=-1;
+      pShowQ(s);
+    }else{
+      pCurrentState=s;
+    }
+    pStartTimerSync(Number(s.launchTs)||Date.now(),Number(s.duration)||TSEC);
+    return;
+  }
+
+  if(s.status==='eliminating' && Number(s.cq)===pCQ){
+    pCurrentState=s;
+    clearInterval(pTI);
+    pShowElimination(s.eliminated||[]);
+    return;
+  }
+
+  if(s.status==='eliminated' && Number(s.cq)===pCQ){
+    pCurrentState=s;
+    clearInterval(pTI);
+    pReveal(s.correct,s.eliminated||[]);
+    return;
+  }
+
+  if(s.status==='reveal' && Number(s.cq)===pCQ){
+    pCurrentState=s;
+    pShowResult(s.correct,s.scoreboard||[]);
+    return;
+  }
+
+  if(s.status==='ranking'){
+    clearInterval(pTI);
+    pCurrentState=s;
+    /* Le classement animateur reste maître de l'affichage.
+       Le joueur voit simplement un écran d'attente léger. */
+    if($('pw-hint'))$('pw-hint').textContent='Classement en cours…';
+    go('p-wait');
+    return;
+  }
+
+  if(s.status==='final'){
+    clearInterval(pTI);
+    pStopSyncWatch();
+    pFinal(s.scoreboard||[]);
+  }
+}
+
+function pStartSyncWatch(){
+  pStopSyncWatch();
+  /* Filet de sécurité : Firebase "value" est normalement instantané,
+     mais ce second canal récupère l'état courant si un événement temps réel
+     est raté par Safari / réseau mobile. */
+  pSyncTimer=setInterval(function(){
+    if(APP_MODE!=='player' || !GID || !DB)return;
+    DB.ref('games/'+GID+'/state').once('value').then(function(snap){
+      var s=snap.val();
+      if(s)pHandleState(s);
+    }).catch(function(){});
+  },1200);
+}
+
 function joinGame(){
   APP_MODE='player';
-  var inp=$('name-inp'),n=inp.value.trim();
+
+  var inp=$('name-inp'),n=inp?inp.value.trim():'';
+  var ci=$('game-code-inp');
+
   if(!GID){
-    var ci=$('game-code-inp'),code=ci?ci.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''):'';
-    if(code.length<3){toast('Entre le code de la partie');if(ci)ci.focus();return;}
-    GID=code.indexOf('FQ')===0?code:('FQ'+code);
-  }
-  if(!n){toast('Entre ton prenom!');inp.focus();return;}
-  PID='p'+Math.random().toString(36).slice(2,10);
-  try{sessionStorage.setItem('fq_player',JSON.stringify({g:GID,pid:PID,name:n}));}catch(e){}
-  dbSet('games/'+GID+'/players/'+PID,{name:n,score:0,ts:Date.now()});
-  if(DB){try{DB.ref('games/'+GID+'/players/'+PID).onDisconnect().remove();}catch(e){}}
-  $('pw-name').textContent=n;go('p-wait');
-  dbOn('games/'+GID+'/state',function(s){
-    if(!s)return;
-    // L'animateur prépare d'abord la question. Le téléphone reste sur l'écran d'attente.
-    // La question n'apparaît sur le téléphone qu'au passage explicite à 'running'.
-    if(s.status==='lobby'||s.status==='question'){
-      clearInterval(pTI);
-      pCurrentState=s;
-      if($('pw-hint'))$('pw-hint').textContent=s.status==='question'?'La question arrive… L’animateur va lancer le chrono.':'L’animateur va lancer la partie…';
-      go('p-wait');
+    var raw=ci?ci.value:'';
+    var code=normalizeGameCode(raw);
+    if(!code){
+      toast('Entre le code affiché par l’animateur');
+      if(ci)ci.focus();
+      return;
     }
-    if(s.status==='running'){if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;pShowQ(s);}else{pCurrentState=s;}pStartTimerSync(s.launchTs,s.duration||TSEC);}
-    if(s.status==='eliminating'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
-    if(s.status==='eliminated'&&s.cq===pCQ){pCurrentState=s;clearInterval(pTI);pReveal(s.correct,s.eliminated||[]);}
-    if(s.status==='reveal'&&s.cq===pCQ){pCurrentState=s;pShowResult(s.correct,s.scoreboard);}
-    if(s.status==='final'){clearInterval(pTI);pFinal(s.scoreboard);}
+    GID=code;
+  }
+
+  if(!n){
+    toast('Entre ton prénom !');
+    if(inp)inp.focus();
+    return;
+  }
+
+  if(!DB || !DB_CONNECTED){
+    toast('Connexion en cours… réessaie dans un instant');
+    return;
+  }
+
+  var target='games/'+GID;
+  DB.ref(target).once('value').then(function(snap){
+    var game=snap.val();
+
+    if(!game || !game.state){
+      GID=null;
+      if(ci){ci.style.display='';ci.value='';ci.focus();}
+      toast('Cette partie n’existe pas ou n’est pas encore prête');
+      return;
+    }
+
+    PID='p'+Math.random().toString(36).slice(2,10);
+    pCQ=-1;pSel=null;pResultQ=-1;pLastStateTs=0;
+
+    try{
+      sessionStorage.setItem('fq_player',JSON.stringify({g:GID,pid:PID,name:n}));
+      sessionStorage.setItem('fq_player_name',n);
+    }catch(e){}
+
+    return dbSet(target+'/players/'+PID,{
+      name:n,
+      score:0,
+      ts:Date.now()
+    }).then(function(){
+      try{DB.ref(target+'/players/'+PID).onDisconnect().remove();}catch(e){}
+
+      $('pw-name').textContent=n;
+      go('p-wait');
+
+      dbOff(target+'/state');
+      dbOn(target+'/state',pHandleState);
+      pStartSyncWatch();
+
+      /* Lecture immédiate : le joueur peut rejoindre une partie déjà lancée. */
+      return DB.ref(target+'/state').once('value').then(function(s){
+        if(s.val())pHandleState(s.val());
+      });
+    });
+  }).catch(function(e){
+    console.warn('Rejoindre la partie:',e);
+    toast('Impossible de rejoindre cette partie');
   });
 }
+
 function pShowQ(state){
   pCurrentState=state;
   var q=state||Q[state.cq]||{};
@@ -9672,25 +10156,23 @@ function changeAnswer(){
   go('p-play');
 }
 function pShowElimination(list){
-  // Pendant l'élimination, le téléphone garde la question ET les 3 propositions à l'écran.
+  /* Sur le téléphone : aucune animation "éliminée", aucun tampon.
+     Une réponse éliminée est simplement grisée, comme dans un vrai quiz. */
   $('pp-mot-zone').style.display='';
   $('pp-grid').style.display='grid';
-  var ps=$('pp-status');if(ps){ps.textContent='⚡ Élimination en cours… regarde les propositions';ps.className='pp-status eliminating';}
+  var ps=$('pp-status');
+  if(ps){
+    ps.textContent='Les réponses se précisent…';
+    ps.className='pp-status eliminating';
+  }
   go('p-play');
 
   var arr=Array.isArray(list)?list:[];
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){
     s.classList.add('locked');
     s.classList.remove('elim-now');
-    if(arr.indexOf(idx)>=0){
-      void s.offsetWidth;
-      s.classList.add('elim-now');
-    }
+    if(arr.indexOf(idx)>=0)s.classList.add('elim-now');
   });
-
-  var ps2=$('pp-status');
-  if(ps2){ps2.textContent='✕ Une proposition vient d’être éliminée';}
-
 }
 
 function pReveal(correctIdx,eliminated){
