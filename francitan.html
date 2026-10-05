@@ -602,7 +602,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
 .prehome-bg{position:absolute;inset:0;z-index:0}.prehome-bg img{width:100%;height:100%;object-fit:cover;display:block}.prehome-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.38));z-index:1}.prehome-content{position:relative;z-index:2;width:min(760px,90vw);padding:34px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:14px}.prehome-kicker{font-size:16px;font-weight:900;letter-spacing:4px;text-transform:uppercase}.prehome-title{font-size:clamp(48px,7vw,92px);font-weight:900;line-height:.95}.prehome-sub{font-size:20px;font-weight:800;margin-bottom:10px}
 .hq-note,.pp-note{font-size:16px;font-weight:700;color:var(--ink2);max-width:720px;text-align:center;line-height:1.25}.pp-note{font-size:13px;margin-top:6px}.host-reveal-illustration{left:0!important;top:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;box-shadow:none!important;z-index:0!important}.host-reveal-illustration:after,.pr-illustration:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,251,242,.78) 0%,rgba(255,251,242,.62) 40%,rgba(255,251,242,.28) 100%)}.host-reveal-illustration img{object-fit:cover!important}.host-reveal-answer-note,.pr-answer-note{font-size:15px;font-weight:800;color:var(--ink2);margin-top:6px}.pr-illustration{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden}.pr-illustration img{width:100%!important;height:100%!important;object-fit:cover!important;display:block}.pr-illustration:after{background:rgba(255,251,242,.48)}#p-player-reveal>*:not(.pr-illustration){position:relative;z-index:2}#p-player-reveal .pr-title{font-size:26px;font-weight:900}.prehome-page .btn-big{margin-top:8px}
 /* Mobile answer cards: text panel owns the A/B/C label. */
-body.player-mode #p-play .pp-sq-ltr{right:0!important;left:auto!important;top:0!important;width:46px!important;height:100%!important;border-radius:0 14px 14px 0!important;z-index:10!important}.
+body.player-mode #p-play .pp-sq-ltr{right:0!important;left:auto!important;top:0!important;width:46px!important;height:100%!important;border-radius:0 14px 14px 0!important;z-index:10!important;}
 body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;position:relative!important}.
 /* Make the entire card a reliable touch target. */
 body.player-mode #p-play .pp-sq{pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:rgba(245,166,35,.28)!important}
@@ -647,6 +647,88 @@ body.player-mode #p-play .pp-sq-img img{display:block!important;width:100%!impor
 body.player-mode #p-play .pp-sq{overflow:hidden!important;}
 #p-host-q .hq-brand-title{font-family:'Bricolage Grotesque',Arial,sans-serif!important;}
 #p-host-q .hq-brand-sub{font-family:'Bricolage Grotesque',Arial,sans-serif!important;font-style:normal!important;}
+
+/* ===== V17.1 — UX FINAL : sélection, arrivée douce, partage, audio ===== */
+/* Sélection : pas de gros contour noir. La réponse choisie devient clairement verte,
+   avec un petit badge ✓ et une consigne explicite. */
+body.player-mode #p-play .pp-sq.sel{
+  transform:translateY(-3px)!important;
+  border-width:4px!important;
+  border-color:var(--green)!important;
+  outline:none!important;
+  box-shadow:0 7px 0 rgba(61,139,91,.18),0 0 0 2px rgba(61,139,91,.18)!important;
+  background:#F3FBF4!important;
+  z-index:8!important;
+}
+body.player-mode #p-play .pp-sq.sel .pp-sq-bot{background:#F3FBF4!important;}
+body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{background:var(--green)!important;color:#fff!important;box-shadow:none!important;}
+body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;}
+body.player-mode #p-play .pp-sq.sel:after{
+  content:'✓ CHOISIE';
+  position:absolute;left:10px;top:10px;z-index:20;
+  background:var(--green);color:#fff;border-radius:999px;
+  padding:5px 9px;font:900 10px/1 'Bricolage Grotesque',Arial,sans-serif;
+  box-shadow:0 3px 8px rgba(61,139,91,.22);
+}
+/* Le message explique explicitement que la réponse reste modifiable. */
+body.player-mode #p-play .pp-status.waiting{
+  height:40px!important;min-height:40px!important;padding:9px 12px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:rgba(255,253,247,.94)!important;color:var(--ink)!important;
+  font-size:12px!important;font-weight:800!important;border-bottom:1px solid rgba(232,199,122,.65)!important;
+}
+body.player-mode #p-play .pp-status.waiting.has-selection{
+  background:#E8F6EC!important;color:var(--green)!important;border-bottom-color:rgba(61,139,91,.25)!important;
+}
+body.player-mode #p-play .pp-change-btn{
+  background:var(--green)!important;
+  box-shadow:0 4px 0 rgba(61,139,91,.24)!important;
+}
+/* Arrivée progressive : chaque proposition entre l'une après l'autre, sans pop brutal. */
+@keyframes answerCardSoftV17{
+  0%{opacity:0;transform:translateY(22px) scale(.985)}
+  70%{opacity:1;transform:translateY(-2px) scale(1.005)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+#p-host-q .hq-sq.visible,
+body.player-mode #p-play .pp-sq.show{
+  animation:answerCardSoftV17 .62s cubic-bezier(.22,.75,.2,1) both!important;
+}
+#p-host-q .hq-sq.visible:nth-child(1),body.player-mode #p-play .pp-sq.show:nth-child(1){animation-delay:.03s!important;}
+#p-host-q .hq-sq.visible:nth-child(2),body.player-mode #p-play .pp-sq.show:nth-child(2){animation-delay:.17s!important;}
+#p-host-q .hq-sq.visible:nth-child(3),body.player-mode #p-play .pp-sq.show:nth-child(3){animation-delay:.31s!important;}
+/* Pendant l'animation, on ne laisse pas une carte fantôme cliquer. */
+#p-host-q .hq-sq.choice-hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
+/* Partage : même bouton sur grand écran et téléphone. */
+.share-answer-btn{
+  border:0;border-radius:999px;background:var(--ink);color:#fff;cursor:pointer;
+  padding:10px 17px;font:800 12px/1 'Bricolage Grotesque',Arial,sans-serif;
+  box-shadow:0 4px 0 rgba(16,21,43,.20);margin-top:10px;
+}
+.share-answer-btn:hover{transform:translateY(-1px)}
+.share-answer-btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(16,21,43,.18)}
+#p-reveal .share-answer-btn{position:absolute!important;left:40%;right:7%;top:53.5%;z-index:4;align-self:center;}
+#p-player-reveal .share-answer-btn{position:relative;z-index:4;}
+@media(max-width:600px){
+  #p-reveal .share-answer-btn,#p-player-reveal .share-answer-btn{font-size:11px;padding:9px 14px;margin-top:5px;}
+  body.player-mode #p-play .pp-status.waiting{font-size:11px!important;}
+}
+/* Supprime la statistique inutile du reveal : les deux indicateurs utiles restent. */
+#p-reveal .host-reveal-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+/* Audio : bouton discret toujours accessible et état visible. */
+.audio-toggle{
+  border:2px solid #EAD9B8;background:rgba(255,253,247,.96);color:var(--ink);
+  border-radius:999px;padding:8px 12px;font:800 11px/1 'Bricolage Grotesque',Arial,sans-serif;
+  cursor:pointer;box-shadow:0 3px 0 rgba(104,67,28,.10);white-space:nowrap;
+}
+.audio-toggle.on{border-color:var(--green);color:var(--green);}
+.audio-toggle.off{color:var(--red);}
+
+
+#p-play .pp-header{grid-template-columns:1fr auto auto auto!important;}
+#p-play .audio-toggle{justify-self:end;padding:7px 9px;font-size:10px;}
+@media(max-width:600px){#p-play .audio-toggle{padding:6px 7px;font-size:9px;}}
+
 </style></head><body>
 
 <div id="p-select" class="page">
@@ -736,6 +818,7 @@ body.player-mode #p-play .pp-sq{overflow:hidden!important;}
       <div class="ans-pill" id="ans-pill">0 / 0</div>
       <button class="btn-back" onclick="goBack()">← Retour</button>
       <button class="btn-gear" onclick="openAdmin()">⚙️</button>
+      <button class="audio-toggle on" id="host-audio-toggle" onclick="toggleAudio(event)">🔊 Son</button>
       <button class="btn-adv" id="btn-adv" onclick="advance()">Lancer ▶</button>
     </div>
   </div>
@@ -757,10 +840,10 @@ body.player-mode #p-play .pp-sq{overflow:hidden!important;}
   <div class="host-reveal-word" id="reveal-mot">—</div>
   <div class="host-reveal-answer"><span id="reveal-letter">B</span><strong id="reveal-ans">—</strong></div>
   <div class="host-reveal-answer-note" id="reveal-answer-note"></div>
+  <button class="share-answer-btn" id="host-share-answer" type="button" onclick="shareCorrectAnswer('host')">↗ Partager la bonne réponse</button>
   <div class="host-reveal-stats">
     <div class="host-stat good"><strong id="reveal-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="host-stat bad"><strong id="reveal-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
-    <div class="host-stat total"><strong id="reveal-total">0</strong><span>joueur(s) ayant répondu</span></div>
   </div>
   <div class="host-reveal-wait">L'animateur lance la question suivante quand il est prêt.</div>
   <button class="reveal-next-btn" onclick="advance()">Question suivante →</button>
@@ -890,6 +973,7 @@ body.player-mode #p-play .pp-sq{overflow:hidden!important;}
       <div class="round-badge" id="pp-round">Manche 1</div>
     </div>
     <div class="pp-brand">Quiz Francitan</div>
+    <button class="audio-toggle on" id="player-audio-toggle" onclick="toggleAudio(event)">🔊</button>
     <div class="pp-timer" id="pp-timer" aria-label="Temps restant">
       <svg class="pp-timer-svg" width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
         <circle class="pp-t-bg" cx="32" cy="32" r="27"></circle>
@@ -955,6 +1039,7 @@ body.player-mode #p-play .pp-sq{overflow:hidden!important;}
   <div class="pr-word" id="pr-word">—</div>
   <div class="pr-answer"><small id="pr-letter">B</small><span id="pr-answer-text">—</span></div>
   <div class="pr-answer-note" id="pr-answer-note"></div>
+  <button class="share-answer-btn" id="player-share-answer" type="button" onclick="shareCorrectAnswer('player')">↗ Partager la bonne réponse</button>
   <div class="pr-stats">
     <div class="pr-stat good"><strong id="pr-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="pr-stat bad"><strong id="pr-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
@@ -1033,8 +1118,33 @@ function dbOn(path,cb){
 function dbOff(path){if(DB)DB.ref(path).off();}
 
 /* SONS */
-var ac = null, audioMaster = null;
-function getAC(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac&&ac.state==='suspended')ac.resume();if(ac&&!audioMaster){audioMaster=ac.createGain();audioMaster.gain.value=.72;audioMaster.connect(ac.destination);}}catch(e){console.warn('AudioContext:',e);}return ac;}
+var ac = null, audioMaster = null, AUDIO_UNLOCKED = false;
+function getAC(){
+  try{
+    var Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;
+    if(!ac)ac=new Ctx();
+    if(ac&&ac.state==='suspended'){var r=ac.resume();if(r&&r.catch)r.catch(function(e){console.warn('Audio resume:',e);});}
+    if(ac&&!audioMaster){audioMaster=ac.createGain();audioMaster.gain.value=.72;audioMaster.connect(ac.destination);}
+    AUDIO_UNLOCKED=!!ac&&ac.state==='running';
+  }catch(e){console.warn('AudioContext:',e);}return ac;
+}
+function unlockAudio(){
+  if(!SOUND_ON)return;
+  try{
+    var a=getAC();if(!a)return;
+    if(a.state==='suspended'){var r=a.resume();if(r&&r.then)r.then(function(){AUDIO_UNLOCKED=true;syncAudioButtons();}).catch(function(){});}else{AUDIO_UNLOCKED=true;syncAudioButtons();}
+  }catch(e){}
+}
+function syncAudioButtons(){
+  ['host-audio-toggle','player-audio-toggle'].forEach(function(id){var b=$(id);if(!b)return;b.classList.toggle('on',SOUND_ON);b.classList.toggle('off',!SOUND_ON);b.textContent=id==='host-audio-toggle'?(SOUND_ON?'🔊 Son':'🔇 Son'):(SOUND_ON?'🔊':'🔇');});
+}
+function toggleAudio(ev){if(ev){ev.preventDefault();ev.stopPropagation();}SOUND_ON=!SOUND_ON;try{localStorage.setItem('fq_sound_enabled',SOUND_ON?'1':'0');}catch(e){}if(SOUND_ON){unlockAudio();pt(740,.08,'sine',.12);}syncAudioButtons();}
+function installAudioUnlock(){
+  var once=function(){unlockAudio();};
+  ['pointerdown','touchstart','keydown'].forEach(function(evt){document.addEventListener(evt,once,{capture:true,passive:true});});
+  syncAudioButtons();
+}
+
 function pt(f,d,t,v){t=t||'sine';v=v||.2;var a=getAC();if(!a||!audioMaster)return;var o=a.createOscillator(),g=a.createGain();o.type=t;o.frequency.setValueAtTime(f,a.currentTime);g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(g);g.connect(audioMaster);o.start();o.stop(a.currentTime+d);}
 function soundLaunch(){
   if(!SOUND_ON)return;var a=getAC();if(!a)return;
@@ -1147,7 +1257,9 @@ function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTi
 function loadGameSettings(){
   try{var s=JSON.parse(localStorage.getItem('fq_game_settings')||'{}');
     TSEC=Math.max(10,Math.min(90,Number(s.timer||localStorage.getItem('fq_tsec')||30)));
-    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;SHOW_WELCOME=s.welcome===true;SHOW_PREHOME=s.prehome===true;
+    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;
+    try{var explicitSound=localStorage.getItem('fq_sound_enabled');if(explicitSound==='0')SOUND_ON=false;if(explicitSound==='1')SOUND_ON=true;}catch(e){}
+    SHOW_WELCOME=s.welcome===true;SHOW_PREHOME=s.prehome===true;
   }catch(e){}
   document.body.classList.toggle('no-images',!SHOW_IMAGES);
 }
@@ -1261,7 +1373,7 @@ function updateLobbyUI(){
 }
 
 function hostStart(){
-  soundLaunch();hCQ=0;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
+  unlockAudio();soundLaunch();hCQ=0;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   hPrepareQ();
 }
 function hPrepareQ(){
@@ -1408,14 +1520,14 @@ function revealQuestionResult(q,eliminated){
   });
   var answered=stats[0]+stats[1]+stats[2],good=stats[q.c]||0,bad=Math.max(0,answered-good);
   soundReveal();
-  go('p-reveal');
+  go('p-reveal');syncAudioButtons();
   var ri=$('reveal-img');if(ri){ri.src=(q.imgs&&q.imgs[q.c])?q.imgs[q.c]:'';ri.alt=q.o[q.c]||'';}
   $('reveal-mot').textContent=q.w||'—';
   $('reveal-letter').textContent=['A','B','C'][q.c];
   $('reveal-ans').textContent=q.o[q.c]||'—';var ran=$('reveal-answer-note');if(ran){ran.textContent=q.answerNote||'';ran.style.display=q.answerNote?'block':'none';}
   $('reveal-good').textContent=good;
   $('reveal-bad').textContent=bad;
-  $('reveal-total').textContent=answered;
+  if($('reveal-total'))$('reveal-total').textContent=answered;
   dbSet('games/'+GID+'/state',{
     status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,note:q.note||'',answerNote:q.answerNote||'',correct:q.c,
     scoreboard:sb,stats:stats,answered:answered,good:good,bad:bad,
@@ -1429,7 +1541,7 @@ function stepResults(){
   dbSet('games/'+GID+'/state',{status:'reveal',cq:hCQ,correct:q.c,scoreboard:sb,isDemo:q.isDemo===true,ts:Date.now()});
   go('p-reveal');
   $('reveal-mot').textContent=q.w||'—';$('reveal-letter').textContent=['A','B','C'][q.c];$('reveal-ans').textContent=q.o[q.c]||'—';
-  var st=[0,0,0];Object.keys(hA).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)st[Number(hA[pid].answer)]++;});var gd=st[q.c]||0,bd=st[0]+st[1]+st[2]-gd;$('reveal-good').textContent=gd;$('reveal-bad').textContent=Math.max(0,bd);$('reveal-total').textContent=gd+Math.max(0,bd);
+  var st=[0,0,0];Object.keys(hA).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)st[Number(hA[pid].answer)]++;});var gd=st[q.c]||0,bd=st[0]+st[1]+st[2]-gd;$('reveal-good').textContent=gd;$('reveal-bad').textContent=Math.max(0,bd);if($('reveal-total'))$('reveal-total').textContent=gd+Math.max(0,bd);
   var bands=$('hr-bands');bands.innerHTML='';
   var tot=Object.keys(hA).length||1;
   q.o.forEach(function(opt,i){
@@ -1579,7 +1691,7 @@ function registerPlayerPresence(){
   if(DB)fn();else FIREBASE_QUEUE.push(fn);
 }
 function joinGame(){
-  if(SOUND_ON){try{getAC();}catch(e){}}
+  if(SOUND_ON){try{unlockAudio();}catch(e){}}
   pScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
   var inp=$('name-inp'),n=inp.value.trim();
   if(!n){toast('Entre ton prénom !');inp.focus();return;}
@@ -1618,14 +1730,18 @@ function pShowQ(state){
   $('pp-mot').textContent=state.w;var ppn=$('pp-note');if(ppn){ppn.textContent=state.note||'';ppn.style.display=state.note?'block':'none';}
   $('pp-demo-banner').style.display=isDemo?'block':'none';
   $('pp-mot-zone').style.display='';
-  $('pp-status').textContent=pRunning?'':'En attente du dévoilement…';
-  $('pp-status').className=pRunning?'pp-status':'pp-status waiting';
+  $('pp-status').textContent=pRunning?(pSel!==null?'Réponse '+['A','B','C'][pSel]+' choisie — touche une autre réponse pour la modifier':'Choisis une réponse — tu pourras encore la changer'):'En attente du dévoilement…';
+  $('pp-status').className=(pRunning?'pp-status':'pp-status waiting')+(pRunning&&pSel!==null?' has-selection':'');
   var tb=$('pp-timefill');tb.style.transition='none';tb.style.width='100%';tb.style.background='var(--green)';
   var ptn=$('pp-timer-num');if(ptn)ptn.textContent=state.duration||pDuration||TSEC;
   var pfg=$('pp-fg');if(pfg){pfg.style.strokeDashoffset=0;pfg.style.stroke='var(--yellow)';}
   var pto=$('pp-timer');if(pto)pto.classList.remove('hot','done');
   var grid=$('pp-grid');grid.innerHTML='';grid.style.display='flex';
   try{var savedSel=sessionStorage.getItem('fq_last_answer');if(savedSel!==null&&pSel===null)pSel=Number(savedSel);}catch(e){}
+  if(pRunning){
+    $('pp-status').textContent=pSel!==null?'Réponse '+['A','B','C'][pSel]+' choisie — touche une autre réponse pour la modifier':'Choisis une réponse — tu pourras encore la changer';
+    $('pp-status').className='pp-status waiting'+(pSel!==null?' has-selection':'');
+  }
   var chg=$('pp-change-btn');if(chg)chg.style.display=pSel!==null&&pRunning?'inline-flex':'none';
   var revealed=Math.max(0,Math.min(3,Number(state.revealed)||0));
   var imgs=state.imgs||(q.imgs)||[];
@@ -1687,8 +1803,8 @@ function pPick(i,qi){
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID,payload);
   try{sessionStorage.setItem('fq_last_answer',String(i));}catch(e){}
   var q=pCurrentState||Q[qi]||{};
-  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' sélectionnée — tu peux encore la modifier';
-  $('pp-status').className='pp-status waiting';
+  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' choisie — touche une autre réponse pour la modifier';
+  $('pp-status').className='pp-status waiting has-selection';
   var chg=$('pp-change-btn');if(chg){chg.textContent='↩ Modifier ma réponse';chg.style.display='inline-flex';}
   /* On reste sur l'écran des propositions : le joueur peut retaper A/B/C. */
 }
@@ -1698,7 +1814,7 @@ function changeAnswer(){
   pSel=null;
   document.querySelectorAll('#pp-grid .pp-sq').forEach(function(s){s.classList.remove('sel','locked');});
   var chg=$('pp-change-btn');if(chg)chg.style.display='none';
-  var ps=$('pp-status');if(ps){ps.textContent='Choisis une réponse';ps.className='pp-status waiting';}
+  var ps=$('pp-status');if(ps){ps.textContent='Choisis une réponse — tu peux encore la changer';ps.className='pp-status waiting';}
 }
 
 function pShowElimination(list){
@@ -1710,6 +1826,31 @@ function pShowElimination(list){
   go('p-play');
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){s.classList.add('locked');s.classList.remove('elim-now','rev-ok','rev-ko');if(arr.indexOf(idx)>=0)s.classList.add('elim-now');});
 }
+async function shareCorrectAnswer(target){
+  var q=pCurrentState||Q[pCQ]||{};
+  var correct=target==='host'?Number($('reveal-letter').textContent==='A'?0:$('reveal-letter').textContent==='B'?1:2):Number((pCurrentState&&pCurrentState.correct)!==undefined?(pCurrentState.correct):0);
+  if(!Number.isFinite(correct))correct=0;
+  var answer=(q.o&&q.o[correct])||$('reveal-ans')?.textContent||$('pr-answer-text')?.textContent||'—';
+  var word=q.w||$('reveal-mot')?.textContent||$('pr-word')?.textContent||'';
+  var note=q.answerNote||pCurrentState?.answerNote||'';
+  var text='Quiz Francitan — '+word+'\nBonne réponse : '+answer+(note?'\n'+note:'');
+  var imgUrl=(q.imgs&&q.imgs[correct])||(pCurrentState&&pCurrentState.imgs&&pCurrentState.imgs[correct])||'';
+  try{
+    if(navigator.share){
+      var data={title:'Quiz Francitan',text:text};
+      if(imgUrl && navigator.canShare){
+        try{
+          var r=await fetch(imgUrl,{mode:'cors'});var blob=await r.blob();
+          if(blob&&blob.size){var ext=(blob.type&&blob.type.split('/')[1])||'jpg';var file=new File([blob],'quiz-francitan.'+ext,{type:blob.type||'image/jpeg'});if(navigator.canShare({files:[file]})){data.files=[file];}}
+        }catch(e){}
+      }
+      await navigator.share(data);return;
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(text);toast('Texte de partage copié',1800);return;}
+    toast(text,3000);
+  }catch(e){if(e&&e.name!=='AbortError')toast('Partage indisponible sur cet appareil',1800);}
+}
+
 function pShowPlayerReveal(state){
   soundReveal();
   var q=Q[pCQ]||pCurrentState||{};
@@ -1723,7 +1864,7 @@ function pShowPlayerReveal(state){
   $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';var pan=$('pr-answer-note');if(pan){pan.textContent=state.answerNote||q.answerNote||'';pan.style.display=(state.answerNote||q.answerNote)?'block':'none';}
   $('pr-good').textContent=good;
   $('pr-bad').textContent=bad;
-  go('p-player-reveal');
+  go('p-player-reveal');syncAudioButtons();
 }
 function pReveal(correctIdx,eliminated){
   // Compatibilité avec d'anciens états Firebase.
