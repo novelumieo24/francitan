@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V17 STABLE — BASE V16 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V14 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
 html[data-francitan-mode="player"] #p-select{display:none!important}
 html[data-francitan-mode="host"] #p-join,html[data-francitan-mode="host"] #p-wait,html[data-francitan-mode="host"] #p-play,html[data-francitan-mode="host"] #p-wait-reveal,html[data-francitan-mode="host"] #p-answered,html[data-francitan-mode="host"] #p-final{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -602,7 +602,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
 .prehome-bg{position:absolute;inset:0;z-index:0}.prehome-bg img{width:100%;height:100%;object-fit:cover;display:block}.prehome-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.38));z-index:1}.prehome-content{position:relative;z-index:2;width:min(760px,90vw);padding:34px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:14px}.prehome-kicker{font-size:16px;font-weight:900;letter-spacing:4px;text-transform:uppercase}.prehome-title{font-size:clamp(48px,7vw,92px);font-weight:900;line-height:.95}.prehome-sub{font-size:20px;font-weight:800;margin-bottom:10px}
 .hq-note,.pp-note{font-size:16px;font-weight:700;color:var(--ink2);max-width:720px;text-align:center;line-height:1.25}.pp-note{font-size:13px;margin-top:6px}.host-reveal-illustration{left:0!important;top:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;box-shadow:none!important;z-index:0!important}.host-reveal-illustration:after,.pr-illustration:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,251,242,.78) 0%,rgba(255,251,242,.62) 40%,rgba(255,251,242,.28) 100%)}.host-reveal-illustration img{object-fit:cover!important}.host-reveal-answer-note,.pr-answer-note{font-size:15px;font-weight:800;color:var(--ink2);margin-top:6px}.pr-illustration{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden}.pr-illustration img{width:100%!important;height:100%!important;object-fit:cover!important;display:block}.pr-illustration:after{background:rgba(255,251,242,.48)}#p-player-reveal>*:not(.pr-illustration){position:relative;z-index:2}#p-player-reveal .pr-title{font-size:26px;font-weight:900}.prehome-page .btn-big{margin-top:8px}
 /* Mobile answer cards: text panel owns the A/B/C label. */
-body.player-mode #p-play .pp-sq-ltr{right:0!important;left:auto!important;top:0!important;width:46px!important;height:100%!important;border-radius:0 14px 14px 0!important;z-index:10!important;}
+body.player-mode #p-play .pp-sq-ltr{right:0!important;left:auto!important;top:0!important;width:46px!important;height:100%!important;border-radius:0 14px 14px 0!important;z-index:10!important}.
 body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;position:relative!important}.
 /* Make the entire card a reliable touch target. */
 body.player-mode #p-play .pp-sq{pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:rgba(245,166,35,.28)!important}
@@ -640,96 +640,83 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
 #p-reveal .host-reveal-answer{ text-shadow:none!important; }
 #p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-letter,#p-player-reveal .pr-answer,#p-player-reveal .pr-stats,#p-player-reveal .pr-wait{ text-shadow:0 2px 8px rgba(255,253,247,.92),0 0 16px rgba(255,253,247,.65);}
 @media(max-width:600px){#p-player-reveal .pr-illustration:after{background:rgba(255,251,242,.08)!important;}#p-player-reveal .pr-answer{box-shadow:0 8px 0 rgba(61,139,91,.25),0 12px 24px rgba(0,0,0,.16)!important;}}
-/* ===== V17 STABLE — SAFE VISUAL GUARDRAILS ===== */
-/* Keep the reference identity: one font, same illustrated scene, same player cards with images. */
-body.player-mode #p-play .pp-sq-img{display:block!important;overflow:hidden!important;}
-body.player-mode #p-play .pp-sq-img img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;}
-body.player-mode #p-play .pp-sq{overflow:hidden!important;}
-#p-host-q .hq-brand-title{font-family:'Bricolage Grotesque',Arial,sans-serif!important;}
-#p-host-q .hq-brand-sub{font-family:'Bricolage Grotesque',Arial,sans-serif!important;font-style:normal!important;}
-
-/* ===== V17.1 — UX FINAL : sélection, arrivée douce, partage, audio ===== */
-/* Sélection : pas de gros contour noir. La réponse choisie devient clairement verte,
-   avec un petit badge ✓ et une consigne explicite. */
-body.player-mode #p-play .pp-sq.sel{
-  transform:translateY(-3px)!important;
-  border-width:4px!important;
-  border-color:var(--green)!important;
-  outline:none!important;
-  box-shadow:0 7px 0 rgba(61,139,91,.18),0 0 0 2px rgba(61,139,91,.18)!important;
-  background:#F3FBF4!important;
-  z-index:8!important;
-}
-body.player-mode #p-play .pp-sq.sel .pp-sq-bot{background:#F3FBF4!important;}
-body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{background:var(--green)!important;color:#fff!important;box-shadow:none!important;}
-body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;}
-body.player-mode #p-play .pp-sq.sel:after{
-  content:'✓ CHOISIE';
-  position:absolute;left:10px;top:10px;z-index:20;
-  background:var(--green);color:#fff;border-radius:999px;
-  padding:5px 9px;font:900 10px/1 'Bricolage Grotesque',Arial,sans-serif;
-  box-shadow:0 3px 8px rgba(61,139,91,.22);
-}
-/* Le message explique explicitement que la réponse reste modifiable. */
-body.player-mode #p-play .pp-status.waiting{
-  height:40px!important;min-height:40px!important;padding:9px 12px!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  background:rgba(255,253,247,.94)!important;color:var(--ink)!important;
-  font-size:12px!important;font-weight:800!important;border-bottom:1px solid rgba(232,199,122,.65)!important;
-}
-body.player-mode #p-play .pp-status.waiting.has-selection{
-  background:#E8F6EC!important;color:var(--green)!important;border-bottom-color:rgba(61,139,91,.25)!important;
-}
-body.player-mode #p-play .pp-change-btn{
-  background:var(--green)!important;
-  box-shadow:0 4px 0 rgba(61,139,91,.24)!important;
-}
-/* Arrivée progressive : chaque proposition entre l'une après l'autre, sans pop brutal. */
-@keyframes answerCardSoftV17{
-  0%{opacity:0;transform:translateY(22px) scale(.985)}
-  70%{opacity:1;transform:translateY(-2px) scale(1.005)}
-  100%{opacity:1;transform:translateY(0) scale(1)}
-}
-#p-host-q .hq-sq.visible,
-body.player-mode #p-play .pp-sq.show{
-  animation:answerCardSoftV17 .62s cubic-bezier(.22,.75,.2,1) both!important;
-}
-#p-host-q .hq-sq.visible:nth-child(1),body.player-mode #p-play .pp-sq.show:nth-child(1){animation-delay:.03s!important;}
-#p-host-q .hq-sq.visible:nth-child(2),body.player-mode #p-play .pp-sq.show:nth-child(2){animation-delay:.17s!important;}
-#p-host-q .hq-sq.visible:nth-child(3),body.player-mode #p-play .pp-sq.show:nth-child(3){animation-delay:.31s!important;}
-/* Pendant l'animation, on ne laisse pas une carte fantôme cliquer. */
-#p-host-q .hq-sq.choice-hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
-/* Partage : même bouton sur grand écran et téléphone. */
-.share-answer-btn{
-  border:0;border-radius:999px;background:var(--ink);color:#fff;cursor:pointer;
-  padding:10px 17px;font:800 12px/1 'Bricolage Grotesque',Arial,sans-serif;
-  box-shadow:0 4px 0 rgba(16,21,43,.20);margin-top:10px;
-}
-.share-answer-btn:hover{transform:translateY(-1px)}
-.share-answer-btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(16,21,43,.18)}
-#p-reveal .share-answer-btn{position:absolute!important;left:40%;right:7%;top:53.5%;z-index:4;align-self:center;}
-#p-player-reveal .share-answer-btn{position:relative;z-index:4;}
+</style>
+<style id="francitan-v17-final">
+/* =========================================================
+   FRANCITAN V17 — FINAL CLEAN OVERRIDES
+   One visual rule set for the validated V16 base.
+   ========================================================= */
+/* No training/demo visible to players: the live game starts at Q1. */
+body.player-mode #p-play .pp-demo-banner{display:none!important;}
+/* Player header: requested hierarchy */
+body.player-mode #p-play .pp-header{grid-template-columns:1fr auto!important;position:relative!important;height:94px!important;padding:10px 14px!important;}
+body.player-mode #p-play .pp-head-left{display:block!important;min-width:0!important;}
+body.player-mode #p-play .pp-head-left .pp-qlbl{display:block!important;text-transform:none!important;letter-spacing:0!important;font-size:21px!important;line-height:1.05!important;font-weight:900!important;color:var(--ink)!important;}
+body.player-mode #p-play .pp-head-left .pp-qlbl::first-line{font-size:inherit;}
+body.player-mode #p-play .pp-brand{display:block!important;position:absolute!important;left:50%!important;top:8px!important;transform:translateX(-50%)!important;font-size:20px!important;font-weight:900!important;color:var(--red)!important;white-space:nowrap!important;}
+body.player-mode #p-play .pp-score{display:block!important;position:absolute!important;left:50%!important;top:34px!important;transform:translateX(-50%)!important;font-size:11px!important;font-weight:800!important;color:var(--muted)!important;white-space:nowrap!important;}
+body.player-mode #p-play .pp-round{display:none!important;}
+body.player-mode #p-play .pp-timer{width:76px!important;height:76px!important;}
+body.player-mode #p-play .pp-timebar{display:none!important;}
+/* Question number is the visible label, not "Manche". */
+body.player-mode #p-play .pp-qlbl{font-size:0!important;}
+body.player-mode #p-play .pp-qlbl::after{content:attr(data-question-label);font-size:21px!important;}
+/* If JS doesn't set the data attribute, keep a readable fallback. */
+body.player-mode #p-play .pp-qlbl:not([data-question-label])::after{content:'Question';}
+/* Player answers: opaque, readable, calm selection. */
+body.player-mode #p-play .pp-sq{opacity:1!important;filter:none!important;transition:box-shadow .18s ease,border-color .18s ease,background .18s ease!important;}
+body.player-mode #p-play .pp-sq.sel{transform:none!important;outline:none!important;border-width:3px!important;border-color:var(--green)!important;background:#F1F8F3!important;box-shadow:0 5px 0 rgba(61,139,91,.16)!important;z-index:4!important;}
+body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{background:var(--green)!important;box-shadow:none!important;}
+body.player-mode #p-play .pp-sq.sel .pp-sq-bot{background:#E4F3E8!important;}
+body.player-mode #p-play .pp-sq:not(.sel){background:#E3E3E3!important;border-color:#B8B8B8!important;box-shadow:0 5px 0 rgba(0,0,0,.08)!important;}
+body.player-mode #p-play .pp-sq:not(.sel) .pp-sq-img{filter:grayscale(.12)!important;opacity:1!important;}
+body.player-mode #p-play .pp-sq:not(.sel) .pp-sq-txt{color:#252525!important;opacity:1!important;}
+body.player-mode #p-play .pp-sq:not(.sel) .pp-sq-bot{background:#E3E3E3!important;}
+body.player-mode #p-play .pp-status.waiting{height:auto!important;min-height:38px!important;padding:9px 10px!important;background:rgba(255,253,247,.96)!important;color:var(--ink)!important;border-top:2px solid var(--line)!important;}
+body.player-mode #p-play .pp-change-wrap{display:flex!important;justify-content:center!important;min-height:0!important;padding:3px 10px 8px!important;}
+body.player-mode #p-play .pp-change-btn{background:var(--ink)!important;color:#fff!important;box-shadow:0 4px 0 rgba(16,21,43,.22)!important;}
+/* Remove requested round/progress labels from live question screens. */
+#p-host-q .round-badge,#p-host-q .hq-progress,#p-play .pp-round,#p-wait-reveal .wr-round{display:none!important;}
+#p-host-q .hq-left-meta{gap:0!important;}
+#p-host-q .hq-qnum{font-size:19px!important;font-weight:900!important;}
+#p-host-q .hq-sq-img img,#p-play .pp-sq-img img{object-position:center center!important;}
+/* Host answer cards: no movement during the question, only breathing glow. */
+#p-host-q .hq-grid.fq-pace .hq-sq{animation:fqBreath 3.2s ease-in-out infinite!important;}
+#p-host-q .hq-grid.fq-pace .hq-sq:nth-child(2){animation-delay:.45s!important;}
+#p-host-q .hq-grid.fq-pace .hq-sq:nth-child(3){animation-delay:.9s!important;}
+#p-host-q .hq-grid.fq-pace-panic .hq-sq{animation:fqPanic 1.25s ease-in-out infinite!important;}
+#p-host-q .hq-grid.fq-pace-panic .hq-sq:nth-child(2){animation-delay:.15s!important;}
+#p-host-q .hq-grid.fq-pace-panic .hq-sq:nth-child(3){animation-delay:.3s!important;}
+#p-host-q .hq-grid.fq-pace-critical .hq-sq{animation:fqCritical .55s ease-in-out infinite!important;}
+#p-host-q .hq-grid.fq-pace-critical .hq-sq:nth-child(2){animation-delay:.08s!important;}
+#p-host-q .hq-grid.fq-pace-critical .hq-sq:nth-child(3){animation-delay:.16s!important;}
+#p-host-q .hq-grid.fq-pace-done .hq-sq{animation:none!important;}
+/* Player cards get the same rhythm, except the selected card. */
+body.player-mode #p-play .pp-grid.fq-pace .pp-sq:not(.sel){animation:fqBreath 3.2s ease-in-out infinite!important;}
+body.player-mode #p-play .pp-grid.fq-pace .pp-sq:nth-child(2):not(.sel){animation-delay:.45s!important;}
+body.player-mode #p-play .pp-grid.fq-pace .pp-sq:nth-child(3):not(.sel){animation-delay:.9s!important;}
+body.player-mode #p-play .pp-grid.fq-pace-panic .pp-sq:not(.sel){animation:fqPanic 1.25s ease-in-out infinite!important;}
+body.player-mode #p-play .pp-grid.fq-pace-critical .pp-sq:not(.sel){animation:fqCritical .55s ease-in-out infinite!important;}
+body.player-mode #p-play .pp-grid.fq-pace-done .pp-sq{animation:none!important;}
+@keyframes fqBreath{0%,100%{filter:brightness(1);box-shadow:0 8px 0 rgba(104,67,28,.10),0 14px 28px rgba(104,67,28,.08)}50%{filter:brightness(1.025);box-shadow:0 9px 0 rgba(104,67,28,.11),0 18px 32px rgba(104,67,28,.13)}}
+@keyframes fqPanic{0%,100%{filter:brightness(1);box-shadow:0 8px 0 rgba(104,67,28,.10),0 14px 28px rgba(104,67,28,.10)}50%{filter:brightness(1.055);box-shadow:0 10px 0 rgba(229,139,9,.18),0 18px 34px rgba(229,139,9,.24)}}
+@keyframes fqCritical{0%,100%{filter:brightness(1);box-shadow:0 8px 0 rgba(104,67,28,.10),0 14px 28px rgba(104,67,28,.10)}50%{filter:brightness(1.07);box-shadow:0 10px 0 rgba(213,31,44,.20),0 18px 34px rgba(213,31,44,.28)}}
+/* Reveal: one clear structure, no duplicate answer sentence. */
+#p-reveal .host-reveal-answer,#p-player-reveal .pr-answer{border-radius:14px!important;}
+/* Final player screen: score only, no answered-player count. */
+#p-final .pf-sub{display:none!important;}
+/* Avoid accidental motion/animation after time is over. */
+#p-host-q .timer-wrap.done,#p-play .pp-timer.done{animation:none!important;}
+/* Sound status control, if present, stays subtle. */
+.fq-sound-status{font-size:11px;font-weight:800;opacity:.72;}
 @media(max-width:600px){
-  #p-reveal .share-answer-btn,#p-player-reveal .share-answer-btn{font-size:11px;padding:9px 14px;margin-top:5px;}
-  body.player-mode #p-play .pp-status.waiting{font-size:11px!important;}
+  body.player-mode #p-play .pp-header{height:88px!important;}
+  body.player-mode #p-play .pp-brand{font-size:19px!important;}
+  body.player-mode #p-play .pp-timer{width:72px!important;height:72px!important;}
+  body.player-mode #p-play .pp-qlbl::after{font-size:19px!important;}
 }
-/* Supprime la statistique inutile du reveal : les deux indicateurs utiles restent. */
-#p-reveal .host-reveal-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
-/* Audio : bouton discret toujours accessible et état visible. */
-.audio-toggle{
-  border:2px solid #EAD9B8;background:rgba(255,253,247,.96);color:var(--ink);
-  border-radius:999px;padding:8px 12px;font:800 11px/1 'Bricolage Grotesque',Arial,sans-serif;
-  cursor:pointer;box-shadow:0 3px 0 rgba(104,67,28,.10);white-space:nowrap;
-}
-.audio-toggle.on{border-color:var(--green);color:var(--green);}
-.audio-toggle.off{color:var(--red);}
-
-
-#p-play .pp-header{grid-template-columns:1fr auto auto auto!important;}
-#p-play .audio-toggle{justify-self:end;padding:7px 9px;font-size:10px;}
-@media(max-width:600px){#p-play .audio-toggle{padding:6px 7px;font-size:9px;}}
-
-</style></head><body>
+</style>
+</head><body>
 
 <div id="p-select" class="page">
   <div class="sel-eyebrow">Rencontres occitanes de Chancelade</div>
@@ -818,7 +805,6 @@ body.player-mode #p-play .pp-sq.show{
       <div class="ans-pill" id="ans-pill">0 / 0</div>
       <button class="btn-back" onclick="goBack()">← Retour</button>
       <button class="btn-gear" onclick="openAdmin()">⚙️</button>
-      <button class="audio-toggle on" id="host-audio-toggle" onclick="toggleAudio(event)">🔊 Son</button>
       <button class="btn-adv" id="btn-adv" onclick="advance()">Lancer ▶</button>
     </div>
   </div>
@@ -840,10 +826,10 @@ body.player-mode #p-play .pp-sq.show{
   <div class="host-reveal-word" id="reveal-mot">—</div>
   <div class="host-reveal-answer"><span id="reveal-letter">B</span><strong id="reveal-ans">—</strong></div>
   <div class="host-reveal-answer-note" id="reveal-answer-note"></div>
-  <button class="share-answer-btn" id="host-share-answer" type="button" onclick="shareCorrectAnswer('host')">↗ Partager la bonne réponse</button>
   <div class="host-reveal-stats">
     <div class="host-stat good"><strong id="reveal-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="host-stat bad"><strong id="reveal-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
+    <div class="host-stat total"><strong id="reveal-total">0</strong><span>joueur(s) ayant répondu</span></div>
   </div>
   <div class="host-reveal-wait">L'animateur lance la question suivante quand il est prêt.</div>
   <button class="reveal-next-btn" onclick="advance()">Question suivante →</button>
@@ -973,7 +959,6 @@ body.player-mode #p-play .pp-sq.show{
       <div class="round-badge" id="pp-round">Manche 1</div>
     </div>
     <div class="pp-brand">Quiz Francitan</div>
-    <button class="audio-toggle on" id="player-audio-toggle" onclick="toggleAudio(event)">🔊</button>
     <div class="pp-timer" id="pp-timer" aria-label="Temps restant">
       <svg class="pp-timer-svg" width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
         <circle class="pp-t-bg" cx="32" cy="32" r="27"></circle>
@@ -1001,7 +986,7 @@ body.player-mode #p-play .pp-sq.show{
       <div class="wr-qlbl" id="wr-qlbl">Q 1 / 16</div>
       <div class="round-badge" id="wr-round">Manche 1</div>
     </div>
-    <div class="wr-brand">Quiz Francitan</div>
+    <div class="wr-brand">FRANCITAN</div>
     <div class="wr-sc" id="wr-sc">0 pt</div>
   </div>
   <div class="wr-timebar"><div class="wr-timefill" id="wr-timefill"></div></div>
@@ -1039,7 +1024,6 @@ body.player-mode #p-play .pp-sq.show{
   <div class="pr-word" id="pr-word">—</div>
   <div class="pr-answer"><small id="pr-letter">B</small><span id="pr-answer-text">—</span></div>
   <div class="pr-answer-note" id="pr-answer-note"></div>
-  <button class="share-answer-btn" id="player-share-answer" type="button" onclick="shareCorrectAnswer('player')">↗ Partager la bonne réponse</button>
   <div class="pr-stats">
     <div class="pr-stat good"><strong id="pr-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="pr-stat bad"><strong id="pr-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
@@ -1118,42 +1102,17 @@ function dbOn(path,cb){
 function dbOff(path){if(DB)DB.ref(path).off();}
 
 /* SONS */
-var ac = null, audioMaster = null, AUDIO_UNLOCKED = false;
-function getAC(){
-  try{
-    var Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;
-    if(!ac)ac=new Ctx();
-    if(ac&&ac.state==='suspended'){var r=ac.resume();if(r&&r.catch)r.catch(function(e){console.warn('Audio resume:',e);});}
-    if(ac&&!audioMaster){audioMaster=ac.createGain();audioMaster.gain.value=.72;audioMaster.connect(ac.destination);}
-    AUDIO_UNLOCKED=!!ac&&ac.state==='running';
-  }catch(e){console.warn('AudioContext:',e);}return ac;
-}
-function unlockAudio(){
-  if(!SOUND_ON)return;
-  try{
-    var a=getAC();if(!a)return;
-    if(a.state==='suspended'){var r=a.resume();if(r&&r.then)r.then(function(){AUDIO_UNLOCKED=true;syncAudioButtons();}).catch(function(){});}else{AUDIO_UNLOCKED=true;syncAudioButtons();}
-  }catch(e){}
-}
-function syncAudioButtons(){
-  ['host-audio-toggle','player-audio-toggle'].forEach(function(id){var b=$(id);if(!b)return;b.classList.toggle('on',SOUND_ON);b.classList.toggle('off',!SOUND_ON);b.textContent=id==='host-audio-toggle'?(SOUND_ON?'🔊 Son':'🔇 Son'):(SOUND_ON?'🔊':'🔇');});
-}
-function toggleAudio(ev){if(ev){ev.preventDefault();ev.stopPropagation();}SOUND_ON=!SOUND_ON;try{localStorage.setItem('fq_sound_enabled',SOUND_ON?'1':'0');}catch(e){}if(SOUND_ON){unlockAudio();pt(740,.08,'sine',.12);}syncAudioButtons();}
-function installAudioUnlock(){
-  var once=function(){unlockAudio();};
-  ['pointerdown','touchstart','keydown'].forEach(function(evt){document.addEventListener(evt,once,{capture:true,passive:true});});
-  syncAudioButtons();
-}
-
+var ac = null, audioMaster = null;
+function getAC(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac&&ac.state==='suspended')ac.resume();if(ac&&!audioMaster){audioMaster=ac.createGain();audioMaster.gain.value=.72;audioMaster.connect(ac.destination);}}catch(e){console.warn('AudioContext:',e);}return ac;}
 function pt(f,d,t,v){t=t||'sine';v=v||.2;var a=getAC();if(!a||!audioMaster)return;var o=a.createOscillator(),g=a.createGain();o.type=t;o.frequency.setValueAtTime(f,a.currentTime);g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(g);g.connect(audioMaster);o.start();o.stop(a.currentTime+d);}
 function soundLaunch(){
   if(!SOUND_ON)return;var a=getAC();if(!a)return;
-  var now=a.currentTime+0.02;[392,494,587,784].forEach(function(f,i){var o=a.createOscillator(),g=a.createGain(),st=now+i*.085; o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.13,st);g.gain.exponentialRampToValueAtTime(.001,st+.16);o.connect(g);g.connect(a.destination);o.start(st);o.stop(st+.16);});
+  var now=a.currentTime+0.02;[392,494,587,784].forEach(function(f,i){var o=a.createOscillator(),g=a.createGain(),st=now+i*.085; o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.13,st);g.gain.exponentialRampToValueAtTime(.001,st+.16);o.connect(g);g.connect(audioMaster||a.destination);o.start(st);o.stop(st+.16);});
 }
 function soundStart(){
   if(!SOUND_ON)return;var a=getAC();if(!a)return;
   try{if(a.state==='suspended')a.resume();}catch(e){}
-  var now=a.currentTime+0.02;[[520,.06,'square',.11,0],[620,.06,'square',.11,.18],[740,.06,'square',.11,.36],[1047,.22,'sine',.20,.52]].forEach(function(x){var o=a.createOscillator(),g=a.createGain();o.type=x[2];o.frequency.value=x[0];g.gain.setValueAtTime(x[3],now+x[4]);g.gain.exponentialRampToValueAtTime(.001,now+x[4]+x[1]);o.connect(g);g.connect(a.destination);o.start(now+x[4]);o.stop(now+x[4]+x[1]);});
+  var now=a.currentTime+0.02;[[520,.06,'square',.11,0],[620,.06,'square',.11,.18],[740,.06,'square',.11,.36],[1047,.22,'sine',.20,.52]].forEach(function(x){var o=a.createOscillator(),g=a.createGain();o.type=x[2];o.frequency.value=x[0];g.gain.setValueAtTime(x[3],now+x[4]);g.gain.exponentialRampToValueAtTime(.001,now+x[4]+x[1]);o.connect(g);g.connect(audioMaster||a.destination);o.start(now+x[4]);o.stop(now+x[4]+x[1]);});
 }
 function soundTick(){
   if(!SOUND_ON)return;
@@ -1196,6 +1155,15 @@ function soundPodium(){
   });
 }
 
+/* AUDIO — déverrouillage fiable après une interaction utilisateur */
+function unlockAudio(){
+  if(!SOUND_ON)return;
+  try{
+    var a=getAC();
+    if(a&&a.state==='suspended'){var r=a.resume();if(r&&r.catch)r.catch(function(){});}
+    if(a&&a.state==='running'&&audioMaster)audioMaster.gain.setValueAtTime(.72,a.currentTime);
+  }catch(e){console.warn('Audio unlock:',e);}
+}
 /* QR */
 function drawQR(url,canvas){ var s=canvas.width,ctx=canvas.getContext('2d'),img=new Image(); img.crossOrigin='anonymous'; img.onload=function(){ctx.drawImage(img,0,0,s,s);}; img.src='https://api.qrserver.com/v1/create-qr-code/?size='+s+'x'+s+'&data='+encodeURIComponent(url)+'&bgcolor=FFFBF2&color=1A1000&margin=2&ecc=M'; }
 
@@ -1257,9 +1225,7 @@ function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTi
 function loadGameSettings(){
   try{var s=JSON.parse(localStorage.getItem('fq_game_settings')||'{}');
     TSEC=Math.max(10,Math.min(90,Number(s.timer||localStorage.getItem('fq_tsec')||30)));
-    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;
-    try{var explicitSound=localStorage.getItem('fq_sound_enabled');if(explicitSound==='0')SOUND_ON=false;if(explicitSound==='1')SOUND_ON=true;}catch(e){}
-    SHOW_WELCOME=s.welcome===true;SHOW_PREHOME=s.prehome===true;
+    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;SHOW_WELCOME=s.welcome===true;SHOW_PREHOME=s.prehome===true;
   }catch(e){}
   document.body.classList.toggle('no-images',!SHOW_IMAGES);
 }
@@ -1282,6 +1248,9 @@ var adminPrev='p-host-q';
 
 /* ROUTING */
 window.addEventListener('DOMContentLoaded',function(){
+  document.addEventListener('pointerdown',unlockAudio,{passive:true});
+  document.addEventListener('touchstart',unlockAudio,{passive:true});
+  document.addEventListener('keydown',unlockAudio,{passive:true});
   loadStyle();loadCustomBackground();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
@@ -1350,7 +1319,7 @@ function enterHost(){
   var purl=location.href.split('?')[0]+'?g='+GID+'&m=play';
   $('qr-url').textContent=purl;
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
-  try{drawQR(purl,$('qr-canvas'));}catch(e){console.warn('QR indisponible',e);}
+  drawQR(purl,$('qr-canvas'));
   loadPrehomeControls(); if(SHOW_PREHOME)go('p-prehome'); else if(SHOW_WELCOME)go('p-accueil'); else goToLobby();
 }
 function goToLobby(){
@@ -1373,7 +1342,7 @@ function updateLobbyUI(){
 }
 
 function hostStart(){
-  unlockAudio();soundLaunch();hCQ=0;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
+  unlockAudio(); soundLaunch();hCQ=1;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   hPrepareQ();
 }
 function hPrepareQ(){
@@ -1383,8 +1352,8 @@ function hPrepareQ(){
   hA={};hTL=TSEC;hStep=0;hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   go('p-host-q');
   var isDemo=q.isDemo===true;
-  $('hq-qnum').textContent=isDemo?'Entraînement':'Question '+hCQ+' / '+(Q.length-1);
-  $('hq-demo-sub').style.display=isDemo?'block':'none';
+  $('hq-qnum').textContent='Question '+hCQ+' / '+(Q.length-1);
+  $('hq-demo-sub').style.display='none';
   $('hq-mot').textContent=q.w;var hqn=$('hq-note');if(hqn){hqn.textContent=q.note||'';hqn.style.display=q.note?'block':'none';}
   $('hq-mot').classList.remove('question-pop');void $('hq-mot').offsetWidth;$('hq-mot').classList.add('question-pop');
   $('hq-round').textContent=roundLabel(hCQ);
@@ -1440,6 +1409,8 @@ function stepLaunch(){
     hSetArc(hTL);
     var hw=$('p-host-q').querySelector('.timer-wrap');
     if(hw){hw.classList.toggle('panic',hTL<=10&&hTL>3);hw.classList.toggle('critical',hTL<=3&&hTL>0);}
+    var hg=$('hq-grid');
+    if(hg){hg.classList.toggle('fq-pace',hTL>10);hg.classList.toggle('fq-pace-panic',hTL<=10&&hTL>3);hg.classList.toggle('fq-pace-critical',hTL<=3&&hTL>0);hg.classList.toggle('fq-pace-done',hTL<=0);}
     if(hTL!==hLastTick){hLastTick=hTL;if(hTL>5)soundTick();else if(hTL>0)soundAlarm();}
     if(hTL<=0){clearInterval(hTI);hTI=null;soundTimeup();hStep=5;setBtnAdv('Éliminer une réponse','green');}
   }
@@ -1452,11 +1423,7 @@ function scoreCurrentQuestion(q){
     Object.keys(hA).forEach(function(pid){
       var d=hA[pid];
       if(hP[pid]&&d&&Number(d.answer)===Number(q.c)){
-        var answerTs=Number(d.ts)||hDeadline||Date.now();
-        var remaining=Math.max(0,(hDeadline||answerTs)-answerTs)/1000;
-        var base=1000;
-        var bonus=Math.max(0,Math.round((remaining/Math.max(1,TSEC))*1000));
-        hP[pid].score=(Number(hP[pid].score)||0)+base+bonus;
+        hP[pid].score=(Number(hP[pid].score)||0)+1;
         dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
       }
     });
@@ -1520,14 +1487,14 @@ function revealQuestionResult(q,eliminated){
   });
   var answered=stats[0]+stats[1]+stats[2],good=stats[q.c]||0,bad=Math.max(0,answered-good);
   soundReveal();
-  go('p-reveal');syncAudioButtons();
+  go('p-reveal');
   var ri=$('reveal-img');if(ri){ri.src=(q.imgs&&q.imgs[q.c])?q.imgs[q.c]:'';ri.alt=q.o[q.c]||'';}
   $('reveal-mot').textContent=q.w||'—';
   $('reveal-letter').textContent=['A','B','C'][q.c];
   $('reveal-ans').textContent=q.o[q.c]||'—';var ran=$('reveal-answer-note');if(ran){ran.textContent=q.answerNote||'';ran.style.display=q.answerNote?'block':'none';}
   $('reveal-good').textContent=good;
   $('reveal-bad').textContent=bad;
-  if($('reveal-total'))$('reveal-total').textContent=answered;
+  $('reveal-total').textContent=answered;
   dbSet('games/'+GID+'/state',{
     status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,note:q.note||'',answerNote:q.answerNote||'',correct:q.c,
     scoreboard:sb,stats:stats,answered:answered,good:good,bad:bad,
@@ -1541,7 +1508,7 @@ function stepResults(){
   dbSet('games/'+GID+'/state',{status:'reveal',cq:hCQ,correct:q.c,scoreboard:sb,isDemo:q.isDemo===true,ts:Date.now()});
   go('p-reveal');
   $('reveal-mot').textContent=q.w||'—';$('reveal-letter').textContent=['A','B','C'][q.c];$('reveal-ans').textContent=q.o[q.c]||'—';
-  var st=[0,0,0];Object.keys(hA).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)st[Number(hA[pid].answer)]++;});var gd=st[q.c]||0,bd=st[0]+st[1]+st[2]-gd;$('reveal-good').textContent=gd;$('reveal-bad').textContent=Math.max(0,bd);if($('reveal-total'))$('reveal-total').textContent=gd+Math.max(0,bd);
+  var st=[0,0,0];Object.keys(hA).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)st[Number(hA[pid].answer)]++;});var gd=st[q.c]||0,bd=st[0]+st[1]+st[2]-gd;$('reveal-good').textContent=gd;$('reveal-bad').textContent=Math.max(0,bd);$('reveal-total').textContent=gd+Math.max(0,bd);
   var bands=$('hr-bands');bands.innerHTML='';
   var tot=Object.keys(hA).length||1;
   q.o.forEach(function(opt,i){
@@ -1691,7 +1658,7 @@ function registerPlayerPresence(){
   if(DB)fn();else FIREBASE_QUEUE.push(fn);
 }
 function joinGame(){
-  if(SOUND_ON){try{unlockAudio();}catch(e){}}
+  unlockAudio();
   pScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
   var inp=$('name-inp'),n=inp.value.trim();
   if(!n){toast('Entre ton prénom !');inp.focus();return;}
@@ -1713,7 +1680,7 @@ function joinGame(){
       if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){}}
       pCurrentState=s;pRunning=true;pShowQ(s);
       pStartTimerSync(s.launchTs,s.duration||TSEC,s.deadline);
-      try{getAC();soundStart();}catch(e){}
+      try{unlockAudio();soundStart();}catch(e){}
     }
     if(s.status==='eliminating'&&s.cq===pCQ){pRunning=false;pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
     if(s.status==='reveal'&&s.cq===pCQ){pRunning=false;pCurrentState=s;clearInterval(pTI);pShowPlayerReveal(s);}
@@ -1724,24 +1691,20 @@ function pShowQ(state){
   pCurrentState=state;pRunning=state.status==='running';
   var q=Object.assign({},Q[state.cq]||{},state||{});go('p-play');
   var isDemo=state.isDemo===true;
-  $('pp-qlbl').textContent=isDemo?'ESSAI':'Q '+state.cq+' / '+(Q.length-1);
+  $('pp-qlbl').textContent='';$('pp-qlbl').setAttribute('data-question-label','Question '+state.cq+' / '+(Q.length-1));
   $('pp-score').textContent=pScore+' pt'+(pScore>1?'s':'');
   $('pp-round').textContent=roundLabel(state.cq);
   $('pp-mot').textContent=state.w;var ppn=$('pp-note');if(ppn){ppn.textContent=state.note||'';ppn.style.display=state.note?'block':'none';}
   $('pp-demo-banner').style.display=isDemo?'block':'none';
   $('pp-mot-zone').style.display='';
-  $('pp-status').textContent=pRunning?(pSel!==null?'Réponse '+['A','B','C'][pSel]+' choisie — touche une autre réponse pour la modifier':'Choisis une réponse — tu pourras encore la changer'):'En attente du dévoilement…';
-  $('pp-status').className=(pRunning?'pp-status':'pp-status waiting')+(pRunning&&pSel!==null?' has-selection':'');
+  $('pp-status').textContent=pRunning?'':'En attente du dévoilement…';
+  $('pp-status').className=pRunning?'pp-status':'pp-status waiting';
   var tb=$('pp-timefill');tb.style.transition='none';tb.style.width='100%';tb.style.background='var(--green)';
   var ptn=$('pp-timer-num');if(ptn)ptn.textContent=state.duration||pDuration||TSEC;
   var pfg=$('pp-fg');if(pfg){pfg.style.strokeDashoffset=0;pfg.style.stroke='var(--yellow)';}
   var pto=$('pp-timer');if(pto)pto.classList.remove('hot','done');
   var grid=$('pp-grid');grid.innerHTML='';grid.style.display='flex';
   try{var savedSel=sessionStorage.getItem('fq_last_answer');if(savedSel!==null&&pSel===null)pSel=Number(savedSel);}catch(e){}
-  if(pRunning){
-    $('pp-status').textContent=pSel!==null?'Réponse '+['A','B','C'][pSel]+' choisie — touche une autre réponse pour la modifier':'Choisis une réponse — tu pourras encore la changer';
-    $('pp-status').className='pp-status waiting'+(pSel!==null?' has-selection':'');
-  }
   var chg=$('pp-change-btn');if(chg)chg.style.display=pSel!==null&&pRunning?'inline-flex':'none';
   var revealed=Math.max(0,Math.min(3,Number(state.revealed)||0));
   var imgs=state.imgs||(q.imgs)||[];
@@ -1777,6 +1740,8 @@ function pStartTimerSync(launchTs,duration,deadline){
       ptimer.classList.toggle('critical',pTL<=3&&pTL>0);
       ptimer.classList.toggle('done',pTL<=0);
     }
+    var pg=$('pp-grid');
+    if(pg){pg.classList.toggle('fq-pace',pTL>10);pg.classList.toggle('fq-pace-panic',pTL<=10&&pTL>3);pg.classList.toggle('fq-pace-critical',pTL<=3&&pTL>0);pg.classList.toggle('fq-pace-done',pTL<=0);}
     var wtb=$('wr-timefill');if(wtb)wtb.style.width=pct+'%';
     var wfg=$('wr-fg'),wnum=$('wr-num');
     if(wfg){wfg.style.strokeDashoffset=188*(1-pTL/duration);wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)';}
@@ -1803,8 +1768,8 @@ function pPick(i,qi){
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID,payload);
   try{sessionStorage.setItem('fq_last_answer',String(i));}catch(e){}
   var q=pCurrentState||Q[qi]||{};
-  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' choisie — touche une autre réponse pour la modifier';
-  $('pp-status').className='pp-status waiting has-selection';
+  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' sélectionnée — tu peux encore la modifier';
+  $('pp-status').className='pp-status waiting';
   var chg=$('pp-change-btn');if(chg){chg.textContent='↩ Modifier ma réponse';chg.style.display='inline-flex';}
   /* On reste sur l'écran des propositions : le joueur peut retaper A/B/C. */
 }
@@ -1814,7 +1779,7 @@ function changeAnswer(){
   pSel=null;
   document.querySelectorAll('#pp-grid .pp-sq').forEach(function(s){s.classList.remove('sel','locked');});
   var chg=$('pp-change-btn');if(chg)chg.style.display='none';
-  var ps=$('pp-status');if(ps){ps.textContent='Choisis une réponse — tu peux encore la changer';ps.className='pp-status waiting';}
+  var ps=$('pp-status');if(ps){ps.textContent='Choisis une réponse';ps.className='pp-status waiting';}
 }
 
 function pShowElimination(list){
@@ -1826,31 +1791,6 @@ function pShowElimination(list){
   go('p-play');
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){s.classList.add('locked');s.classList.remove('elim-now','rev-ok','rev-ko');if(arr.indexOf(idx)>=0)s.classList.add('elim-now');});
 }
-async function shareCorrectAnswer(target){
-  var q=pCurrentState||Q[pCQ]||{};
-  var correct=target==='host'?Number($('reveal-letter').textContent==='A'?0:$('reveal-letter').textContent==='B'?1:2):Number((pCurrentState&&pCurrentState.correct)!==undefined?(pCurrentState.correct):0);
-  if(!Number.isFinite(correct))correct=0;
-  var answer=(q.o&&q.o[correct])||$('reveal-ans')?.textContent||$('pr-answer-text')?.textContent||'—';
-  var word=q.w||$('reveal-mot')?.textContent||$('pr-word')?.textContent||'';
-  var note=q.answerNote||pCurrentState?.answerNote||'';
-  var text='Quiz Francitan — '+word+'\nBonne réponse : '+answer+(note?'\n'+note:'');
-  var imgUrl=(q.imgs&&q.imgs[correct])||(pCurrentState&&pCurrentState.imgs&&pCurrentState.imgs[correct])||'';
-  try{
-    if(navigator.share){
-      var data={title:'Quiz Francitan',text:text};
-      if(imgUrl && navigator.canShare){
-        try{
-          var r=await fetch(imgUrl,{mode:'cors'});var blob=await r.blob();
-          if(blob&&blob.size){var ext=(blob.type&&blob.type.split('/')[1])||'jpg';var file=new File([blob],'quiz-francitan.'+ext,{type:blob.type||'image/jpeg'});if(navigator.canShare({files:[file]})){data.files=[file];}}
-        }catch(e){}
-      }
-      await navigator.share(data);return;
-    }
-    if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(text);toast('Texte de partage copié',1800);return;}
-    toast(text,3000);
-  }catch(e){if(e&&e.name!=='AbortError')toast('Partage indisponible sur cet appareil',1800);}
-}
-
 function pShowPlayerReveal(state){
   soundReveal();
   var q=Q[pCQ]||pCurrentState||{};
@@ -1864,7 +1804,7 @@ function pShowPlayerReveal(state){
   $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';var pan=$('pr-answer-note');if(pan){pan.textContent=state.answerNote||q.answerNote||'';pan.style.display=(state.answerNote||q.answerNote)?'block':'none';}
   $('pr-good').textContent=good;
   $('pr-bad').textContent=bad;
-  go('p-player-reveal');syncAudioButtons();
+  go('p-player-reveal');
 }
 function pReveal(correctIdx,eliminated){
   // Compatibilité avec d'anciens états Firebase.
@@ -1918,10 +1858,5 @@ function confetti(){
 }
 </script>
 
-<style>
-/* V11 mobile: letters stay in the corner without covering the photo. */
-body.player-mode #p-play .pp-sq-ltr{left:auto!important;right:0!important;top:0!important;border-radius:0 0 0 12px!important;}
-body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
-</style>
 </body>
 </html>
