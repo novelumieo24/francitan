@@ -596,6 +596,21 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
   #p-reveal{padding:22px 14px!important;gap:10px!important;}
 }
 
+
+/* V15 — final interaction / sound / reveal / prehome */
+.prehome-page{position:fixed!important;inset:0;background:var(--scene) center/cover no-repeat #111;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.prehome-bg{position:absolute;inset:0;z-index:0}.prehome-bg img{width:100%;height:100%;object-fit:cover;display:block}.prehome-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.38));z-index:1}.prehome-content{position:relative;z-index:2;width:min(760px,90vw);padding:34px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:14px}.prehome-kicker{font-size:16px;font-weight:900;letter-spacing:4px;text-transform:uppercase}.prehome-title{font-size:clamp(48px,7vw,92px);font-weight:900;line-height:.95}.prehome-sub{font-size:20px;font-weight:800;margin-bottom:10px}
+.hq-note,.pp-note{font-size:16px;font-weight:700;color:var(--ink2);max-width:720px;text-align:center;line-height:1.25}.pp-note{font-size:13px;margin-top:6px}.host-reveal-illustration{left:0!important;top:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;box-shadow:none!important;z-index:0!important}.host-reveal-illustration:after,.pr-illustration:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,251,242,.78) 0%,rgba(255,251,242,.62) 40%,rgba(255,251,242,.28) 100%)}.host-reveal-illustration img{object-fit:cover!important}.host-reveal-answer-note,.pr-answer-note{font-size:15px;font-weight:800;color:var(--ink2);margin-top:6px}.pr-illustration{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden}.pr-illustration img{width:100%!important;height:100%!important;object-fit:cover!important;display:block}.pr-illustration:after{background:rgba(255,251,242,.48)}#p-player-reveal>*:not(.pr-illustration){position:relative;z-index:2}#p-player-reveal .pr-title{font-size:26px;font-weight:900}.prehome-page .btn-big{margin-top:8px}
+/* Mobile answer cards: text panel owns the A/B/C label. */
+body.player-mode #p-play .pp-sq-ltr{right:0!important;left:auto!important;top:0!important;width:46px!important;height:100%!important;border-radius:0 14px 14px 0!important;z-index:10!important}.
+body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;position:relative!important}.
+/* Make the entire card a reliable touch target. */
+body.player-mode #p-play .pp-sq{pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:rgba(245,166,35,.28)!important}
+@keyframes timerAlarmV15{0%,100%{transform:scale(1)}45%{transform:scale(1.10)}70%{transform:scale(1.04)}}
+#p-host-q .timer-wrap.panic,body.player-mode #p-play .pp-timer.panic{animation:timerAlarmV15 .75s ease-in-out infinite!important}
+#p-host-q .timer-wrap.critical,body.player-mode #p-play .pp-timer.critical{animation:timerAlarmV15 .46s ease-in-out infinite!important}
+#p-host-q .timer-wrap.panic .t-num,body.player-mode #p-play .pp-timer.panic span,#p-host-q .timer-wrap.critical .t-num,body.player-mode #p-play .pp-timer.critical span{animation:none!important;color:var(--red)!important}
+@media(max-width:600px){.prehome-content{padding:24px 18px}.prehome-title{font-size:48px}.prehome-sub{font-size:17px}.hq-note{display:none}.pp-note{font-size:12px}.host-reveal-illustration:after{background:rgba(255,251,242,.56)}#p-reveal .host-reveal-illustration{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important}.host-reveal-illustration img{object-position:center!important}.host-reveal-answer-note{font-size:12px}.pr-answer-note{font-size:12px}}
 </style></head><body>
 
 <div id="p-select" class="page">
@@ -607,6 +622,17 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
     <div class="sel-icon">🖥️</div>
     <div class="sel-card-title">Animateur</div>
     <div class="sel-card-desc">Grand écran · piloter la partie</div>
+  </div>
+</div>
+
+<div id="p-prehome" class="page prehome-page">
+  <div class="prehome-bg"><img id="prehome-img" src="" alt=""></div>
+  <div class="prehome-overlay"></div>
+  <div class="prehome-content">
+    <div class="prehome-kicker" id="prehome-kicker">Bienvenue</div>
+    <div class="prehome-title" id="prehome-title">Quiz Francitan</div>
+    <div class="prehome-sub" id="prehome-sub">Les Rencontres occitanes</div>
+    <button class="btn-big" onclick="go('p-accueil')">Continuer →</button>
   </div>
 </div>
 
@@ -682,6 +708,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
   <div class="hq-mot-zone solo" id="hq-mot-zone">
     <div class="hq-showline"><b>Que signifie ce mot ?</b></div>
     <div class="hq-mot" id="hq-mot">—</div>
+    <div class="hq-note" id="hq-note"></div>
     <div id="hq-demo-sub" class="demo-sub" style="display:none">Cette question ne compte pas dans le score</div>
   </div>
   <div class="hq-grid" id="hq-grid"></div>
@@ -693,6 +720,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
   <div class="host-reveal-title">La bonne réponse est</div>
   <div class="host-reveal-word" id="reveal-mot">—</div>
   <div class="host-reveal-answer"><span id="reveal-letter">B</span><strong id="reveal-ans">—</strong></div>
+  <div class="host-reveal-answer-note" id="reveal-answer-note"></div>
   <div class="host-reveal-stats">
     <div class="host-stat good"><strong id="reveal-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="host-stat bad"><strong id="reveal-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
@@ -757,6 +785,11 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
         </div>
         <div class="adm-block-title" style="margin-bottom:4px">Aperçu</div>
         <div class="adm-preview" id="adm-preview"></div>
+        <div class="adm-block-title" style="margin-top:16px">Écran avant l'accueil</div>
+        <label class="settings-check"><input type="checkbox" id="adm-prehome"> Afficher une page avant l'accueil</label>
+        <div class="adm-field"><div class="adm-lbl">Titre</div><input class="adm-inp" id="adm-prehome-title" value="Quiz Francitan"></div>
+        <div class="adm-field"><div class="adm-lbl">Sous-titre</div><input class="adm-inp" id="adm-prehome-sub" value="Les Rencontres occitanes"></div>
+        <div class="adm-field"><div class="adm-lbl">Image</div><input type="file" id="adm-prehome-file" accept="image/*" onchange="applyPrehomeFile(this)" style="max-width:100%"></div>
         <button class="btn-save" onclick="saveAccueil()">💾 Enregistrer</button>
       </div>
     </div>
@@ -788,7 +821,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
         <label class="settings-check"><input type="checkbox" id="adm-elim" checked> Élimination progressive des mauvaises réponses</label>
         <label class="settings-check" style="display:none!important"><input type="checkbox" id="adm-rank" disabled> Afficher le classement après chaque question</label>
         <label class="settings-check"><input type="checkbox" id="adm-img" checked> Afficher les photos des réponses</label>
-        <label class="settings-check"><input type="checkbox" id="adm-sounds" checked> Sons et signaux de jeu</label>
+        <label class="settings-check"><input type="checkbox" id="adm-sounds" checked> Sons et signaux de jeu</label><button class="btn-back" type="button" onclick="testSounds()">🔊 Tester le son</button>
         <label class="settings-check"><input type="checkbox" id="adm-welcome"> Afficher l'écran d'accueil avant le lobby</label>
         <button class="btn-save" onclick="saveJeu()">💾 Enregistrer</button>
       </div>
@@ -836,6 +869,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
   <div class="pp-mot-zone" id="pp-mot-zone">
     <div class="pp-signifie">Que signifie ce mot</div>
     <div class="pp-mot" id="pp-mot">—</div>
+    <div class="pp-note" id="pp-note"></div>
   </div>
   <div class="pp-grid" id="pp-grid"></div>
   <div class="pp-change-wrap"><button class="pp-change-btn" id="pp-change-btn" onclick="changeAnswer()">↩ Modifier ma réponse</button></div>
@@ -884,6 +918,7 @@ body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
   <div class="pr-title">La bonne réponse est</div>
   <div class="pr-word" id="pr-word">—</div>
   <div class="pr-answer"><small id="pr-letter">B</small><span id="pr-answer-text">—</span></div>
+  <div class="pr-answer-note" id="pr-answer-note"></div>
   <div class="pr-stats">
     <div class="pr-stat good"><strong id="pr-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="pr-stat bad"><strong id="pr-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
@@ -966,30 +1001,23 @@ var ac = null;
 function getAC(){ if(!ac) try{ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){} if(ac&&ac.state==='suspended')try{ac.resume();}catch(e){} return ac; }
 function pt(f,d,t,v){ t=t||'sine';v=v||.2; var a=getAC();if(!a)return; var o=a.createOscillator(),g=a.createGain(); o.type=t;o.frequency.value=f; g.gain.setValueAtTime(v,a.currentTime); g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d); o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d); }
 function soundLaunch(){
-  if(!SOUND_ON)return;
-  // Petit jingle d'entrée : chaleureux et court.
-  [392,494,587,784].forEach(function(f,i){
-    setTimeout(function(){pt(f,.16,'sine',.13);},i*85);
-  });
+  if(!SOUND_ON)return;var a=getAC();if(!a)return;
+  var now=a.currentTime+0.02;[392,494,587,784].forEach(function(f,i){var o=a.createOscillator(),g=a.createGain(),st=now+i*.085; o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.13,st);g.gain.exponentialRampToValueAtTime(.001,st+.16);o.connect(g);g.connect(a.destination);o.start(st);o.stop(st+.16);});
 }
 function soundStart(){
-  if(!SOUND_ON)return;
-  // Départ : trois clics courts puis un "GO" plus brillant.
-  pt(520,.055,'square',.10);
-  setTimeout(function(){pt(620,.055,'square',.10);},180);
-  setTimeout(function(){pt(740,.055,'square',.10);},360);
-  setTimeout(function(){pt(1047,.20,'sine',.18);},540);
+  if(!SOUND_ON)return;var a=getAC();if(!a)return;
+  var now=a.currentTime+0.02;[[520,.06,'square',.11,0],[620,.06,'square',.11,.18],[740,.06,'square',.11,.36],[1047,.22,'sine',.20,.52]].forEach(function(x){var o=a.createOscillator(),g=a.createGain();o.type=x[2];o.frequency.value=x[0];g.gain.setValueAtTime(x[3],now+x[4]);g.gain.exponentialRampToValueAtTime(.001,now+x[4]+x[1]);o.connect(g);g.connect(a.destination);o.start(now+x[4]);o.stop(now+x[4]+x[1]);});
 }
 function soundTick(){
   if(!SOUND_ON)return;
   // Un vrai petit "tic" sec, pas une alarme.
-  pt(980,.035,'square',.075);
+  pt(880,.055,'triangle',.10);
 }
 function soundAlarm(){
   if(!SOUND_ON)return;
   // Dernières secondes : double clic plus grave et plus présent.
-  pt(760,.045,'square',.11);
-  setTimeout(function(){pt(920,.045,'square',.10);},90);
+  pt(660,.07,'triangle',.12);
+  setTimeout(function(){pt(880,.07,'triangle',.13);},110);
 }
 function soundTimeup(){
   if(!SOUND_ON)return;
@@ -1081,8 +1109,8 @@ function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTi
 
 function loadGameSettings(){
   try{var s=JSON.parse(localStorage.getItem('fq_game_settings')||'{}');
-    TSEC=30;
-    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;SHOW_WELCOME=s.welcome===true;
+    TSEC=Math.max(10,Math.min(90,Number(s.timer||localStorage.getItem('fq_tsec')||30)));
+    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;SHOW_WELCOME=s.welcome===true;SHOW_PREHOME=s.prehome===true;
   }catch(e){}
   document.body.classList.toggle('no-images',!SHOW_IMAGES);
 }
@@ -1099,7 +1127,7 @@ function roundLabel(qi){
 var GID=null,PID=null,SERVER_OFFSET=0,SERVER_OFFSET_READY=false;
 var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0,hLastTick=-1,hLaunchTs=0,hDeadline=0;
 var hElimOrder=null,hElimIdx=0,hScoredQ=-1;
-var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,SHOW_WELCOME=false,ADV_LOCK=false;
+var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,SHOW_WELCOME=false,SHOW_PREHOME=false,ADV_LOCK=false;
 var pScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false;
 var adminPrev='p-host-q';
 
@@ -1174,7 +1202,7 @@ function enterHost(){
   $('qr-url').textContent=purl;
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
   drawQR(purl,$('qr-canvas'));
-  if(SHOW_WELCOME)go('p-accueil');else goToLobby();
+  loadPrehomeControls(); if(SHOW_PREHOME)go('p-prehome'); else if(SHOW_WELCOME)go('p-accueil'); else goToLobby();
 }
 function goToLobby(){
   go('p-lobby');
@@ -1208,7 +1236,7 @@ function hPrepareQ(){
   var isDemo=q.isDemo===true;
   $('hq-qnum').textContent=isDemo?'Entraînement':'Question '+hCQ+' / '+(Q.length-1);
   $('hq-demo-sub').style.display=isDemo?'block':'none';
-  $('hq-mot').textContent=q.w;
+  $('hq-mot').textContent=q.w;var hqn=$('hq-note');if(hqn){hqn.textContent=q.note||'';hqn.style.display=q.note?'block':'none';}
   $('hq-mot').classList.remove('question-pop');void $('hq-mot').offsetWidth;$('hq-mot').classList.add('question-pop');
   $('hq-round').textContent=roundLabel(hCQ);
   var prog=$('hq-progress');if(prog){prog.innerHTML='';for(var pi=1;pi<Q.length;pi++){var dot=document.createElement('span');dot.className='hq-dot '+(pi<hCQ?'done ':'')+(pi===hCQ?'current':'');prog.appendChild(dot);}}
@@ -1223,7 +1251,7 @@ function hPrepareQ(){
     grid.appendChild(div);
   });
   hUpdatePill();
-  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,isDemo:q.isDemo===true,duration:TSEC,revealed:0,ts:Date.now()});
+  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,note:q.note||'',answerNote:q.answerNote||'',isDemo:q.isDemo===true,duration:TSEC,revealed:0,ts:Date.now()});
   dbOff('games/'+GID+'/answers/'+hCQ);
   dbOn('games/'+GID+'/answers/'+hCQ,function(val){
     hA={};
@@ -1240,7 +1268,7 @@ function hostRevealChoice(count){
   hStep=count;
   var label=count===1?'Dévoiler B':count===2?'Dévoiler C':'Démarrer le chrono';
   setBtnAdv(label,count===3?'':'');
-  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,isDemo:q.isDemo===true,duration:TSEC,revealed:count,ts:Date.now()});
+  dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,note:q.note||'',answerNote:q.answerNote||'',isDemo:q.isDemo===true,duration:TSEC,revealed:count,ts:Date.now()});
 }
 
 function stepLaunch(){
@@ -1255,7 +1283,7 @@ function stepLaunch(){
   soundStart();
   var launchTs=Date.now()+SERVER_OFFSET;
   var deadline=launchTs+(TSEC*1000);hLaunchTs=launchTs;hDeadline=deadline;
-  dbSet('games/'+GID+'/state',{status:'running',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,isDemo:Q[hCQ].isDemo===true,ts:launchTs,launchTs:launchTs,deadline:deadline,duration:TSEC,revealed:3});
+  dbSet('games/'+GID+'/state',{status:'running',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,note:Q[hCQ].note||'',answerNote:Q[hCQ].answerNote||'',isDemo:Q[hCQ].isDemo===true,ts:launchTs,launchTs:launchTs,deadline:deadline,duration:TSEC,revealed:3});
   clearInterval(hTI);
   function tickHost(){
     var now=Date.now()+SERVER_OFFSET;
@@ -1347,12 +1375,12 @@ function revealQuestionResult(q,eliminated){
   var ri=$('reveal-img');if(ri){ri.src=(q.imgs&&q.imgs[q.c])?q.imgs[q.c]:'';ri.alt=q.o[q.c]||'';}
   $('reveal-mot').textContent=q.w||'—';
   $('reveal-letter').textContent=['A','B','C'][q.c];
-  $('reveal-ans').textContent=q.o[q.c]||'—';
+  $('reveal-ans').textContent=q.o[q.c]||'—';var ran=$('reveal-answer-note');if(ran){ran.textContent=q.answerNote||'';ran.style.display=q.answerNote?'block':'none';}
   $('reveal-good').textContent=good;
   $('reveal-bad').textContent=bad;
   $('reveal-total').textContent=answered;
   dbSet('games/'+GID+'/state',{
-    status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,correct:q.c,
+    status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,note:q.note||'',answerNote:q.answerNote||'',correct:q.c,
     scoreboard:sb,stats:stats,answered:answered,good:good,bad:bad,
     eliminated:eliminated||[],isDemo:q.isDemo===true,ts:Date.now()
   });
@@ -1404,7 +1432,7 @@ function hostNext(){
   if(hCQ>=Q.length-1){hShowFinal();return;}
   hCQ++;hA={};
   if(hCQ>=Q.length){hShowFinal();}
-  else{dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,duration:TSEC,revealed:0,ts:Date.now()});hPrepareQ();}
+  else{dbSet('games/'+GID+'/state',{status:'question',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,note:Q[hCQ].note||'',answerNote:Q[hCQ].answerNote||'',duration:TSEC,revealed:0,ts:Date.now()});hPrepareQ();}
 }
 function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
@@ -1451,20 +1479,24 @@ function admTab(tab){
   if(tab==='photos')buildAdmPh();
   if(tab==='style')loadStyleControls();
 }
+function applyPrehomeFile(inp){var f=inp&&inp.files&&inp.files[0];if(!f)return;if(!f.type||f.type.indexOf('image/')!==0){toast('Choisis une image');return;}var r=new FileReader();r.onload=function(){try{localStorage.setItem('fq_prehome_img',r.result);var im=$('prehome-img');if(im)im.src=r.result;toast('Image d’accueil enregistrée',1500);}catch(e){toast('Image trop lourde pour le stockage');}};r.readAsDataURL(f);}
+function loadPrehomeControls(){var im=$('prehome-img');if(im){im.src=localStorage.getItem('fq_prehome_img')||'';}var t=$('prehome-title');if(t)t.textContent=localStorage.getItem('fq_prehome_title')||'Quiz Francitan';var su=$('prehome-sub');if(su)su.textContent=localStorage.getItem('fq_prehome_sub')||'Les Rencontres occitanes';}
 function saveAccueil(){
   var ey=$('adm-eyebrow').value.trim();var sb=$('adm-sub').value.trim();var fr=$('adm-free').value;
   if(ey){localStorage.setItem('fq_eyebrow',ey);var el=$('acc-eyebrow');if(el)el.textContent=ey;}
   if(sb){localStorage.setItem('fq_sub',sb);var el=$('acc-sub');if(el)el.textContent=sb;}
   localStorage.setItem('fq_free',fr);
+  var ph=$('adm-prehome');var pht=$('adm-prehome-title'),phs=$('adm-prehome-sub');SHOW_PREHOME=!!(ph&&ph.checked);if(pht)localStorage.setItem('fq_prehome_title',pht.value.trim()||'Quiz Francitan');if(phs)localStorage.setItem('fq_prehome_sub',phs.value.trim()||'Les Rencontres occitanes');localStorage.setItem('fq_game_settings',JSON.stringify({timer:TSEC,elim:ELIM_ON,rank:false,img:SHOW_IMAGES,sounds:SOUND_ON,welcome:SHOW_WELCOME,prehome:SHOW_PREHOME}));loadPrehomeControls();
   var fz=$('acc-free');if(fz&&fr)fz.innerHTML=fr;
   toast('Enregistre!',1800);
 }
-function saveJeu(){var ts=Math.max(10,Math.min(90,parseInt($('adm-timer').value||30)));$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=false;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;SHOW_WELCOME=$('adm-welcome')?$('adm-welcome').checked:false;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON,welcome:SHOW_WELCOME}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
+function testSounds(){SOUND_ON=true;try{getAC();soundLaunch();setTimeout(soundStart,450);setTimeout(soundReveal,1200);}catch(e){toast('Son non disponible dans ce navigateur');return;}toast('Test sonore lancé',1500);}
+function saveJeu(){var ts=Math.max(10,Math.min(90,parseInt($('adm-timer').value||30)));$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=false;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;SHOW_WELCOME=$('adm-welcome')?$('adm-welcome').checked:false;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON,welcome:SHOW_WELCOME,prehome:SHOW_PREHOME}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
 function buildAdmQ(){
   var sec=$('adm-questions');sec.innerHTML='';
   Q.forEach(function(q,qi){
     var div=document.createElement('div');div.className='adm-q';
-    div.innerHTML='<div class="adm-q-hdr" onclick="toggleAdmQ('+qi+')"><div class="adm-q-ttl">Q'+(qi===0?'<em>Essai</em>':qi)+' - '+q.w+'</div><span id="adm-chev'+qi+'">+</span></div><div class="adm-q-body" id="adm-qbody'+qi+'"><div class="adm-field"><div class="adm-lbl">Mot</div><input class="adm-inp" id="adm-w-'+qi+'" value="'+q.w+'"></div>'+q.o.map(function(opt,i){return '<div class="adm-row"><div class="adm-ltr-badge '+['a','b','c'][i]+'">'+['A','B','C'][i]+'</div><input class="adm-url" id="adm-o-'+qi+'-'+i+'" value="'+opt+'">'+(i===q.c?'<div class="adm-correct">bonne</div>':'<button style="font-size:10px;background:#fff;border:1.5px solid var(--brd);border-radius:5px;padding:2px 7px;cursor:pointer" onclick="setCorrect('+qi+','+i+')">Bonne?</button>')+'</div>';}).join('')+'<button class="btn-save-q" onclick="saveQuestion('+qi+')">Enregistrer</button></div>';
+    div.innerHTML='<div class="adm-q-hdr" onclick="toggleAdmQ('+qi+')"><div class="adm-q-ttl">Q'+(qi===0?'<em>Essai</em>':qi)+' - '+q.w+'</div><span id="adm-chev'+qi+'">+</span></div><div class="adm-q-body" id="adm-qbody'+qi+'"><div class="adm-field"><div class="adm-lbl">Mot</div><input class="adm-inp" id="adm-w-'+qi+'" value="'+q.w+'"></div><div class="adm-field"><div class="adm-lbl">Phrase sous la question</div><input class="adm-inp" id="adm-note-'+qi+'" value="'+(q.note||'')+'" placeholder="Optionnel…"></div><div class="adm-field"><div class="adm-lbl">Phrase avec la réponse</div><input class="adm-inp" id="adm-answer-note-'+qi+'" value="'+(q.answerNote||'')+'" placeholder="Optionnel…"></div>'+q.o.map(function(opt,i){return '<div class="adm-row"><div class="adm-ltr-badge '+['a','b','c'][i]+'">'+['A','B','C'][i]+'</div><input class="adm-url" id="adm-o-'+qi+'-'+i+'" value="'+opt+'">'+(i===q.c?'<div class="adm-correct">bonne</div>':'<button style="font-size:10px;background:#fff;border:1.5px solid var(--brd);border-radius:5px;padding:2px 7px;cursor:pointer" onclick="setCorrect('+qi+','+i+')">Bonne?</button>')+'</div>';}).join('')+'<button class="btn-save-q" onclick="saveQuestion('+qi+')">Enregistrer</button></div>';
     sec.appendChild(div);
   });
 }
@@ -1479,7 +1511,7 @@ function buildAdmPh(){
 function toggleAdmQ(qi){var b=$('adm-qbody'+qi),c=$('adm-chev'+qi);b.classList.toggle('open');if(c)c.textContent=b.classList.contains('open')?'-':'+';}
 function toggleAdmP(qi){var b=$('adm-pbody'+qi),c=$('adm-chev-p'+qi);b.classList.toggle('open');if(c)c.textContent=b.classList.contains('open')?'-':'+';}
 function setCorrect(qi,i){Q[qi].c=i;saveQ();buildAdmQ();toast('Bonne reponse mise a jour',1500);}
-function saveQuestion(qi){var w=$('adm-w-'+qi);if(w&&w.value.trim())Q[qi].w=w.value.trim();for(var i=0;i<3;i++){var v=$('adm-o-'+qi+'-'+i);if(v&&v.value.trim())Q[qi].o[i]=v.value.trim();}saveQ();buildAdmQ();toast('Question enregistree',1800);}
+function saveQuestion(qi){var w=$('adm-w-'+qi);if(w&&w.value.trim())Q[qi].w=w.value.trim();var nt=$('adm-note-'+qi),an=$('adm-answer-note-'+qi);Q[qi].note=nt?nt.value.trim():'';Q[qi].answerNote=an?an.value.trim():'';for(var i=0;i<3;i++){var v=$('adm-o-'+qi+'-'+i);if(v&&v.value.trim())Q[qi].o[i]=v.value.trim();}saveQ();buildAdmQ();toast('Question enregistree',1800);}
 function applyImg(qi,i){var url=$('aurl-'+qi+'-'+i);if(!url||!url.value.trim())return;Q[qi].imgs[i]=url.value.trim();saveImgs();var prev=$('aprev-'+qi+'-'+i);if(prev){var img=prev.querySelector('img');img.style.opacity='0';img.src=Q[qi].imgs[i];img.onload=function(){img.style.opacity='1';};img.onerror=function(){img.style.opacity='.25';};}toast('Photo mise a jour',1500);}
 
 function applyBackgroundFile(inp){
@@ -1509,6 +1541,7 @@ function registerPlayerPresence(){
   if(DB)fn();else FIREBASE_QUEUE.push(fn);
 }
 function joinGame(){
+  if(SOUND_ON){try{getAC();}catch(e){}}
   pScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
   var inp=$('name-inp'),n=inp.value.trim();
   if(!n){toast('Entre ton prénom !');inp.focus();return;}
@@ -1522,7 +1555,8 @@ function joinGame(){
   dbOn('games/'+GID+'/state',function(s){
     if(!s)return;
     if(s.status==='question'){
-      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};clearInterval(pTI);}
+      var sameQ=s.cq===pCQ;
+      if(!sameQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};clearInterval(pTI);}
       pRunning=false;pCurrentState=s;pShowQ(s);
     }
     if(s.status==='running'){
@@ -1537,12 +1571,12 @@ function joinGame(){
 }
 function pShowQ(state){
   pCurrentState=state;pRunning=state.status==='running';
-  var q=state||Q[state.cq]||{};go('p-play');
+  var q=Object.assign({},Q[state.cq]||{},state||{});go('p-play');
   var isDemo=state.isDemo===true;
   $('pp-qlbl').textContent=isDemo?'ESSAI':'Q '+state.cq+' / '+(Q.length-1);
   $('pp-score').textContent=pScore+' pt'+(pScore>1?'s':'');
   $('pp-round').textContent=roundLabel(state.cq);
-  $('pp-mot').textContent=state.w;
+  $('pp-mot').textContent=state.w;var ppn=$('pp-note');if(ppn){ppn.textContent=state.note||'';ppn.style.display=state.note?'block':'none';}
   $('pp-demo-banner').style.display=isDemo?'block':'none';
   $('pp-mot-zone').style.display='';
   $('pp-status').textContent=pRunning?'':'En attente du dévoilement…';
@@ -1555,14 +1589,14 @@ function pShowQ(state){
   var chg=$('pp-change-btn');if(chg)chg.style.display=pSel!==null&&pRunning?'inline-flex':'none';
   var revealed=Math.max(0,Math.min(3,Number(state.revealed)||0));
   var imgs=state.imgs||(q.imgs)||[];
+  grid.onclick=function(ev){var sq=ev.target.closest?ev.target.closest('.pp-sq'):null;if(!sq||!grid.contains(sq))return;var idx=Number(sq.dataset.i);if(Number.isFinite(idx))pPick(idx,state.cq);};
+  grid.onpointerup=function(ev){if(ev.pointerType!=='touch')return;var sq=ev.target.closest?ev.target.closest('.pp-sq'):null;if(!sq||!grid.contains(sq))return;ev.preventDefault();var idx=Number(sq.dataset.i);if(Number.isFinite(idx))pPick(idx,state.cq);};
   state.o.forEach(function(opt,i){
     if(i>=revealed)return;
     var sq=document.createElement('div');sq.className='pp-sq show'+(pRunning?'':' locked-before-start');sq.dataset.i=i;sq.id='psq'+i;
     sq.innerHTML='<div class="pp-sq-img"><img src="'+(imgs[i]||'')+'" alt="" loading="lazy" style="opacity:0;transition:opacity .4s"></div><div class="pp-sq-bot"><span class="pp-sq-txt">'+opt+'</span><div class="pp-sq-ltr">'+['A','B','C'][i]+'</div></div>';
     var img=sq.querySelector('img');img.onload=function(){img.style.opacity='1';};img.onerror=function(){img.style.opacity='.3';};
     var choose=function(ev){if(ev){ev.preventDefault();ev.stopPropagation();}pPick(i,state.cq);};
-    sq.addEventListener('click',choose);
-    sq.addEventListener('pointerup',function(ev){if(ev.pointerType==='touch')choose(ev);});
     if(pSel===i)sq.classList.add('sel');
     grid.appendChild(sq);
   });
@@ -1602,6 +1636,7 @@ function pStartTimerSync(launchTs,duration,deadline){
 }
 function pPick(i,qi){
   if(!pRunning||pTL<=0)return;
+  var live=document.querySelector('#pp-grid .pp-sq[data-i="'+i+'"]');if(!live||live.classList.contains('locked')||live.classList.contains('elim-now'))return;
   if(i<0||i>2)return;
   pSel=i;
   var cards=document.querySelectorAll('#pp-grid .pp-sq');
@@ -1634,6 +1669,7 @@ function pShowElimination(list){
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){s.classList.add('locked');s.classList.remove('elim-now','rev-ok','rev-ko');if(arr.indexOf(idx)>=0)s.classList.add('elim-now');});
 }
 function pShowPlayerReveal(state){
+  soundReveal();
   var q=Q[pCQ]||pCurrentState||{};
   var correct=Number(state.correct),stats=state.stats||[0,0,0];
   var good=Number(state.good)||Number(stats[correct])||0;
@@ -1642,7 +1678,7 @@ function pShowPlayerReveal(state){
   var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
   $('pr-word').textContent=q.w||'—';
-  $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';
+  $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';var pan=$('pr-answer-note');if(pan){pan.textContent=state.answerNote||q.answerNote||'';pan.style.display=(state.answerNote||q.answerNote)?'block':'none';}
   $('pr-good').textContent=good;
   $('pr-bad').textContent=bad;
   go('p-player-reveal');
