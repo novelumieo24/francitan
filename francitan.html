@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V10 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V13 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
 html[data-francitan-mode="player"] #p-select{display:none!important}
 html[data-francitan-mode="host"] #p-join,html[data-francitan-mode="host"] #p-wait,html[data-francitan-mode="host"] #p-play,html[data-francitan-mode="host"] #p-wait-reveal,html[data-francitan-mode="host"] #p-answered,html[data-francitan-mode="host"] #p-final{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -454,6 +454,120 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:v
   body.player-mode #p-play .pp-timer{width:102px!important;height:102px!important;bottom:92px!important;}
   body.player-mode #p-play .pp-timer span{font-size:40px!important;}
 }
+
+/* ===== V12 — HOST REVEAL / NO RANKING / TIMER PANIC ===== */
+#p-reveal{
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  background-image:var(--scene);
+  background-size:cover;
+  background-position:center;
+  padding:48px 30px 80px!important;
+  gap:12px!important;
+}
+.host-reveal-kicker{font-size:16px;font-weight:900;letter-spacing:4px;color:var(--red);text-transform:uppercase;}
+.host-reveal-title{font-size:clamp(28px,3vw,48px);font-weight:900;color:var(--ink);}
+.host-reveal-word{font-size:clamp(72px,8vw,130px);font-weight:900;line-height:.9;letter-spacing:-5px;color:var(--ink);text-transform:uppercase;margin:5px 0 10px;}
+.host-reveal-answer{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  background:var(--green);color:#fff;border-radius:24px;
+  padding:18px 34px;min-width:min(680px,86vw);
+  box-shadow:0 9px 0 rgba(61,139,91,.22),0 16px 30px rgba(61,139,91,.15);
+}
+.host-reveal-answer span{font-size:38px;font-weight:900;background:var(--yellow);color:var(--ink);width:62px;height:62px;border-radius:14px;display:grid;place-items:center;}
+.host-reveal-answer strong{font-size:clamp(28px,3vw,44px);font-weight:900;}
+.host-reveal-stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
+.host-stat{min-width:180px;background:rgba(255,253,247,.96);border:3px solid #EAD9B8;border-radius:18px;padding:14px 22px;box-shadow:var(--shadow);color:var(--ink);}
+.host-stat.good{border-color:var(--green);}
+.host-stat.bad{border-color:var(--red);}
+.host-stat.total{border-color:var(--yellow);}
+.host-stat strong{display:block;font-size:38px;line-height:1;font-weight:900;}
+.host-stat span{display:block;font-size:13px;font-weight:800;margin-top:5px;}
+.host-reveal-wait{font-size:13px;font-weight:800;color:var(--muted);margin-top:5px;}
+#p-reveal .reveal-next-btn{position:absolute;right:4vw;bottom:4vh;font-size:17px;padding:15px 24px;}
+@media(max-width:600px){
+  #p-reveal{padding:30px 16px 90px!important;gap:9px!important;}
+  .host-reveal-kicker{font-size:12px;letter-spacing:3px;}
+  .host-reveal-title{font-size:25px;}
+  .host-reveal-word{font-size:48px;letter-spacing:-2px;margin:2px 0 6px;}
+  .host-reveal-answer{min-width:0;width:94vw;padding:13px 15px;gap:10px;border-radius:18px;}
+  .host-reveal-answer span{width:48px;height:48px;font-size:27px;border-radius:10px;}
+  .host-reveal-answer strong{font-size:22px;}
+  .host-reveal-stats{gap:7px;margin-top:4px;}
+  .host-stat{min-width:0;flex:1;padding:9px 7px;border-width:2px;border-radius:13px;}
+  .host-stat strong{font-size:27px;}
+  .host-stat span{font-size:10px;}
+}
+@keyframes timerPulseV12{
+  0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(213,31,44,0));}
+  45%{transform:scale(1.07);filter:drop-shadow(0 0 14px rgba(213,31,44,.42));}
+}
+@keyframes timerFlashV12{
+  0%,100%{opacity:1;}
+  50%{opacity:.52;}
+}
+#p-host-q .timer-wrap.panic,
+body.player-mode #p-play .pp-timer.panic{
+  animation:timerPulseV12 .62s ease-in-out infinite;
+}
+#p-host-q .timer-wrap.panic .t-num,
+body.player-mode #p-play .pp-timer.panic span{
+  animation:timerFlashV12 .45s steps(2,end) infinite;
+  color:var(--red)!important;
+}
+#p-host-q .timer-wrap.critical,
+body.player-mode #p-play .pp-timer.critical{
+  animation:timerPulseV12 .38s ease-in-out infinite;
+}
+#p-host-q .timer-wrap.critical .t-num,
+body.player-mode #p-play .pp-timer.critical span{
+  animation:timerFlashV12 .28s steps(2,end) infinite;
+}
+#p-ranking{display:none!important;}
+#p-host-final .final-podium,#p-host-final .hf-title{display:none!important;}
+#p-host-final:after{content:"Partie terminée !";font-size:clamp(42px,6vw,78px);font-weight:900;color:var(--red);}
+#p-host-final:before{content:"Bravo à tous les joueurs !";font-size:22px;font-weight:800;color:var(--ink);position:absolute;top:42%;}
+#p-final .pf-rank,#p-final .pf-sub{display:none!important;}
+
+
+/* ===== V12 — RESPONSE SELECTION / CHANGE ===== */
+body.player-mode #p-play .pp-sq{cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+body.player-mode #p-play .pp-sq.sel{
+  border-color:var(--yellow)!important;
+  background:#FFF8D8!important;
+  transform:scale(1.018)!important;
+  box-shadow:0 0 0 5px var(--ink),0 0 0 10px var(--yellow),0 8px 0 rgba(104,67,28,.14)!important;
+}
+body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:var(--ink)!important;}
+body.player-mode #p-wait-reveal .btn-change-rep{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  min-height:48px!important;padding:11px 22px!important;
+  border:3px solid var(--yellow)!important;border-radius:999px!important;
+  background:var(--paper)!important;color:var(--ink)!important;
+  font-size:15px!important;font-weight:900!important;
+  box-shadow:0 5px 0 rgba(104,67,28,.10)!important;
+  cursor:pointer!important;touch-action:manipulation!important;
+}
+body.player-mode #p-wait-reveal .btn-change-rep:active{transform:translateY(3px)!important;box-shadow:0 2px 0 rgba(104,67,28,.10)!important;}
+
+
+/* V13 — player A/B/C labels live on the text panel, never on the photo */
+body.player-mode #p-play .pp-sq-bot{position:relative!important;padding:0 56px 0 14px!important;}
+body.player-mode #p-play .pp-sq-ltr{
+  position:absolute!important;left:auto!important;right:0!important;top:0!important;
+  width:46px!important;height:100%!important;min-width:46px!important;
+  border-radius:0 12px 12px 0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  font-size:23px!important;z-index:5!important;
+}
+body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.65)!important;
+}
+#adm-rank{display:none!important;}
+#adm-rank+*{display:none!important;}
+
 </style></head><body>
 
 <div id="p-select" class="page">
@@ -546,19 +660,17 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:v
 </div>
 
 <div id="p-reveal" class="page">
-  <div class="reveal-bg">
-    <img id="reveal-img" class="reveal-bg-img" src="" alt="">
-    <div class="reveal-grad"></div>
+  <div class="host-reveal-kicker">RÉPONSE</div>
+  <div class="host-reveal-title">La bonne réponse est</div>
+  <div class="host-reveal-word" id="reveal-mot">—</div>
+  <div class="host-reveal-answer"><span id="reveal-letter">B</span><strong id="reveal-ans">—</strong></div>
+  <div class="host-reveal-stats">
+    <div class="host-stat good"><strong id="reveal-good">0</strong><span>bonne(s) réponse(s)</span></div>
+    <div class="host-stat bad"><strong id="reveal-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
+    <div class="host-stat total"><strong id="reveal-total">0</strong><span>joueur(s) ayant répondu</span></div>
   </div>
-  <div class="reveal-content">
-    <div class="reveal-signifie">Que signifie ce mot</div>
-    <div class="reveal-mot" id="reveal-mot">—</div>
-    <div class="reveal-badge">
-      <div class="reveal-badge-lbl">✔ Bonne réponse</div>
-      <div class="reveal-badge-txt" id="reveal-ans">—</div>
-    </div>
-  </div>
-  <button class="reveal-next-btn" onclick="advance()">Voir les résultats →</button>
+  <div class="host-reveal-wait">L'animateur lance la question suivante quand il est prêt.</div>
+  <button class="reveal-next-btn" onclick="advance()">Question suivante →</button>
 </div>
 
 <div id="p-host-res" class="page">
@@ -586,7 +698,7 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:v
   <button class="btn-big rank-next" id="rank-next" onclick="advance()">SUITE →</button>
 </div>
 <div id="p-host-final" class="page">
-  <div class="hf-title">Résultats finaux !</div>
+  <div class="hf-title">Partie terminée !</div>
   <div class="final-podium" id="final-podium"></div>
   <div style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-style:italic;font-size:14px;color:var(--ink3)">Vous parlez occitan sans le savoir…</div>
 </div>
@@ -642,7 +754,7 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:v
         <div class="adm-block-title">Paramètres du jeu</div>
         <div class="adm-field"><div class="adm-lbl">Durée timer (sec)</div><input class="adm-inp" id="adm-timer" type="number" min="10" max="90" value="30"></div>
         <label class="settings-check"><input type="checkbox" id="adm-elim" checked> Élimination progressive des mauvaises réponses</label>
-        <label class="settings-check"><input type="checkbox" id="adm-rank" checked> Afficher le classement après chaque question</label>
+        <label class="settings-check" style="display:none!important"><input type="checkbox" id="adm-rank" disabled> Afficher le classement après chaque question</label>
         <label class="settings-check"><input type="checkbox" id="adm-img" checked> Afficher les photos des réponses</label>
         <label class="settings-check"><input type="checkbox" id="adm-sounds" checked> Sons et signaux de jeu</label>
         <button class="btn-save" onclick="saveJeu()">💾 Enregistrer</button>
@@ -935,8 +1047,8 @@ function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTi
 
 function loadGameSettings(){
   try{var s=JSON.parse(localStorage.getItem('fq_game_settings')||'{}');
-    TSEC=Math.max(10,Math.min(90,parseInt(s.timer)||parseInt(localStorage.getItem('fq_tsec'))||30));
-    ELIM_ON=s.elim!==false;SHOW_RANK=s.rank!==false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;
+    TSEC=30;
+    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;
   }catch(e){}
   document.body.classList.toggle('no-images',!SHOW_IMAGES);
 }
@@ -951,9 +1063,9 @@ function roundLabel(qi){
 
 /* STATE */
 var GID=null,PID=null,SERVER_OFFSET=0,SERVER_OFFSET_READY=false;
-var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0,hLastTick=-1;
+var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0,hLastTick=-1,hLaunchTs=0,hDeadline=0;
 var hElimOrder=null,hElimIdx=0,hScoredQ=-1;
-var ELIM_ON=true,SHOW_RANK=true,SHOW_IMAGES=true,SOUND_ON=true,ADV_LOCK=false;
+var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,ADV_LOCK=false;
 var pScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false;
 var adminPrev='p-host-q';
 
@@ -1003,15 +1115,15 @@ function advance(){
     if(hStep===5||hStep===6){stepEliminate();return;}
     return;
   }
-  if(id==='p-reveal'){stepResults();return;}
-  if(id==='p-host-res'){if(Q[hCQ]&&Q[hCQ].isDemo){hostNext();}else{showRanking();}return;}
+  if(id==='p-reveal'){hostNext();return;}
+  if(id==='p-host-res'){hostNext();return;}
   if(id==='p-ranking'){hostNext();return;}
 }
 
 function goBack(){
   var id=document.querySelector('.page.show').id;
   if(id==='p-host-q'&&hCQ>0){clearInterval(hTI);hCQ--;hA={};hElimOrder=null;hElimIdx=0;hPrepareQ();toast('Question precedente',1500);}
-  else if(id==='p-reveal'){stepResults();}
+  else if(id==='p-reveal'){return;}
   else if(id==='p-host-res'){hPrepareQ();}
 }
 
@@ -1108,13 +1220,15 @@ function stepLaunch(){
   setBtnAdv('En cours...','');
   soundStart();
   var launchTs=Date.now()+SERVER_OFFSET;
-  var deadline=launchTs+(TSEC*1000);
+  var deadline=launchTs+(TSEC*1000);hLaunchTs=launchTs;hDeadline=deadline;
   dbSet('games/'+GID+'/state',{status:'running',cq:hCQ,w:Q[hCQ].w,o:Q[hCQ].o,imgs:Q[hCQ].imgs,isDemo:Q[hCQ].isDemo===true,ts:launchTs,launchTs:launchTs,deadline:deadline,duration:TSEC,revealed:3});
   clearInterval(hTI);
   function tickHost(){
     var now=Date.now()+SERVER_OFFSET;
     hTL=Math.max(0,Math.ceil((deadline-now)/1000));
     hSetArc(hTL);
+    var hw=$('p-host-q').querySelector('.timer-wrap');
+    if(hw){hw.classList.toggle('panic',hTL<=10&&hTL>3);hw.classList.toggle('critical',hTL<=3&&hTL>0);}
     if(hTL!==hLastTick){hLastTick=hTL;if(hTL>5)soundTick();else if(hTL>0)soundAlarm();}
     if(hTL<=0){clearInterval(hTI);hTI=null;soundTimeup();hStep=5;setBtnAdv('Éliminer une réponse','green');}
   }
@@ -1123,14 +1237,19 @@ function stepLaunch(){
 
 function scoreCurrentQuestion(q){
   if(hScoredQ===hCQ)return;
-  if(!q.isDemo){Object.keys(hA).forEach(function(pid){
-    if(hP[pid]&&hA[pid]&&hA[pid].answer===q.c){
-      var base=1000;
-      var bonus=Math.max(0,Math.round((hTL/Math.max(1,TSEC))*1000));
-      hP[pid].score=(hP[pid].score||0)+base+bonus;
-      dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
-    }
-  });}
+  if(!q.isDemo){
+    Object.keys(hA).forEach(function(pid){
+      var d=hA[pid];
+      if(hP[pid]&&d&&Number(d.answer)===Number(q.c)){
+        var answerTs=Number(d.ts)||hDeadline||Date.now();
+        var remaining=Math.max(0,(hDeadline||answerTs)-answerTs)/1000;
+        var base=1000;
+        var bonus=Math.max(0,Math.round((remaining/Math.max(1,TSEC))*1000));
+        hP[pid].score=(Number(hP[pid].score)||0)+base+bonus;
+        dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
+      }
+    });
+  }
   hScoredQ=hCQ;
 }
 function renderHostReveal(q,sb){
@@ -1181,23 +1300,36 @@ function revealQuestionResult(q,eliminated){
   clearInterval(hTI);hTI=null;
   scoreCurrentQuestion(q);
   var sb=getSB();
-  var stats=[0,0,0];Object.keys(hP).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)stats[hA[pid].answer]++;});
+  var stats=[0,0,0];
+  Object.keys(hP).forEach(function(pid){
+    if(hA[pid]&&hA[pid].answer!==undefined){
+      var ai=Number(hA[pid].answer);
+      if(ai>=0&&ai<3)stats[ai]++;
+    }
+  });
   var answered=stats[0]+stats[1]+stats[2],good=stats[q.c]||0,bad=Math.max(0,answered-good);
   soundReveal();
-  go('p-host-res');
-  $('hr-ok-txt').textContent='✓ Bonne réponse : '+['A','B','C'][q.c]+' — '+q.o[q.c];
-  $('hr-qinfo').textContent='Q '+hCQ+' / '+(Q.length-1);
-  renderHostReveal(q,sb);
-  dbSet('games/'+GID+'/state',{status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,correct:q.c,scoreboard:sb,stats:stats,answered:answered,good:good,bad:bad,eliminated:eliminated||[],isDemo:q.isDemo===true,ts:Date.now()});
+  go('p-reveal');
+  $('reveal-mot').textContent=q.w||'—';
+  $('reveal-letter').textContent=['A','B','C'][q.c];
+  $('reveal-ans').textContent=q.o[q.c]||'—';
+  $('reveal-good').textContent=good;
+  $('reveal-bad').textContent=bad;
+  $('reveal-total').textContent=answered;
+  dbSet('games/'+GID+'/state',{
+    status:'reveal',cq:hCQ,w:q.w,o:q.o,imgs:q.imgs,correct:q.c,
+    scoreboard:sb,stats:stats,answered:answered,good:good,bad:bad,
+    eliminated:eliminated||[],isDemo:q.isDemo===true,ts:Date.now()
+  });
 }
 
 function stepResults(){
   dbOff('games/'+GID+'/answers/'+hCQ);
   var q=Q[hCQ];var sb=getSB();
   dbSet('games/'+GID+'/state',{status:'reveal',cq:hCQ,correct:q.c,scoreboard:sb,isDemo:q.isDemo===true,ts:Date.now()});
-  go('p-host-res');
-  $('hr-ok-txt').textContent='✓ Bonne réponse : '+['A','B','C'][q.c]+' — '+q.o[q.c];
-  $('hr-qinfo').textContent='Q '+(hCQ>0?hCQ:0)+' / '+(Q.length-1);
+  go('p-reveal');
+  $('reveal-mot').textContent=q.w||'—';$('reveal-letter').textContent=['A','B','C'][q.c];$('reveal-ans').textContent=q.o[q.c]||'—';
+  var st=[0,0,0];Object.keys(hA).forEach(function(pid){if(hA[pid]&&hA[pid].answer!==undefined)st[Number(hA[pid].answer)]++;});var gd=st[q.c]||0,bd=st[0]+st[1]+st[2]-gd;$('reveal-good').textContent=gd;$('reveal-bad').textContent=Math.max(0,bd);$('reveal-total').textContent=gd+Math.max(0,bd);
   var bands=$('hr-bands');bands.innerHTML='';
   var tot=Object.keys(hA).length||1;
   q.o.forEach(function(opt,i){
@@ -1241,14 +1373,8 @@ function hostNext(){
 }
 function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
-  var sorted=Object.keys(hP).sort(function(a,b){return hP[b].score-hP[a].score;});
-  var sb=sorted.map(function(pid,i){return {pid:pid,name:hP[pid].name,score:hP[pid].score,rank:i+1};});
+  var sb=getSB();
   dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,ts:Date.now()});
-  var top3=sorted.slice(0,3),order=[1,0,2],cls=['p2','p1','p3'],medals=['🥈','🥇','🥉'];
-  $('final-podium').innerHTML=order.map(function(i){
-    if(!top3[i])return '';
-    return '<div class="fpod '+cls[i]+'"><div class="fpod-medal">'+medals[i]+'</div><div class="fpod-av">'+hP[top3[i]].name.slice(0,2).toUpperCase()+'</div><div class="fpod-name">'+hP[top3[i]].name+'</div><div class="fpod-pts">'+hP[top3[i]].score+' pt'+(hP[top3[i]].score>1?'s':'')+'</div></div>';
-  }).join('');
 }
 function getSB(){return Object.keys(hP||{}).sort(function(a,b){var sa=Number(hP[a].score)||0,sb=Number(hP[b].score)||0;if(sb!==sa)return sb-sa;return String(hP[a].name||'').localeCompare(String(hP[b].name||''),'fr');}).map(function(pid,i){return {pid:pid,name:hP[pid].name,score:Number(hP[pid].score)||0,rank:i+1};});}
 function setBtnAdv(label,cls){var btn=$('btn-adv');if(!btn)return;btn.className='btn-adv'+(cls?' '+cls:'');btn.textContent=label+' →';}
@@ -1298,7 +1424,7 @@ function saveAccueil(){
   var fz=$('acc-free');if(fz&&fr)fz.innerHTML=fr;
   toast('Enregistre!',1800);
 }
-function saveJeu(){var ts=Math.max(10,Math.min(90,parseInt($('adm-timer').value)||30));$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=$('adm-rank')?$('adm-rank').checked:true;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
+function saveJeu(){var ts=30;$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=false;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
 function buildAdmQ(){
   var sec=$('adm-questions');sec.innerHTML='';
   Q.forEach(function(q,qi){
@@ -1353,11 +1479,11 @@ function joinGame(){
   dbOn('games/'+GID+'/state',function(s){
     if(!s)return;
     if(s.status==='question'){
-      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;clearInterval(pTI);}
+      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};clearInterval(pTI);}
       pRunning=false;pCurrentState=s;pShowQ(s);
     }
     if(s.status==='running'){
-      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;pCurrentState=s;pRunning=true;pShowQ(s);}
+      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};pCurrentState=s;pRunning=true;pShowQ(s);}
       else {pCurrentState=s;pRunning=true;}
       pStartTimerSync(s.launchTs,s.duration||TSEC,s.deadline);
     }
@@ -1389,7 +1515,7 @@ function pShowQ(state){
   state.o.forEach(function(opt,i){
     if(i>=revealed)return;
     var sq=document.createElement('div');sq.className='pp-sq show'+(pRunning?'':' locked-before-start');sq.dataset.i=i;sq.id='psq'+i;
-    sq.innerHTML='<div class="pp-sq-img"><img src="'+(imgs[i]||'')+'" alt="" loading="lazy" style="opacity:0;transition:opacity .4s"><div class="pp-sq-ltr">'+['A','B','C'][i]+'</div></div><div class="pp-sq-bot"><span class="pp-sq-txt">'+opt+'</span></div>';
+    sq.innerHTML='<div class="pp-sq-img"><img src="'+(imgs[i]||'')+'" alt="" loading="lazy" style="opacity:0;transition:opacity .4s"></div><div class="pp-sq-bot"><span class="pp-sq-txt">'+opt+'</span><div class="pp-sq-ltr">'+['A','B','C'][i]+'</div></div>';
     var img=sq.querySelector('img');img.onload=function(){img.style.opacity='1';};img.onerror=function(){img.style.opacity='.3';};
     sq.addEventListener('click',(function(idx){return function(){pPick(idx,state.cq);};})(i));
     grid.appendChild(sq);
@@ -1407,7 +1533,12 @@ function pStartTimerSync(launchTs,duration,deadline){
     var pnum=$('pp-timer-num'),ptimer=$('pp-timer'),pfg=$('pp-fg');
     if(pnum)pnum.textContent=pTL;
     if(pfg){pfg.style.strokeDashoffset=169.65*(1-pTL/duration);pfg.style.stroke=pTL<=10?'var(--red)':'var(--yellow)';}
-    if(ptimer){ptimer.classList.toggle('hot',pTL<=10&&pTL>0);ptimer.classList.toggle('done',pTL<=0);}
+    if(ptimer){
+      ptimer.classList.toggle('hot',pTL<=10&&pTL>0);
+      ptimer.classList.toggle('panic',pTL<=10&&pTL>3);
+      ptimer.classList.toggle('critical',pTL<=3&&pTL>0);
+      ptimer.classList.toggle('done',pTL<=0);
+    }
     var wtb=$('wr-timefill');if(wtb)wtb.style.width=pct+'%';
     var wfg=$('wr-fg'),wnum=$('wr-num');
     if(wfg){wfg.style.strokeDashoffset=188*(1-pTL/duration);wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)';}
@@ -1428,6 +1559,7 @@ function pPick(i,qi){
   pSel=i;
   document.querySelectorAll('.pp-sq').forEach(function(s,idx){s.classList.toggle('sel',idx===i);});
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID,{answer:i,ts:Date.now()+SERVER_OFFSET});
+  try{sessionStorage.setItem('fq_last_answer',String(i));}catch(e){}
   var q=pCurrentState||Q[qi]||{};
   $('wr-qlbl').textContent=q.isDemo?'ESSAI':'Q '+qi+' / '+(Q.length-1);
   $('wr-sc').textContent=pScore+' pt'+(pScore>1?'s':'');
@@ -1509,12 +1641,9 @@ function pShowResult(correctIdx,sb){
 }
 function pFinal(sb){
   go('p-final');confetti();
-  var me=sb?sb.filter(function(p){return p.pid===PID;})[0]:null;
-  var rank=me?me.rank:'?',total=sb?sb.length:1;
-  var medals={1:'🥇',2:'🥈',3:'🥉'};
-  $('pf-rank').textContent=medals[rank]||(rank+'e');
-  $('pf-score').textContent=pScore+' pt'+(pScore>1?'s':'');
-  $('pf-sub').textContent=rank+(rank===1?'er':'e')+' sur '+total+' joueur'+(total>1?'s':'');
+  $('pf-rank').textContent='';
+  $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
+  $('pf-sub').textContent='';
 }
 function confetti(){
   var cols=['#D4620A','#F5A623','#18A058','#1040A0','#E03030','#1A1000'];
