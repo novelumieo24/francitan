@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V13 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN FINAL V14 --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
 html[data-francitan-mode="player"] #p-select{display:none!important}
 html[data-francitan-mode="host"] #p-join,html[data-francitan-mode="host"] #p-wait,html[data-francitan-mode="host"] #p-play,html[data-francitan-mode="host"] #p-wait-reveal,html[data-francitan-mode="host"] #p-answered,html[data-francitan-mode="host"] #p-final{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -434,6 +434,7 @@ body.player-mode #p-play .pp-sq-ltr{left:auto!important;right:0!important;top:0!
 body.player-mode #p-play .pp-sq.sel{box-shadow:0 0 0 5px var(--yellow),0 0 0 8px rgba(255,198,46,.28),0 5px 0 rgba(104,67,28,.08)!important;transform:scale(1.015)!important;background:#FFF8D8!important;}
 body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:var(--ink)!important;}
 #p-player-reveal{flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;background-image:var(--scene);background-size:cover;background-position:center;padding:28px 18px!important;gap:10px!important;}
+.pr-illustration{width:min(330px,82vw);height:min(210px,25vh);border:4px solid var(--red);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:rgba(255,253,247,.8);flex:none;} .pr-illustration img{width:100%;height:100%;object-fit:cover;display:block;}
 .pr-kicker{font-size:13px;font-weight:900;letter-spacing:2px;color:var(--red);text-transform:uppercase;}
 .pr-title{font-size:clamp(25px,5vw,42px);font-weight:900;color:var(--ink);margin:0;}
 .pr-word{font-size:clamp(42px,8vw,76px);font-weight:900;line-height:.95;color:var(--ink);text-transform:uppercase;letter-spacing:-3px;margin:2px 0 8px;}
@@ -445,7 +446,8 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-txt{font-weight:900!important;color:v
 .pr-stat strong{display:block;font-size:30px;line-height:1;}.pr-stat span{display:block;font-size:12px;margin-top:4px;}
 .pr-wait{font-size:12px;font-weight:800;color:var(--muted);margin-top:4px;}
 @media(max-width:600px){
-  #p-player-reveal{padding:24px 14px!important;gap:8px!important;}
+  #p-player-reveal{padding:18px 14px!important;gap:8px!important;}
+  .pr-illustration{width:min(300px,82vw)!important;height:180px!important;}
   .pr-word{font-size:46px!important;letter-spacing:-2px!important;}
   .pr-answer{font-size:24px!important;padding:15px 16px!important;border-radius:18px!important;}
   .pr-stats{gap:8px!important;}
@@ -567,6 +569,32 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
 }
 #adm-rank{display:none!important;}
 #adm-rank+*{display:none!important;}
+/* V14 — reveal illustration, alarm growth, touch selection, full grey elimination */
+.host-reveal-illustration{position:absolute;left:7%;top:14%;width:28%;height:52%;border:4px solid var(--red);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);background:rgba(255,253,247,.7);z-index:1;}
+.host-reveal-illustration img{width:100%;height:100%;object-fit:cover;display:block;}
+#p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait,#p-reveal .reveal-next-btn{z-index:3;}
+#p-reveal .host-reveal-kicker{position:absolute;left:40%;top:18%;}
+#p-reveal .host-reveal-title{position:absolute;left:40%;top:23%;}
+#p-reveal .host-reveal-word{position:absolute;left:39%;right:7%;top:30%;}
+#p-reveal .host-reveal-answer{position:absolute;left:40%;right:7%;top:43%;}
+#p-reveal .host-reveal-stats{position:absolute;left:38%;right:7%;top:58%;}
+#p-reveal .host-reveal-wait{position:absolute;left:38%;right:7%;top:76%;}
+#p-reveal .reveal-next-btn{bottom:6%;}
+@keyframes timerAlarmGrow{0%,100%{transform:scale(1);filter:drop-shadow(0 8px 12px rgba(104,67,28,.13));}50%{transform:scale(1.10);filter:drop-shadow(0 12px 24px rgba(213,31,44,.38));}}
+@keyframes timerAlarmCritical{0%,100%{transform:scale(1.03);}50%{transform:scale(1.16);}}
+#p-host-q .timer-wrap.panic,body.player-mode #p-play .pp-timer.panic{animation:timerAlarmGrow .72s ease-in-out infinite!important;}
+#p-host-q .timer-wrap.critical,body.player-mode #p-play .pp-timer.critical{animation:timerAlarmCritical .42s ease-in-out infinite!important;}
+#p-host-q .timer-wrap.panic .t-num,body.player-mode #p-play .pp-timer.panic span,#p-host-q .timer-wrap.critical .t-num,body.player-mode #p-play .pp-timer.critical span{animation:none!important;color:var(--red)!important;}
+body.player-mode #p-play .pp-sq{position:relative!important;cursor:pointer!important;pointer-events:auto!important;touch-action:manipulation!important;}
+body.player-mode #p-play .pp-sq.elim-now,body.player-mode #p-play .pp-sq.rev-ko{opacity:.16!important;filter:grayscale(1)!important;background:#ddd!important;color:#777!important;}
+body.player-mode #p-play .pp-sq.elim-now *{opacity:.35!important;filter:grayscale(1)!important;}
+body.player-mode #p-play .pp-sq.sel{outline:4px solid var(--ink)!important;outline-offset:3px!important;background:#FFF1B5!important;}
+body.player-mode #p-play .pp-change-wrap{min-height:44px!important;}
+@media(max-width:600px){
+  #p-reveal .host-reveal-illustration{display:none;}
+  #p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait{position:static!important;left:auto!important;right:auto!important;top:auto!important;}
+  #p-reveal{padding:22px 14px!important;gap:10px!important;}
+}
 
 </style></head><body>
 
@@ -660,6 +688,7 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
 </div>
 
 <div id="p-reveal" class="page">
+  <div class="host-reveal-illustration"><img id="reveal-img" src="" alt=""></div>
   <div class="host-reveal-kicker">RÉPONSE</div>
   <div class="host-reveal-title">La bonne réponse est</div>
   <div class="host-reveal-word" id="reveal-mot">—</div>
@@ -746,6 +775,9 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
         <div class="adm-field"><div class="adm-lbl">Principale</div><input type="color" id="clr-ocre" value="#D4620A" oninput="applyClr('--ocre',this.value)" style="width:36px;height:28px;border:1.5px solid var(--brd);border-radius:6px;cursor:pointer;padding:1px"></div>
         <div class="adm-field"><div class="adm-lbl">Fond</div><input type="color" id="clr-cream" value="#FFFBF2" oninput="applyClr('--cream',this.value)" style="width:36px;height:28px;border:1.5px solid var(--brd);border-radius:6px;cursor:pointer;padding:1px"></div>
         <div class="adm-field"><div class="adm-lbl">Texte</div><input type="color" id="clr-ink" value="#1A1000" oninput="applyClr('--ink',this.value)" style="width:36px;height:28px;border:1.5px solid var(--brd);border-radius:6px;cursor:pointer;padding:1px"></div>
+        <div class="adm-block-title" style="margin-top:18px">Fond personnalisé</div>
+        <div class="adm-field"><div class="adm-lbl">Image de fond</div><input type="file" id="adm-bg-file" accept="image/*" style="max-width:100%" onchange="applyBackgroundFile(this)"></div>
+        <div class="adm-field"><button class="btn-back" type="button" onclick="resetBackground()">↺ Revenir au fond Francitan</button></div>
         <button class="btn-save" onclick="saveStyle()">💾 Enregistrer</button>
       </div>
     </div>
@@ -757,6 +789,7 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
         <label class="settings-check" style="display:none!important"><input type="checkbox" id="adm-rank" disabled> Afficher le classement après chaque question</label>
         <label class="settings-check"><input type="checkbox" id="adm-img" checked> Afficher les photos des réponses</label>
         <label class="settings-check"><input type="checkbox" id="adm-sounds" checked> Sons et signaux de jeu</label>
+        <label class="settings-check"><input type="checkbox" id="adm-welcome"> Afficher l'écran d'accueil avant le lobby</label>
         <button class="btn-save" onclick="saveJeu()">💾 Enregistrer</button>
       </div>
     </div>
@@ -846,6 +879,7 @@ body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{
 </div>
 
 <div id="p-player-reveal" class="page">
+  <div class="pr-illustration"><img id="pr-img" src="" alt=""></div>
   <div class="pr-kicker">RÉPONSE</div>
   <div class="pr-title">La bonne réponse est</div>
   <div class="pr-word" id="pr-word">—</div>
@@ -929,7 +963,7 @@ function dbOff(path){if(DB)DB.ref(path).off();}
 
 /* SONS */
 var ac = null;
-function getAC(){ if(!ac) try{ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){} return ac; }
+function getAC(){ if(!ac) try{ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){} if(ac&&ac.state==='suspended')try{ac.resume();}catch(e){} return ac; }
 function pt(f,d,t,v){ t=t||'sine';v=v||.2; var a=getAC();if(!a)return; var o=a.createOscillator(),g=a.createGain(); o.type=t;o.frequency.value=f; g.gain.setValueAtTime(v,a.currentTime); g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d); o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d); }
 function soundLaunch(){
   if(!SOUND_ON)return;
@@ -1048,7 +1082,7 @@ function toast(m,d){var t=$('toast');t.textContent=m;t.classList.add('up');setTi
 function loadGameSettings(){
   try{var s=JSON.parse(localStorage.getItem('fq_game_settings')||'{}');
     TSEC=30;
-    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;
+    ELIM_ON=s.elim!==false;SHOW_RANK=false;SHOW_IMAGES=s.img!==false;SOUND_ON=s.sounds!==false;SHOW_WELCOME=s.welcome===true;
   }catch(e){}
   document.body.classList.toggle('no-images',!SHOW_IMAGES);
 }
@@ -1065,13 +1099,13 @@ function roundLabel(qi){
 var GID=null,PID=null,SERVER_OFFSET=0,SERVER_OFFSET_READY=false;
 var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0,hLastTick=-1,hLaunchTs=0,hDeadline=0;
 var hElimOrder=null,hElimIdx=0,hScoredQ=-1;
-var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,ADV_LOCK=false;
+var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,SHOW_WELCOME=false,ADV_LOCK=false;
 var pScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false;
 var adminPrev='p-host-q';
 
 /* ROUTING */
 window.addEventListener('DOMContentLoaded',function(){
-  loadStyle();loadGameSettings();
+  loadStyle();loadCustomBackground();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
   /* Le lien ?g=...&m=play est le mode joueur. On force l'interface téléphone même si elle est ouverte sur un grand écran pour les tests. */
@@ -1140,7 +1174,7 @@ function enterHost(){
   $('qr-url').textContent=purl;
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
   drawQR(purl,$('qr-canvas'));
-  goToLobby();
+  if(SHOW_WELCOME)go('p-accueil');else goToLobby();
 }
 function goToLobby(){
   go('p-lobby');
@@ -1310,6 +1344,7 @@ function revealQuestionResult(q,eliminated){
   var answered=stats[0]+stats[1]+stats[2],good=stats[q.c]||0,bad=Math.max(0,answered-good);
   soundReveal();
   go('p-reveal');
+  var ri=$('reveal-img');if(ri){ri.src=(q.imgs&&q.imgs[q.c])?q.imgs[q.c]:'';ri.alt=q.o[q.c]||'';}
   $('reveal-mot').textContent=q.w||'—';
   $('reveal-letter').textContent=['A','B','C'][q.c];
   $('reveal-ans').textContent=q.o[q.c]||'—';
@@ -1406,7 +1441,7 @@ function admLoad(){
   var ey=$('adm-eyebrow');if(ey)ey.value=localStorage.getItem('fq_eyebrow')||'Rencontres occitanes de Chancelade';
   var sb=$('adm-sub');if(sb)sb.value=localStorage.getItem('fq_sub')||'Vous parlez occitan sans le savoir…';
   var fr=$('adm-free');if(fr){fr.value=localStorage.getItem('fq_free')||'';var pr=$('adm-preview');if(pr)pr.innerHTML=fr.value;}
-  var tm=$('adm-timer');if(tm)tm.value=TSEC;var elim=$('adm-elim'),rank=$('adm-rank'),img=$('adm-img'),snd=$('adm-sounds');if(elim)elim.checked=ELIM_ON;if(rank)rank.checked=SHOW_RANK;if(img)img.checked=SHOW_IMAGES;if(snd)snd.checked=SOUND_ON;
+  var tm=$('adm-timer');if(tm)tm.value=TSEC;var elim=$('adm-elim'),rank=$('adm-rank'),img=$('adm-img'),snd=$('adm-sounds'),wel=$('adm-welcome');if(elim)elim.checked=ELIM_ON;if(rank)rank.checked=SHOW_RANK;if(img)img.checked=SHOW_IMAGES;if(snd)snd.checked=SOUND_ON;if(wel)wel.checked=SHOW_WELCOME;
 }
 function admTab(tab){
   document.querySelectorAll('.adm-tab').forEach(function(t,i){t.classList.toggle('active',['accueil','questions','photos','style','jeu'][i]===tab);});
@@ -1424,7 +1459,7 @@ function saveAccueil(){
   var fz=$('acc-free');if(fz&&fr)fz.innerHTML=fr;
   toast('Enregistre!',1800);
 }
-function saveJeu(){var ts=30;$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=false;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
+function saveJeu(){var ts=Math.max(10,Math.min(90,parseInt($('adm-timer').value||30)));$('adm-timer').value=ts;TSEC=ts;ELIM_ON=$('adm-elim')?$('adm-elim').checked:true;SHOW_RANK=false;SHOW_IMAGES=$('adm-img')?$('adm-img').checked:true;SOUND_ON=$('adm-sounds')?$('adm-sounds').checked:true;SHOW_WELCOME=$('adm-welcome')?$('adm-welcome').checked:false;localStorage.setItem('fq_tsec',ts);localStorage.setItem('fq_game_settings',JSON.stringify({timer:ts,elim:ELIM_ON,rank:SHOW_RANK,img:SHOW_IMAGES,sounds:SOUND_ON,welcome:SHOW_WELCOME}));document.body.classList.toggle('no-images',!SHOW_IMAGES);toast('Paramètres du jeu enregistrés',1800);}
 function buildAdmQ(){
   var sec=$('adm-questions');sec.innerHTML='';
   Q.forEach(function(q,qi){
@@ -1446,6 +1481,14 @@ function toggleAdmP(qi){var b=$('adm-pbody'+qi),c=$('adm-chev-p'+qi);b.classList
 function setCorrect(qi,i){Q[qi].c=i;saveQ();buildAdmQ();toast('Bonne reponse mise a jour',1500);}
 function saveQuestion(qi){var w=$('adm-w-'+qi);if(w&&w.value.trim())Q[qi].w=w.value.trim();for(var i=0;i<3;i++){var v=$('adm-o-'+qi+'-'+i);if(v&&v.value.trim())Q[qi].o[i]=v.value.trim();}saveQ();buildAdmQ();toast('Question enregistree',1800);}
 function applyImg(qi,i){var url=$('aurl-'+qi+'-'+i);if(!url||!url.value.trim())return;Q[qi].imgs[i]=url.value.trim();saveImgs();var prev=$('aprev-'+qi+'-'+i);if(prev){var img=prev.querySelector('img');img.style.opacity='0';img.src=Q[qi].imgs[i];img.onload=function(){img.style.opacity='1';};img.onerror=function(){img.style.opacity='.25';};}toast('Photo mise a jour',1500);}
+
+function applyBackgroundFile(inp){
+  var f=inp&&inp.files&&inp.files[0];if(!f)return;
+  if(!f.type||f.type.indexOf('image/')!==0){toast('Choisis une image');return;}
+  var r=new FileReader();r.onload=function(){try{localStorage.setItem('fq_custom_bg',r.result);}catch(e){toast('Image trop lourde pour le stockage');return;}document.documentElement.style.setProperty('--scene','url("'+r.result+'")');toast('Fond personnalisé appliqué',1500);};r.readAsDataURL(f);
+}
+function loadCustomBackground(){try{var bg=localStorage.getItem('fq_custom_bg');if(bg)document.documentElement.style.setProperty('--scene','url("'+bg+'")');}catch(e){}}
+function resetBackground(){try{localStorage.removeItem('fq_custom_bg');document.documentElement.style.removeProperty('--scene');toast('Fond Francitan restauré',1500);}catch(e){}}
 
 /* STYLE */
 function adjSz(v,d){var root=document.documentElement;var cur=parseInt(getComputedStyle(root).getPropertyValue(v))||16;var next=Math.max(8,Math.min(120,cur+d));root.style.setProperty(v,next+'px');var lblMap={'--sz-mot-hq':'lbl-sz-mot-hq','--sz-rep-hq':'lbl-sz-rep-hq','--sz-mot-mob':'lbl-sz-mot-mob','--sz-rep-mob':'lbl-sz-rep-mob'};var lbl=$(lblMap[v]);if(lbl)lbl.textContent=next+'px';}
@@ -1509,7 +1552,7 @@ function pShowQ(state){
   var pfg=$('pp-fg');if(pfg){pfg.style.strokeDashoffset=0;pfg.style.stroke='var(--yellow)';}
   var pto=$('pp-timer');if(pto)pto.classList.remove('hot','done');
   var grid=$('pp-grid');grid.innerHTML='';grid.style.display='flex';
-  var chg=$('pp-change-btn');if(chg)chg.style.display='none';
+  var chg=$('pp-change-btn');if(chg)chg.style.display=pSel!==null&&pRunning?'inline-flex':'none';
   var revealed=Math.max(0,Math.min(3,Number(state.revealed)||0));
   var imgs=state.imgs||(q.imgs)||[];
   state.o.forEach(function(opt,i){
@@ -1517,7 +1560,10 @@ function pShowQ(state){
     var sq=document.createElement('div');sq.className='pp-sq show'+(pRunning?'':' locked-before-start');sq.dataset.i=i;sq.id='psq'+i;
     sq.innerHTML='<div class="pp-sq-img"><img src="'+(imgs[i]||'')+'" alt="" loading="lazy" style="opacity:0;transition:opacity .4s"></div><div class="pp-sq-bot"><span class="pp-sq-txt">'+opt+'</span><div class="pp-sq-ltr">'+['A','B','C'][i]+'</div></div>';
     var img=sq.querySelector('img');img.onload=function(){img.style.opacity='1';};img.onerror=function(){img.style.opacity='.3';};
-    sq.addEventListener('click',(function(idx){return function(){pPick(idx,state.cq);};})(i));
+    var choose=function(ev){if(ev){ev.preventDefault();ev.stopPropagation();}pPick(i,state.cq);};
+    sq.addEventListener('click',choose);
+    sq.addEventListener('pointerup',function(ev){if(ev.pointerType==='touch')choose(ev);});
+    if(pSel===i)sq.classList.add('sel');
     grid.appendChild(sq);
   });
 }
@@ -1556,33 +1602,28 @@ function pStartTimerSync(launchTs,duration,deadline){
 }
 function pPick(i,qi){
   if(!pRunning||pTL<=0)return;
+  if(i<0||i>2)return;
   pSel=i;
-  document.querySelectorAll('.pp-sq').forEach(function(s,idx){s.classList.toggle('sel',idx===i);});
-  dbSet('games/'+GID+'/answers/'+qi+'/'+PID,{answer:i,ts:Date.now()+SERVER_OFFSET});
+  var cards=document.querySelectorAll('#pp-grid .pp-sq');
+  cards.forEach(function(s,idx){s.classList.toggle('sel',idx===i);});
+  var payload={answer:i,ts:Date.now()+SERVER_OFFSET};
+  dbSet('games/'+GID+'/answers/'+qi+'/'+PID,payload);
   try{sessionStorage.setItem('fq_last_answer',String(i));}catch(e){}
   var q=pCurrentState||Q[qi]||{};
-  $('wr-qlbl').textContent=q.isDemo?'ESSAI':'Q '+qi+' / '+(Q.length-1);
-  $('wr-sc').textContent=pScore+' pt'+(pScore>1?'s':'');
-  $('wr-round').textContent=roundLabel(qi);
-  $('wr-mot').textContent=q.w||'—';
-  var ltr=$('wr-ltr');if(ltr){ltr.textContent=['A','B','C'][i];ltr.style.background=['var(--red)','var(--yellow)','var(--red)'][i];ltr.style.color=i===1?'var(--ink)':'#fff';}
-  $('wr-ans').textContent=q.o?q.o[i]:'—';
-  var wimg=$('wr-photo-img');if(wimg){wimg.src=(q.imgs&&q.imgs[i])?q.imgs[i]:'';}
-  var chg=$('btn-change-rep');if(chg)chg.style.display='inline-flex';
-  var ps=$('pp-status');if(ps){ps.textContent='✓ Réponse '+['A','B','C'][i]+' enregistrée';ps.className='pp-status waiting';}
-  go('p-wait-reveal');
+  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' sélectionnée — tu peux encore la modifier';
+  $('pp-status').className='pp-status waiting';
+  var chg=$('pp-change-btn');if(chg){chg.textContent='↩ Modifier ma réponse';chg.style.display='inline-flex';}
+  /* On reste sur l'écran des propositions : le joueur peut retaper A/B/C. */
 }
+
 function changeAnswer(){
   if(!pRunning||pTL<=0)return;
   pSel=null;
-  document.querySelectorAll('.pp-sq').forEach(function(s){s.classList.remove('sel','locked');});
+  document.querySelectorAll('#pp-grid .pp-sq').forEach(function(s){s.classList.remove('sel','locked');});
   var chg=$('pp-change-btn');if(chg)chg.style.display='none';
-  var chg2=$('btn-change-rep');if(chg2)chg2.style.display='none';
   var ps=$('pp-status');if(ps){ps.textContent='Choisis une réponse';ps.className='pp-status waiting';}
-  go('p-play');
-  // Reconstruit les propositions depuis l'état courant sans attendre une nouvelle notification Firebase.
-  if(pCurrentState)pShowQ(pCurrentState);
 }
+
 function pShowElimination(list){
   pRunning=false;clearInterval(pTI);
   var arr=Array.isArray(list)?list:[];
@@ -1598,6 +1639,7 @@ function pShowPlayerReveal(state){
   var good=Number(state.good)||Number(stats[correct])||0;
   var answered=Number(state.answered)||stats.reduce(function(a,b){return a+Number(b||0);},0);
   var bad=Math.max(0,answered-good);
+  var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
   $('pr-word').textContent=q.w||'—';
   $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';
