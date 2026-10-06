@@ -940,6 +940,167 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 })();
 </script>
 
+
+<style id="francitan-v35-clean-fixes">
+/* V35 — corrections ciblées, sans modifier la mécanique générale */
+
+/* ===== JOUEUR : en-tête simple ===== */
+body.player-mode #p-play .pp-header{
+  height:72px!important; min-height:72px!important;
+  display:grid!important; grid-template-columns:1fr auto!important;
+  align-items:center!important; padding:8px 14px!important;
+}
+body.player-mode #p-play .pp-head-left{display:flex!important;align-items:center!important;}
+body.player-mode #p-play .pp-brand{display:none!important;}
+body.player-mode #p-play .pp-round{display:none!important;}
+body.player-mode #p-play .pp-qlbl{
+  font-size:28px!important;font-weight:900!important;line-height:1!important;
+}
+body.player-mode #p-play .pp-score{
+  font-size:22px!important;font-weight:900!important;background:var(--yellow)!important;
+  color:var(--ink)!important;border-radius:999px!important;padding:11px 18px!important;
+}
+body.player-mode #p-play .pp-timebar{display:none!important;}
+body.player-mode #p-play #pp-demo-banner{display:none!important;}
+body.player-mode #p-play .pp-status{display:none!important;}
+
+/* Le chrono joueur est le rond sous les propositions. */
+body.player-mode #p-play .pp-timer{
+  position:absolute!important;left:50%!important;right:auto!important;
+  top:auto!important;bottom:78px!important;transform:translateX(-50%)!important;
+  width:88px!important;height:88px!important;z-index:40!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:50%!important;background:var(--paper)!important;
+  box-shadow:0 5px 0 rgba(104,67,28,.10),0 10px 20px rgba(104,67,28,.16)!important;
+}
+body.player-mode #p-play .pp-timer-svg{display:block!important;width:100%!important;height:100%!important;}
+body.player-mode #p-play .pp-timer #pp-timer-num{
+  position:absolute!important;inset:0!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;
+  font-size:38px!important;font-weight:900!important;color:var(--ink)!important;
+  letter-spacing:-2px!important;white-space:nowrap!important;
+}
+body.player-mode #p-play .pp-timer.hot #pp-timer-num{color:var(--red)!important;}
+body.player-mode #p-play .pp-timer.done{
+  width:190px!important;height:42px!important;border-radius:999px!important;
+  background:var(--red)!important;color:#fff!important;
+}
+body.player-mode #p-play .pp-timer.done .pp-timer-svg{display:none!important;}
+body.player-mode #p-play .pp-timer.done #pp-timer-num{
+  font-size:12px!important;color:#fff!important;letter-spacing:0!important;
+  padding:0 8px!important;
+}
+
+/* Modifier la réponse juste au-dessus du chrono. */
+body.player-mode #p-play .pp-change-wrap{
+  position:absolute!important;left:0!important;right:0!important;bottom:178px!important;
+  padding:0!important;z-index:41!important;
+}
+body.player-mode #p-play .pp-change-btn{
+  font-size:14px!important;padding:9px 17px!important;min-height:40px!important;
+  border:0!important;background:var(--yellow)!important;color:var(--ink)!important;
+  box-shadow:0 4px 0 rgba(104,67,28,.15)!important;
+}
+
+/* Les cartes joueur gardent leur mécanique, mais aucun contour noir au clic/focus. */
+body.player-mode #p-play .pp-sq,
+body.player-mode #p-play .pp-sq:focus,
+body.player-mode #p-play .pp-sq:focus-visible,
+body.player-mode #p-play .pp-sq:active{
+  outline:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+body.player-mode #p-play .pp-sq.sel{
+  border-color:var(--yellow)!important;
+  box-shadow:0 0 0 4px var(--yellow),0 7px 0 rgba(104,67,28,.10)!important;
+}
+
+/* ===== JOUEUR : révélation ===== */
+body.player-mode #p-answered .pa-orb.ko::before{content:'';}
+body.player-mode #p-answered .pa-orb.ko{font-size:0!important;}
+body.player-mode #p-answered .pa-orb.ko::after{content:'😞';font-size:58px!important;}
+
+/* ===== ANIMATEUR : chrono rond restauré ===== */
+#p-host-q .timer-center{left:auto!important;right:4.2vw!important;top:43%!important;transform:translateY(-50%)!important;}
+#p-host-q .timer-wrap{
+  position:relative!important;width:150px!important;height:150px!important;
+  background:var(--paper)!important;border-radius:50%!important;
+  filter:drop-shadow(0 8px 12px rgba(104,67,28,.13))!important;
+}
+#p-host-q .timer-wrap svg{width:100%!important;height:100%!important;display:block!important;}
+#p-host-q .t-num{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  font-size:58px!important;font-weight:900!important;color:var(--ink)!important;
+  letter-spacing:-3px!important;white-space:nowrap!important;
+}
+#p-host-q .timer-wrap.done{
+  width:205px!important;height:42px!important;border-radius:999px!important;
+  background:var(--red)!important;
+}
+#p-host-q .timer-wrap.done svg{display:none!important;}
+#p-host-q .timer-wrap.done .t-num{
+  font-size:12px!important;color:#fff!important;letter-spacing:0!important;padding:0 8px!important;
+}
+
+/* ===== ANIMATEUR : textes des réponses, même avec des mots longs ===== */
+#p-host-q .hq-sq-bot{min-height:76px!important;padding:9px 14px!important;overflow:hidden!important;}
+#p-host-q .hq-sq-txt{
+  font-size:clamp(16px,1.55vw,24px)!important;
+  line-height:1.08!important;text-align:center!important;white-space:normal!important;
+  overflow-wrap:anywhere!important;word-break:normal!important;
+}
+
+/* ===== ACCUEIL ANIMATEUR : QR au centre, joueurs dessous ===== */
+#p-lobby .lobby-main{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:18px!important;width:100%!important;
+  max-width:1100px!important;margin:0 auto!important;
+}
+#p-lobby .lobby-join-card{
+  width:min(900px,90vw)!important;max-width:900px!important;
+  min-height:330px!important;
+}
+#p-lobby .lobby-join-inner{
+  justify-content:center!important;align-items:center!important;gap:40px!important;
+}
+#p-lobby #qr-canvas{
+  width:250px!important;height:250px!important;
+  flex:none!important;
+}
+#p-lobby .lobby-code-side{text-align:center!important;}
+#p-lobby .lobby-card-title{font-size:25px!important;}
+#p-lobby .lobby-instruction-main{font-size:24px!important;}
+#p-lobby .lobby-instruction-site{font-size:22px!important;}
+#p-lobby .lobby-instruction-small{font-size:15px!important;}
+#p-lobby .lobby-players-card{
+  width:min(700px,80vw)!important;max-width:700px!important;
+  min-height:130px!important;
+}
+#p-lobby .players-head{font-size:18px!important;}
+#p-lobby .players-icon{transform:scale(.85)!important;}
+
+/* Pas de phrase parasite dans la révélation animateur. */
+#p-reveal .reveal-next-btn + *{display:none!important;}
+
+/* Mobile : cartes de réponses lisibles sans écraser le texte. */
+@media (max-width:700px){
+  body.player-mode #p-play .pp-grid{
+    height:calc(100% - 350px)!important;min-height:260px!important;
+    padding:8px 14px 6px!important;gap:9px!important;
+  }
+  body.player-mode #p-play .pp-sq{min-height:74px!important;max-height:110px!important;}
+  body.player-mode #p-play .pp-sq-txt{font-size:17px!important;line-height:1.08!important;}
+  body.player-mode #p-play .pp-sq-bot{padding-right:54px!important;}
+  body.player-mode #p-play .pp-mot-zone{min-height:112px!important;margin:10px 14px 4px!important;padding:14px 10px!important;}
+  body.player-mode #p-play .pp-mot{font-size:42px!important;line-height:.95!important;}
+  body.player-mode #p-play .pp-signifie{font-size:15px!important;}
+  #p-lobby .lobby-join-card{min-height:300px!important;}
+  #p-lobby .lobby-join-inner{gap:18px!important;}
+  #p-lobby #qr-canvas{width:210px!important;height:210px!important;}
+  #p-lobby .lobby-players-card{width:88vw!important;}
+}
+</style>
 </head><body>
 
 <div id="p-select" class="page">
@@ -1037,7 +1198,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
           <div class="lobby-instruction-small">Puis entrez simplement votre prénom.</div>
           <div class="lobby-code-backup"><span>Code de secours</span><strong id="lobby-code">---</strong></div>
         </div>
-        <canvas id="qr-canvas" width="150" height="150"></canvas>
+        <canvas id="qr-canvas" width="250" height="250"></canvas>
       </div>
     </div>
     <div class="lobby-card lobby-players-card">
@@ -1079,14 +1240,14 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
     <div class="hq-note" id="hq-note"></div>
     <div id="hq-demo-sub" class="demo-sub" style="display:none">Cette question ne compte pas dans le score</div>
   </div>
-  <div class="hq-grid" id="hq-grid"></div>
+  <div class="hq-ready" id="hq-ready"><strong>ÊTES-VOUS PRÊTS ?</strong><span>Setz prestes ?</span></div><div class="hq-grid" id="hq-grid"></div>
 </div>
 
 <div id="p-reveal" class="page">
   <div class="host-reveal-illustration"><img id="reveal-img" src="" alt=""></div>
-  <div class="host-reveal-kicker">RÉPONSE</div>
-  <div class="host-reveal-title">La bonne réponse est</div>
+  <div class="host-reveal-title">Que signifie ce mot ?</div>
   <div class="host-reveal-word" id="reveal-mot">—</div>
+  <div class="host-reveal-kicker">La bonne réponse est</div>
   <div class="host-reveal-answer"><span id="reveal-letter">B</span><strong id="reveal-ans">—</strong></div>
   <div class="host-reveal-answer-note" id="reveal-answer-note"></div>
   <div class="host-reveal-stats">
@@ -1239,7 +1400,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
     <div class="pp-score" id="pp-score">0 pt</div>
   </div>
   <div class="pp-timebar"><div class="pp-timefill" id="pp-timefill"></div></div>
-  <div class="pp-status" id="pp-status" aria-live="polite"></div>
+  <div class="pp-status" id="pp-status" aria-live="polite"></div><div class="pp-ready" id="pp-ready"><strong>ÊTES-VOUS PRÊTS ?</strong><span>Setz prestes ?</span></div>
   <div id="pp-demo-banner" class="pp-demo-banner"><div class="pp-demo-txt">✦ ENTRAÎNEMENT — ne compte pas !</div></div>
   <div class="pp-mot-zone" id="pp-mot-zone">
     <div class="pp-signifie">Que signifie ce mot</div>
@@ -1289,9 +1450,9 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 
 <div id="p-player-reveal" class="page">
   <div class="pr-illustration"><img id="pr-img" src="" alt=""></div>
-  <div class="pr-kicker">RÉPONSE</div>
-  <div class="pr-title">La bonne réponse est</div>
+  <div class="pr-title">Que signifie ce mot ?</div>
   <div class="pr-word" id="pr-word">—</div>
+  <div class="pr-kicker">La bonne réponse est</div>
   <div class="pr-answer"><small id="pr-letter">B</small><span id="pr-answer-text">—</span></div>
   <div class="pr-answer-note" id="pr-answer-note"></div>
   <div class="pr-stats">
@@ -1698,6 +1859,9 @@ function hPrepareQ(){
   if(!q){hCQ=1;q=Q[1];}
   hA={};hTL=TSEC;hStep=0;hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   go('p-host-q');
+  $('p-host-q').classList.add('prestart');
+  var hrdy=$('hq-ready');if(hrdy)hrdy.style.display='flex';
+  var tw0=$('p-host-q').querySelector('.timer-wrap');if(tw0)tw0.classList.remove('done','panic','critical');
   var isDemo=q.isDemo===true;
   $('hq-qnum').textContent=isDemo?'Entraînement':'Question '+hCQ+' / '+(Q.length-1);
   $('hq-demo-sub').style.display=isDemo?'block':'none';
@@ -1744,6 +1908,8 @@ function stepLaunch(){
     return;
   }
   hStep=4;hTL=TSEC;hLastTick=-1;
+  $('p-host-q').classList.remove('prestart');
+  var hrdy=$('hq-ready');if(hrdy)hrdy.style.display='none';
   setBtnAdv('En cours...','');
   soundStart();
   var launchTs=Date.now()+SERVER_OFFSET;
@@ -1771,8 +1937,8 @@ function scoreCurrentQuestion(q){
       if(hP[pid]&&d&&Number(d.answer)===Number(q.c)){
         var answerTs=Number(d.ts)||hDeadline||Date.now();
         var remaining=Math.max(0,(hDeadline||answerTs)-answerTs)/1000;
-        var base=1000;
-        var bonus=Math.max(0,Math.round((remaining/Math.max(1,TSEC))*1000));
+        var base=1;
+        var bonus=0;
         hP[pid].score=(Number(hP[pid].score)||0)+base+bonus;
         dbSet('games/'+GID+'/players/'+pid+'/score',hP[pid].score);
       }
@@ -2047,6 +2213,9 @@ function joinGame(){
 function pShowQ(state){
   pCurrentState=state;pRunning=state.status==='running';
   var q=Object.assign({},Q[state.cq]||{},state||{});go('p-play');
+  var prestart=state.status!=='running';
+  var pp=$('p-play');if(pp)pp.classList.toggle('prestart',prestart);
+  var prdy=$('pp-ready');if(prdy)prdy.style.display=prestart?'flex':'none';
   var isDemo=state.isDemo===true;
   var totalQ=Math.max(1,Q.length-1);
   $('pp-qlbl').textContent='Question '+Math.max(1,Number(state.cq)||1)+' / '+totalQ; if(window.__fixFrancitanPlayerHeader)window.__fixFrancitanPlayerHeader();
@@ -2083,6 +2252,7 @@ function pShowQ(state){
 
 function pStartTimerSync(launchTs,duration,deadline){
   duration=duration||TSEC;pDuration=duration;pRunning=true;
+  var pt0=$('pp-timer');if(pt0)pt0.classList.remove('done','panic','critical','hot');
   var endAt=Number(deadline)||((Number(launchTs)||((Date.now()+SERVER_OFFSET)) )+duration*1000);
   function render(){
     var now=Date.now()+SERVER_OFFSET;
@@ -2254,5 +2424,22 @@ body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
 #p-join .jl-status{font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);min-height:18px;text-align:center;}
 #p-join .jl-status.ready{color:var(--green);}
 \n/* ===== V33 — ROUTAGE PROPRE + CORRECTIONS MINIMALES ===== */\n/* Un écran .page seulement : aucune règle de layout ne doit l'afficher s'il n'est pas .show. */\n#p-play:not(.show),#p-join:not(.show),#p-admin:not(.show),#p-host-res:not(.show),#p-reveal:not(.show),#p-player-reveal:not(.show),#p-ranking:not(.show){display:none!important;}\n#p-play.show,#p-host-res.show,#p-admin.show{display:flex!important;}\n#p-join.show{display:flex!important;}\n#p-reveal.show,#p-player-reveal.show{display:block!important;}\n\n/* Joueur : aucune manche, aucun entraînement, aucune barre décorative. */\nbody.player-mode #p-play .pp-round,\nbody.player-mode #p-play #pp-round,\nbody.player-mode #p-play .pp-demo-banner,\nbody.player-mode #p-play .pp-timebar{display:none!important;}\nbody.player-mode #p-play .pp-header{height:72px!important;min-height:72px!important;grid-template-columns:1fr auto 1fr!important;padding:6px 12px!important;}\nbody.player-mode #p-play .pp-qlbl{font-size:22px!important;font-weight:900!important;white-space:nowrap!important;}\nbody.player-mode #p-play .pp-brand{display:none!important;}\nbody.player-mode #p-play .pp-score{display:block!important;justify-self:center!important;font-size:22px!important;font-weight:900!important;background:var(--yellow)!important;color:var(--ink)!important;border-radius:999px!important;padding:7px 13px!important;white-space:nowrap!important;}\nbody.player-mode #p-play .pp-timer{justify-self:end!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;width:72px!important;height:72px!important;}\nbody.player-mode #p-play .pp-timer span{font-size:30px!important;}\n\n/* Sélection : aucune ombre noire ni contour noir. */\nbody.player-mode #p-play .pp-sq.sel{outline:none!important;border-color:var(--yellow)!important;background:#FFF8D8!important;transform:none!important;box-shadow:0 0 0 3px var(--yellow)!important;}\nbody.player-mode #p-play .pp-sq.sel:focus,\nbody.player-mode #p-play .pp-sq.sel:focus-visible,\nbody.player-mode #p-play .pp-sq:focus,\nbody.player-mode #p-play .pp-sq:focus-visible{outline:none!important;}\nbody.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:auto!important;right:8px!important;bottom:8px!important;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;font-size:22px;font-weight:900;z-index:20;}\n\n/* Fin du chrono : petit message à la place du cercle. */\nbody.player-mode #p-play .pp-timer.done{width:210px!important;height:42px!important;border-radius:999px!important;background:var(--red)!important;}\nbody.player-mode #p-play .pp-timer.done .pp-timer-svg{display:none!important;}\nbody.player-mode #p-play .pp-timer.done span{font-size:12px!important;line-height:1.1!important;color:#fff!important;white-space:nowrap!important;padding:0 8px!important;}\n#p-host-q .timer-wrap.done{width:230px!important;height:46px!important;border-radius:999px!important;background:var(--red)!important;}\n#p-host-q .timer-wrap.done svg{display:none!important;}\n#p-host-q .timer-wrap.done .t-num{font-size:13px!important;color:#fff!important;white-space:nowrap!important;letter-spacing:0!important;}\n\n/* Révélation animateur : on garde le split validé, sans la phrase d'attente. */\n#p-reveal .host-reveal-wait{display:none!important;}\n\n/* Révélation joueur : photo centrée, verdict et score visibles. */\n#p-player-reveal .pr-illustration img{object-position:center center!important;}\n#p-player-reveal .pr-feedback{z-index:20!important;}\n#p-player-reveal .pr-scoreline{z-index:20!important;}\n</style>
+
+<style id="v37-simple-prets">
+/* V37 — état d'attente avant lancement */
+.hq-ready{display:none;align-items:center;justify-content:center;flex-direction:column;gap:2px;margin:8px auto 12px;text-align:center;pointer-events:none;}
+.hq-ready strong{font-size:clamp(22px,2.2vw,34px);font-weight:900;color:var(--red);text-transform:uppercase;}
+.hq-ready span{font-size:clamp(16px,1.6vw,24px);font-weight:800;color:var(--ink);font-style:italic;}
+#p-host-q.prestart .hq-ready{display:flex;}
+.pp-ready{display:none;align-items:center;justify-content:center;flex-direction:column;gap:3px;min-height:110px;text-align:center;flex:none;}
+.pp-ready strong{font-size:28px;font-weight:900;color:var(--red);text-transform:uppercase;}
+.pp-ready span{font-size:20px;font-weight:800;color:var(--ink);font-style:italic;}
+#p-play.prestart .pp-ready{display:flex;}
+#p-play.prestart .pp-mot-zone,#p-play.prestart .pp-grid,#p-play.prestart .pp-change-wrap{display:none!important;}
+#p-play.prestart .pp-status{display:none!important;}
+/* Révélation : ordre demandé */
+.host-reveal-kicker{font-size:18px!important;letter-spacing:1px!important;text-transform:none!important;color:var(--red)!important;font-weight:900!important;}
+.pr-kicker{font-size:18px!important;letter-spacing:1px!important;text-transform:none!important;color:var(--red)!important;font-weight:900!important;}
+</style>
 </body>
 </html>
