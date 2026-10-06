@@ -205,6 +205,7 @@ body.player-mode #p-final .pf-score{font-size:52px!important;}
   #p-host-q .ans-text strong{font-size:25px!important;}
 }
 /* Joueur : composition de la maquette */
+body.player-mode #p-play{height:100vh!important;min-height:100vh!important;}
 body.player-mode #p-play .pp-header{height:82px!important;grid-template-columns:1fr auto!important;padding:8px 14px!important;}
 body.player-mode #p-play .pp-head-left{flex-direction:column!important;align-items:flex-start!important;gap:4px!important;padding:31px 0 0!important;}
 body.player-mode #p-play .pp-qlbl{font-size:12px!important;order:2!important;}
@@ -642,6 +643,7 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
 #p-reveal .host-reveal-answer{ text-shadow:none!important; }
 #p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-letter,#p-player-reveal .pr-answer,#p-player-reveal .pr-stats,#p-player-reveal .pr-wait{ text-shadow:0 2px 8px rgba(255,253,247,.92),0 0 16px rgba(255,253,247,.65);}
 @media(max-width:600px){#p-player-reveal .pr-illustration:after{background:rgba(255,251,242,.08)!important;}#p-player-reveal .pr-answer{box-shadow:0 8px 0 rgba(61,139,91,.25),0 12px 24px rgba(0,0,0,.16)!important;}}
+
 </style>
 <style id="francitan-v17-step1-logos">
 /* V17 STEP 1 — supplied official logos only. No game/layout rules changed. */
@@ -696,6 +698,8 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
 #p-join .jl-host-link:hover{opacity:1;color:var(--red);}
 @media(max-width:700px){#p-join .jl-welcome{font-size:17px;max-width:300px;line-height:1.25;}#p-join .jl-host-link{font-size:11px;}}
 </style>
+
+
 </head><body>
 
 <div id="p-select" class="page">
@@ -766,6 +770,7 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
       <div class="acc-title">Fran<em>ci</em>tan</div>
     </div>
     <div class="acc-sub" id="acc-sub">Vous parlez occitan sans le savoir…</div>
+    <div class="acc-connect">📱 Pour jouer sur votre téléphone<br><strong>quiz.novelum-ieo24.fr</strong></div>
     <button class="btn-big" onclick="goToLobby()">Suivant →</button>
   </div>
 </div>
@@ -1053,6 +1058,8 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
     <div class="pr-stat good"><strong id="pr-good">0</strong><span>bonne(s) réponse(s)</span></div>
     <div class="pr-stat bad"><strong id="pr-bad">0</strong><span>mauvaise(s) réponse(s)</span></div>
   </div>
+  <div class="pr-feedback" id="pr-feedback"><strong id="pr-feedback-main">Bravo !</strong><span id="pr-feedback-sub">C'est la bonne réponse !</span></div>
+  <div class="pr-scoreline"><strong id="pr-points">+0</strong><span>points cette question</span><b id="pr-total-score">0 pts</b></div>
   <div class="pr-wait">En attente de la prochaine question…</div>
 </div>
 
@@ -1193,7 +1200,7 @@ function drawQR(url,canvas){ var s=canvas.width,ctx=canvas.getContext('2d'),img=
 var TSEC = 30;
 var DEFAULT_Q = [
   {w:"Adiu",o:["je m'en vais","Bonjour ou Au revoir","une priere"],c:1,isDemo:true,imgs:["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75&auto=format","https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=75&auto=format","https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=75&auto=format"]},
-  {w:"une cafourche",o:["une grande fourche","une patte-d'oie","un petit placard"],c:1,imgs:["https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=75&auto=format"]},
+  {w:"une cafourche",o:["une grande fourche","une patte-d'oie","un petit placard"],c:1,imgs:["https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=400&q=75&auto=format","https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&q=80&auto=format"]},
   {w:"ebouiller",o:["detruire, casser","faire bouillir","debarbouiller"],c:0,imgs:["https://images.unsplash.com/photo-1542621334-a254cf47733d?w=400&q=75&auto=format","https://images.unsplash.com/photo-1584278859793-e55f02d07ef4?w=400&q=75&auto=format","https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=75&auto=format"]},
   {w:"une cagnasse",o:["une vilaine maison","un tas de pierres","une forte chaleur"],c:2,imgs:["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=75&auto=format","https://images.unsplash.com/photo-1555892013-50e8aaa0c7de?w=400&q=75&auto=format","https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=75&auto=format"]},
   {w:"buffer",o:["mettre dans un buffet","souffler, faire du vent","raturer, rayer"],c:1,imgs:["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=75&auto=format","https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=75&auto=format","https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&q=75&auto=format"]},
@@ -1233,6 +1240,8 @@ function saveQ(){
 }
 function saveImgs(){saveQ();}
 var Q = loadQ();
+/* V29: aucune question d'entraînement dans le jeu public. L'index 0 reste réservé au modèle historique, mais toutes les questions jouées sont réelles. */
+for(var _qi=1;_qi<Q.length;_qi++){ if(Q[_qi]) Q[_qi].isDemo=false; }
 var CIRC = 502.65;
 function $(id){return document.getElementById(id);}
 function go(id){
@@ -1442,7 +1451,7 @@ function updateLobbyUI(){
 }
 
 function hostStart(){
-  soundLaunch();hCQ=0;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
+  soundLaunch();hCQ=1;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   hPrepareQ();
 }
 function hPrepareQ(){
@@ -1452,8 +1461,8 @@ function hPrepareQ(){
   hA={};hTL=TSEC;hStep=0;hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   go('p-host-q');
   var isDemo=q.isDemo===true;
-  $('hq-qnum').textContent=isDemo?'Entraînement':'Question '+hCQ+' / '+(Q.length-1);
-  $('hq-demo-sub').style.display=isDemo?'block':'none';
+  $('hq-qnum').textContent='Question '+Math.max(1,hCQ)+' / '+(Q.length-1);
+  $('hq-demo-sub').style.display='none';
   $('hq-mot').textContent=q.w;var hqn=$('hq-note');if(hqn){hqn.textContent=q.note||'';hqn.style.display=q.note?'block':'none';}
   $('hq-mot').classList.remove('question-pop');void $('hq-mot').offsetWidth;$('hq-mot').classList.add('question-pop');
   $('hq-round').textContent=roundLabel(hCQ);
@@ -1508,9 +1517,10 @@ function stepLaunch(){
     hTL=Math.max(0,Math.ceil((deadline-now)/1000));
     hSetArc(hTL);
     var hw=$('p-host-q').querySelector('.timer-wrap');
-    if(hw){hw.classList.toggle('panic',hTL<=10&&hTL>3);hw.classList.toggle('critical',hTL<=3&&hTL>0);}
+    if(hw){hw.classList.toggle('panic',hTL<=5&&hTL>2);hw.classList.toggle('critical',hTL<=2&&hTL>0);}
+    var hpage=$('p-host-q');if(hpage)hpage.classList.toggle('critical5',hTL<=5&&hTL>0);
     if(hTL!==hLastTick){hLastTick=hTL;if(hTL>5)soundTick();else if(hTL>0)soundAlarm();}
-    if(hTL<=0){clearInterval(hTI);hTI=null;soundTimeup();hStep=5;setBtnAdv('Éliminer une réponse','green');}
+    if(hTL<=0){var hp=$('p-host-q');if(hp)hp.classList.add('timeout-ended');clearInterval(hTI);hTI=null;soundTimeup();hStep=5;setBtnAdv('Éliminer une réponse','green');}
   }
   tickHost();hTI=setInterval(tickHost,200);
 }
@@ -1799,12 +1809,14 @@ function joinGame(){
 function pShowQ(state){
   pCurrentState=state;pRunning=state.status==='running';
   var q=Object.assign({},Q[state.cq]||{},state||{});go('p-play');
+  var ppPage0=$('p-play');if(ppPage0)ppPage0.classList.remove('timeout-ended');
   var isDemo=state.isDemo===true;
-  $('pp-qlbl').textContent=isDemo?'ESSAI':'Q '+state.cq+' / '+(Q.length-1);
+  var totalQ=Math.max(1,Q.length-1);
+  $('pp-qlbl').textContent='Q '+Math.max(1,Number(state.cq)||1)+' / '+totalQ;
   $('pp-score').textContent=pScore+' pt'+(pScore>1?'s':'');
-  $('pp-round').textContent=roundLabel(state.cq);
+  $('pp-round').textContent='';$('pp-round').style.display='none';
   $('pp-mot').textContent=state.w;var ppn=$('pp-note');if(ppn){ppn.textContent=state.note||'';ppn.style.display=state.note?'block':'none';}
-  $('pp-demo-banner').style.display=isDemo?'block':'none';
+  $('pp-demo-banner').style.display='none';
   $('pp-mot-zone').style.display='';
   $('pp-status').textContent=pRunning?'':'En attente du dévoilement…';
   $('pp-status').className=pRunning?'pp-status':'pp-status waiting';
@@ -1845,8 +1857,9 @@ function pStartTimerSync(launchTs,duration,deadline){
     if(pfg){pfg.style.strokeDashoffset=169.65*(1-pTL/duration);pfg.style.stroke=pTL<=10?'var(--red)':'var(--yellow)';}
     if(ptimer){
       ptimer.classList.toggle('hot',pTL<=10&&pTL>0);
-      ptimer.classList.toggle('panic',pTL<=10&&pTL>3);
-      ptimer.classList.toggle('critical',pTL<=3&&pTL>0);
+      ptimer.classList.toggle('panic',pTL<=5&&pTL>2);
+      ptimer.classList.toggle('critical',pTL<=2&&pTL>0);
+      var ppPage=$('p-play');if(ppPage)ppPage.classList.toggle('critical5',pTL<=5&&pTL>0);
       ptimer.classList.toggle('done',pTL<=0);
     }
     var wtb=$('wr-timefill');if(wtb)wtb.style.width=pct+'%';
@@ -1854,6 +1867,7 @@ function pStartTimerSync(launchTs,duration,deadline){
     if(wfg){wfg.style.strokeDashoffset=188*(1-pTL/duration);wfg.style.stroke=pTL<=10?'var(--red)':'var(--ocre)';}
     if(wnum)wnum.textContent=pTL;
     if(pTL<=0){
+      var ppPage2=$('p-play');if(ppPage2)ppPage2.classList.add('timeout-ended');
       clearInterval(pTI);pTI=null;pRunning=false;
       document.querySelectorAll('.pp-sq').forEach(function(s){s.classList.add('locked');});
       var ps=$('pp-status');if(ps){ps.textContent='⏰ Temps écoulé — on passe aux résultats';ps.className='pp-status timeout';}
@@ -1905,13 +1919,41 @@ function pShowPlayerReveal(state){
   var good=Number(state.good)||Number(stats[correct])||0;
   var answered=Number(state.answered)||stats.reduce(function(a,b){return a+Number(b||0);},0);
   var bad=Math.max(0,answered-good);
+
+  /* Le score du joueur vient du classement Firebase : c'est lui qui fait foi. */
+  var oldScore=Number(pScore)||0;
+  var newScore=oldScore;
+  if(state.scoreboard&&PID){
+    var me=state.scoreboard.find(function(x){return x.pid===PID;});
+    if(me&&typeof me.score==='number')newScore=Number(me.score);
+  }
+  pScore=newScore;
+  var isDemo=state.isDemo===true;
+  var answeredByMe=pSel!==null&&pSel!==undefined;
+  var isCorrect=answeredByMe&&Number(pSel)===correct;
+  var earned=isDemo?0:Math.max(0,newScore-oldScore);
+
   var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
   $('pr-word').textContent=q.w||'—';
-  $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';var pan=$('pr-answer-note');if(pan){pan.textContent=state.answerNote||q.answerNote||'';pan.style.display=(state.answerNote||q.answerNote)?'block':'none';}
+  $('pr-answer-text').textContent=q.o&&q.o[correct]?q.o[correct]:'—';
+  var pan=$('pr-answer-note');if(pan){pan.textContent=state.answerNote||q.answerNote||'';pan.style.display=(state.answerNote||q.answerNote)?'block':'none';}
   $('pr-good').textContent=good;
   $('pr-bad').textContent=bad;
+
+  var fb=$('pr-feedback'),fm=$('pr-feedback-main'),fs=$('pr-feedback-sub');
+  if(fb){
+    var cls='';
+    if(!answeredByMe){cls='timeout';fm.textContent='Temps écoulé !';fs.textContent='Tu n\'as pas répondu à temps.';}
+    else if(isCorrect){cls='correct';fm.textContent='🎉 BRAVO !';fs.textContent='C\'est la bonne réponse !';}
+    else{cls='wrong';fm.textContent='🌩️ DOMMAGE !';fs.textContent='Ce n\'est pas la bonne réponse.';}
+    fb.className='pr-feedback '+cls;
+  }
+  var pts=$('pr-points');if(pts){pts.textContent=earned>0?'+'+earned:'+0';pts.className=earned>0?'earned':'zero';}
+  var total=$('pr-total-score');if(total)total.textContent=newScore+' pt'+(newScore>1?'s':'');
+
   go('p-player-reveal');
+  if(!isDemo&&isCorrect)confetti();
 }
 function pReveal(correctIdx,eliminated){
   // Compatibilité avec d'anciens états Firebase.
@@ -1974,5 +2016,368 @@ body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
 #p-join .jl-status{font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);min-height:18px;text-align:center;}
 #p-join .jl-status.ready{color:var(--green);}
 </style>
+<style id="francitan-v27-clean">
+/* ===== V27 CLEAN VISUAL LAYER — one layer, no stacked overrides ===== */
+#p-reveal:not(.show),#p-player-reveal:not(.show){display:none!important;}
+/* Accueil animateur */
+#p-accueil .acc-free{padding:34px 40px!important;gap:18px!important;max-width:900px!important}
+#p-accueil .acc-free>div:nth-child(2){font-size:30px!important;line-height:1.25!important}
+#p-accueil .acc-free>div:nth-child(4){font-size:23px!important;line-height:1.45!important}
+#p-accueil .acc-sub{font-size:26px!important}
+#p-accueil .acc-connect{font-size:24px!important;font-weight:900!important;padding:16px 28px!important;border:3px solid var(--yellow)!important;border-radius:18px!important;background:#fff!important;box-shadow:0 6px 0 rgba(104,67,28,.12)!important}
+#p-accueil .acc-connect strong{font-size:32px!important;color:var(--red)!important}
+#p-accueil .btn-big{font-size:20px!important;padding:16px 34px!important}
+
+/* Question animateur — chrono plus proche de la mécanique téléphone */
+#p-host-q .timer-wrap{background:var(--paper)!important;border-radius:50%!important}
+#p-host-q .t-bg{stroke:var(--red)!important}
+#p-host-q .t-fg{stroke:var(--yellow)!important}
+#p-host-q .t-num{font-size:88px!important;font-weight:900!important}
+#p-host-q .ans-pill{font-size:16px!important}
+
+/* Téléphone : header = Q / score / chrono. Rien d'autre. */
+body.player-mode #p-play .pp-header{height:82px!important;min-height:82px!important;display:block!important;position:relative!important;padding:0!important}
+body.player-mode #p-play .pp-brand,body.player-mode #p-play #pp-round{display:none!important}
+body.player-mode #p-play .pp-head-left{display:block!important;position:absolute!important;left:14px!important;top:50%!important;transform:translateY(-50%)!important;padding:0!important}
+body.player-mode #p-play .pp-qlbl{font-size:24px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important}
+body.player-mode #p-play .pp-score{display:block!important;position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;font-size:22px!important;font-weight:900!important;background:var(--yellow)!important;color:var(--ink)!important;border:0!important;border-radius:999px!important;padding:8px 16px!important;min-width:90px!important;text-align:center!important;z-index:4!important}
+body.player-mode #p-play .pp-timer{position:absolute!important;right:12px!important;top:50%!important;transform:translateY(-50%)!important;width:70px!important;height:70px!important;background:var(--paper)!important;border-radius:50%!important;box-shadow:0 4px 0 rgba(104,67,28,.10)!important;z-index:4!important}
+body.player-mode #p-play .pp-timer span{font-size:29px!important;font-weight:900!important;color:var(--ink)!important}
+body.player-mode #p-play .pp-demo-banner{display:none!important}
+body.player-mode #p-play .pp-status{font-size:15px!important;font-weight:900!important;min-height:38px!important;line-height:1.2!important;padding:8px 12px!important;text-align:center!important}
+body.player-mode #p-play .pp-status.timeout{background:var(--red)!important;color:#fff!important}
+body.player-mode #p-play .pp-mot-zone{margin:10px 14px!important;padding:16px 12px 18px!important;min-height:126px!important;background:rgba(255,253,247,.96)!important;border:2px solid #EAD9B8!important;border-radius:16px!important;box-shadow:0 5px 0 rgba(104,67,28,.08)!important}
+body.player-mode #p-play .pp-signifie{font-size:15px!important;font-weight:900!important}
+body.player-mode #p-play .pp-mot{font-size:45px!important;line-height:.95!important;letter-spacing:-2px!important}
+body.player-mode #p-play .pp-grid{display:flex!important;flex-direction:column!important;gap:10px!important;height:calc(100% - 300px)!important;padding:6px 14px 8px!important;overflow:hidden!important}
+body.player-mode #p-play .pp-sq{flex:1 1 0!important;height:auto!important;min-height:0!important;max-height:none!important;position:relative!important;border-radius:16px!important;border-width:3px!important;box-shadow:0 5px 0 rgba(104,67,28,.08)!important;overflow:hidden!important}
+body.player-mode #p-play .pp-sq-img{flex:0 0 96px!important;width:96px!important;height:100%!important}
+body.player-mode #p-play .pp-sq-bot{padding:0 56px 0 12px!important}
+body.player-mode #p-play .pp-sq-txt{font-size:18px!important;font-weight:900!important;line-height:1.1!important}
+/* sélection : jaune + coche, aucun contour noir */
+body.player-mode #p-play .pp-sq.sel{outline:none!important;border-color:var(--yellow)!important;background:#FFF8D8!important;transform:scale(1.012)!important;box-shadow:0 0 0 4px var(--yellow),0 6px 0 rgba(104,67,28,.10)!important}
+body.player-mode #p-play .pp-sq.sel:after{content:'✓'!important;position:absolute!important;right:8px!important;top:50%!important;left:auto!important;bottom:auto!important;transform:translateY(-50%)!important;width:36px!important;height:36px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;background:var(--green)!important;color:#fff!important;font-size:22px!important;font-weight:900!important;z-index:20!important;box-shadow:0 3px 0 rgba(0,0,0,.14)!important}
+/* Modifier ma réponse : toujours présent dans le flux quand une réponse est choisie */
+body.player-mode #p-play .pp-change-wrap{display:flex!important;justify-content:center!important;align-items:center!important;min-height:58px!important;padding:6px 14px 10px!important;position:relative!important;z-index:60!important}
+body.player-mode #p-play .pp-change-btn{font-size:17px!important;font-weight:900!important;padding:12px 20px!important;min-height:48px!important;background:var(--yellow)!important;color:var(--ink)!important;border:2px solid var(--ink)!important;border-radius:999px!important;box-shadow:0 4px 0 rgba(104,67,28,.15)!important}
+
+/* 5 dernières secondes : même signal sur les deux écrans */
+@keyframes v27ScreenPulse{0%,100%{box-shadow:inset 0 0 0 0 rgba(213,31,44,0)}50%{box-shadow:inset 0 0 0 18px rgba(213,31,44,.58)}}
+@keyframes v27ScreenFlash{0%,100%{opacity:0}50%{opacity:1}}
+@keyframes v27TimerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes v27TimerCritical{0%,100%{transform:scale(1)}50%{transform:scale(1.17);filter:drop-shadow(0 0 14px rgba(213,31,44,.9))}}
+#p-host-q.critical5,#p-play.critical5{animation:v27ScreenPulse .55s steps(2,end) infinite!important}
+#p-host-q.critical5:after,#p-play.critical5:after{content:""!important;position:absolute!important;inset:0!important;border:12px solid var(--red)!important;background:rgba(213,31,44,.10)!important;pointer-events:none!important;z-index:999!important;animation:v27ScreenFlash .55s steps(2,end) infinite!important}
+#p-host-q .timer-wrap.panic{animation:v27TimerPulse .55s ease-in-out infinite!important}
+#p-host-q .timer-wrap.critical{animation:v27TimerCritical .3s ease-in-out infinite!important}
+body.player-mode #p-play .pp-timer.panic{animation:v27TimerPulse .55s ease-in-out infinite!important}
+body.player-mode #p-play .pp-timer.critical{animation:v27TimerCritical .3s ease-in-out infinite!important}
+
+/* Révélation animateur : image gauche / infos droite, sans superposition */
+#p-reveal{position:fixed!important;inset:0!important;display:grid!important;grid-template-columns:46% 54%!important;grid-template-rows:1fr!important;padding:5vh 4vw!important;gap:0!important;background:var(--cream)!important;overflow:hidden!important}
+#p-reveal .host-reveal-illustration{position:relative!important;grid-column:1!important;grid-row:1!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:100%!important;height:100%!important;border:0!important;border-radius:24px!important;box-shadow:var(--shadow)!important;overflow:hidden!important}
+#p-reveal .host-reveal-illustration img{width:100%!important;height:100%!important;object-fit:cover!important}
+#p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-answer-note,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait{position:relative!important;grid-column:2!important;grid-row:1!important;left:auto!important;right:auto!important;top:auto!important;margin-left:5vw!important;margin-right:3vw!important}
+#p-reveal .host-reveal-kicker{align-self:start!important;margin-top:10vh!important;font-size:17px!important;letter-spacing:4px!important}
+#p-reveal .host-reveal-title{align-self:start!important;margin-top:17vh!important;font-size:clamp(30px,3vw,46px)!important}
+#p-reveal .host-reveal-word{align-self:start!important;margin-top:27vh!important;font-size:clamp(62px,6.5vw,105px)!important;line-height:.9!important}
+#p-reveal .host-reveal-answer{align-self:start!important;margin-top:46vh!important;justify-self:start!important}
+#p-reveal .host-reveal-answer-note{align-self:start!important;margin-top:58vh!important;font-size:15px!important}
+#p-reveal .host-reveal-stats{align-self:end!important;margin-bottom:8vh!important}
+#p-reveal .host-reveal-wait{align-self:end!important;margin-bottom:2vh!important}
+#p-reveal .reveal-next-btn{z-index:30!important;right:4vw!important;bottom:3vh!important}
+
+/* Révélation joueur : photo puis verdict, sans éléments qui se chevauchent */
+#p-player-reveal{position:fixed!important;inset:0!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:34vh 1fr!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important}
+#p-player-reveal .pr-illustration{position:relative!important;grid-column:1!important;grid-row:1!important;left:auto!important;top:auto!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important}
+#p-player-reveal .pr-kicker,#p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-answer,#p-player-reveal .pr-answer-note,#p-player-reveal .pr-stats,#p-player-reveal .pr-feedback,#p-player-reveal .pr-scoreline,#p-player-reveal .pr-wait{position:relative!important;grid-column:1!important;grid-row:2!important;left:auto!important;right:auto!important;top:auto!important;margin-left:14px!important;margin-right:14px!important;z-index:2!important}
+#p-player-reveal .pr-kicker{margin-top:12px!important;font-size:12px!important;letter-spacing:3px!important}
+#p-player-reveal .pr-title{margin-top:12px!important;font-size:23px!important}
+#p-player-reveal .pr-word{margin-top:7px!important;font-size:44px!important;line-height:.95!important}
+#p-player-reveal .pr-answer{margin-top:12px!important;justify-self:center!important;max-width:calc(100% - 28px)!important;padding:13px 16px!important;font-size:22px!important;border-radius:16px!important}
+#p-player-reveal .pr-feedback{margin-top:12px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;width:calc(100% - 28px)!important;padding:11px 12px!important;border-radius:16px!important}
+#p-player-reveal .pr-feedback strong{font-size:27px!important;line-height:1!important}
+#p-player-reveal .pr-feedback span{font-size:14px!important;font-weight:800!important;margin-top:5px!important}
+#p-player-reveal .pr-scoreline{margin-top:10px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;font-size:13px!important}
+#p-player-reveal .pr-scoreline strong{font-size:32px!important;color:var(--green)!important}
+#p-player-reveal .pr-scoreline b{font-size:18px!important;background:var(--yellow)!important;border-radius:999px!important;padding:5px 11px!important}
+#p-player-reveal .pr-answer-note,#p-player-reveal .pr-stats,#p-player-reveal .pr-wait{display:none!important}
+#p-player-reveal .pr-feedback.correct{background:var(--green)!important;color:#fff!important}
+#p-player-reveal .pr-feedback.wrong{background:var(--red)!important;color:#fff!important}
+#p-player-reveal .pr-feedback.timeout{background:#596579!important;color:#fff!important}
+
+/* Petit écran */
+@media(max-width:700px){
+  #p-accueil .acc-free{width:94vw!important;padding:24px 18px!important}
+  #p-accueil .acc-free>div:nth-child(2){font-size:22px!important}
+  #p-accueil .acc-free>div:nth-child(4){font-size:18px!important}
+  #p-accueil .acc-sub{font-size:20px!important}
+  #p-accueil .acc-connect{font-size:18px!important}
+  #p-accueil .acc-connect strong{font-size:23px!important}
+  #p-reveal.show{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:40vh 60vh!important;padding:0!important}
+  #p-reveal .host-reveal-illustration{grid-column:1!important;grid-row:1!important;border-radius:0!important}
+  #p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-answer-note,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait{grid-column:1!important;grid-row:2!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;margin-left:14px!important;margin-right:14px!important}
+  #p-reveal .host-reveal-kicker{margin-top:12px!important;font-size:12px!important}
+  #p-reveal .host-reveal-title{margin-top:10px!important;font-size:22px!important}
+  #p-reveal .host-reveal-word{margin-top:8px!important;font-size:46px!important}
+  #p-reveal .host-reveal-answer{margin-top:12px!important;width:calc(100% - 28px)!important;justify-self:center!important}
+  #p-reveal .host-reveal-answer-note{margin-top:8px!important;font-size:11px!important}
+  #p-reveal .host-reveal-stats{align-self:end!important;margin-bottom:40px!important}
+  #p-reveal .host-reveal-wait{display:none!important}
+}
+</style>
+<style id="francitan-v27-final-fix">
+/* Final structural guard: a page is visible only when go() gives it .show. */
+#p-select:not(.show),#p-prehome:not(.show),#p-accueil:not(.show),#p-lobby:not(.show),#p-host-q:not(.show),#p-reveal:not(.show),#p-host-res:not(.show),#p-ranking:not(.show),#p-host-final:not(.show),#p-admin:not(.show),#p-join:not(.show),#p-wait:not(.show),#p-play:not(.show),#p-wait-reveal:not(.show),#p-player-reveal:not(.show),#p-answered:not(.show),#p-final:not(.show){display:none!important;}
+
+/* Animateur reveal: strict two-column composition. */
+#p-reveal.show{position:fixed!important;inset:0!important;display:block!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
+#p-reveal.show .host-reveal-illustration{position:absolute!important;left:4vw!important;top:6vh!important;width:42vw!important;height:88vh!important;border:0!important;border-radius:24px!important;box-shadow:var(--shadow)!important;overflow:hidden!important;}
+#p-reveal.show .host-reveal-illustration img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;}
+#p-reveal.show .host-reveal-kicker,#p-reveal.show .host-reveal-title,#p-reveal.show .host-reveal-word,#p-reveal.show .host-reveal-answer,#p-reveal.show .host-reveal-answer-note,#p-reveal.show .host-reveal-stats,#p-reveal.show .host-reveal-wait{position:absolute!important;left:51vw!important;right:5vw!important;top:auto!important;margin:0!important;}
+#p-reveal.show .host-reveal-kicker{top:10vh!important;font-size:18px!important;letter-spacing:4px!important;}
+#p-reveal.show .host-reveal-title{top:16vh!important;font-size:clamp(30px,3vw,48px)!important;}
+#p-reveal.show .host-reveal-word{top:27vh!important;font-size:clamp(62px,6.5vw,105px)!important;line-height:.9!important;}
+#p-reveal.show .host-reveal-answer{top:46vh!important;right:auto!important;min-width:360px!important;}
+#p-reveal.show .host-reveal-answer-note{top:58vh!important;font-size:15px!important;}
+#p-reveal.show .host-reveal-stats{top:68vh!important;left:51vw!important;right:5vw!important;justify-content:flex-start!important;}
+#p-reveal.show .host-reveal-wait{bottom:4vh!important;top:auto!important;font-size:13px!important;}
+#p-reveal.show .reveal-next-btn{right:4vw!important;bottom:3vh!important;z-index:30!important;}
+
+/* Joueur reveal: photo on top, verdict underneath, normal flow = no overlap. */
+#p-player-reveal.show{position:fixed!important;inset:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
+#p-player-reveal.show .pr-illustration{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:34vh!important;flex:0 0 34vh!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;}
+#p-player-reveal.show .pr-illustration img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;}
+#p-player-reveal.show .pr-kicker,#p-player-reveal.show .pr-title,#p-player-reveal.show .pr-word,#p-player-reveal.show .pr-answer,#p-player-reveal.show .pr-feedback,#p-player-reveal.show .pr-scoreline{position:relative!important;left:auto!important;right:auto!important;top:auto!important;grid-column:auto!important;grid-row:auto!important;flex:none!important;margin-left:14px!important;margin-right:14px!important;}
+#p-player-reveal.show .pr-kicker{margin-top:10px!important;font-size:12px!important;letter-spacing:3px!important;}
+#p-player-reveal.show .pr-title{margin-top:8px!important;font-size:22px!important;}
+#p-player-reveal.show .pr-word{margin-top:6px!important;font-size:44px!important;line-height:.95!important;}
+#p-player-reveal.show .pr-answer{margin-top:10px!important;max-width:calc(100% - 28px)!important;padding:12px 16px!important;font-size:21px!important;border-radius:16px!important;}
+#p-player-reveal.show .pr-feedback{margin-top:10px!important;width:calc(100% - 28px)!important;padding:11px 12px!important;border-radius:16px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;}
+#p-player-reveal.show .pr-feedback strong{font-size:27px!important;line-height:1!important;}
+#p-player-reveal.show .pr-feedback span{font-size:14px!important;font-weight:800!important;margin-top:4px!important;}
+#p-player-reveal.show .pr-scoreline{margin-top:9px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;font-size:13px!important;}
+#p-player-reveal.show .pr-scoreline strong{font-size:32px!important;color:var(--green)!important;}
+#p-player-reveal.show .pr-scoreline b{font-size:18px!important;background:var(--yellow)!important;border-radius:999px!important;padding:5px 11px!important;}
+#p-player-reveal.show .pr-answer-note,#p-player-reveal.show .pr-stats,#p-player-reveal.show .pr-wait{display:none!important;}
+
+/* Confetti */
+.cf{position:fixed!important;top:-24px!important;z-index:9999!important;pointer-events:none!important;animation-name:v27ConfettiFall!important;animation-timing-function:linear!important;animation-fill-mode:forwards!important;}
+@keyframes v27ConfettiFall{0%{transform:translate3d(0,-20px,0) rotate(0deg);opacity:1}100%{transform:translate3d(0,110vh,0) rotate(720deg);opacity:.9}}
+
+@media(max-width:700px){
+  #p-reveal.show .host-reveal-illustration{left:0!important;top:0!important;width:100%!important;height:40vh!important;border-radius:0!important;}
+  #p-reveal.show .host-reveal-kicker,#p-reveal.show .host-reveal-title,#p-reveal.show .host-reveal-word,#p-reveal.show .host-reveal-answer,#p-reveal.show .host-reveal-answer-note,#p-reveal.show .host-reveal-stats,#p-reveal.show .host-reveal-wait{left:14px!important;right:14px!important;}
+  #p-reveal.show .host-reveal-kicker{top:43vh!important;font-size:12px!important;}
+  #p-reveal.show .host-reveal-title{top:47vh!important;font-size:21px!important;}
+  #p-reveal.show .host-reveal-word{top:52vh!important;font-size:45px!important;}
+  #p-reveal.show .host-reveal-answer{top:63vh!important;min-width:0!important;width:calc(100% - 28px)!important;}
+  #p-reveal.show .host-reveal-answer-note{top:74vh!important;font-size:11px!important;}
+  #p-reveal.show .host-reveal-stats{top:81vh!important;left:10px!important;right:10px!important;gap:6px!important;}
+  #p-reveal.show .host-reveal-wait{display:none!important;}
+}
+</style>
+<style id="francitan-v27-header-final">
+body.player-mode #p-play .pp-header{height:82px!important;min-height:82px!important;display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:center!important;padding:6px 12px!important;position:relative!important;}
+body.player-mode #p-play .pp-head-left{grid-column:1!important;grid-row:1!important;position:static!important;display:flex!important;align-items:center!important;padding:0!important;transform:none!important;}
+body.player-mode #p-play .pp-qlbl{font-size:24px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important;}
+body.player-mode #p-play .pp-score{grid-column:2!important;grid-row:1!important;position:static!important;transform:none!important;justify-self:center!important;align-self:center!important;}
+body.player-mode #p-play .pp-timer{grid-column:3!important;grid-row:1!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;justify-self:end!important;align-self:center!important;width:70px!important;height:70px!important;}
+</style>
+<style id="francitan-v28-final-fixes">
+/* ===== V28 FINAL FIXES ===== */
+/* Le mode joueur ne doit plus afficher la bande horizontale de progression. */
+body.player-mode #p-play .pp-timebar{display:none!important;}
+/* Aucun encadré noir autour d'une réponse sélectionnée. */
+body.player-mode #p-play .pp-sq.sel,
+body.player-mode #p-play .pp-sq.sel:focus,
+body.player-mode #p-play .pp-sq.sel:focus-visible{
+  outline:none!important;
+  border:3px solid var(--yellow)!important;
+  box-shadow:0 0 0 4px var(--yellow),0 7px 0 rgba(104,67,28,.10)!important;
+}
+body.player-mode #p-play .pp-sq.sel::before{display:none!important;}
+/* Aucun libellé de manche/entraînement dans le jeu joueur. */
+body.player-mode #p-play .round-badge,
+body.player-mode #p-play .pp-demo-banner{display:none!important;}
+/* Image de révélation parfaitement centrée sur téléphone. */
+@media(max-width:700px){
+  #p-player-reveal.show .pr-illustration img{object-position:50% 50%!important;}
+}
+/* Fin du chrono : message identique sur grand écran et téléphone. */
+#p-host-q.timeout-ended::before,
+#p-play.timeout-ended::before{
+  content:'C’EST TERMINÉ !  Quò es chabat !';
+  position:absolute!important;
+  inset:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:24px!important;
+  background:rgba(213,31,44,.94)!important;
+  color:#fff!important;
+  font-family:'Bricolage Grotesque',Arial,sans-serif!important;
+  font-size:clamp(28px,5vw,76px)!important;
+  line-height:1.05!important;
+  font-weight:900!important;
+  letter-spacing:-1px!important;
+  z-index:10000!important;
+  animation:v28TimeoutPop .28s ease-out both!important;
+  pointer-events:none!important;
+}
+@keyframes v28TimeoutPop{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+/* Le bouton de changement reste jaune, jamais noir. */
+body.player-mode #p-play .pp-change-btn{border:2px solid var(--yellow)!important;outline:none!important;}
+/* Révélation joueur : tout doit rester visible et centré. */
+#p-player-reveal.show{overflow:hidden!important;}
+#p-player-reveal.show .pr-scoreline{visibility:visible!important;opacity:1!important;}
+#p-player-reveal.show .pr-feedback{visibility:visible!important;opacity:1!important;}
+#p-player-reveal.show .pr-scoreline strong{display:inline-block!important;min-width:58px!important;text-align:center!important;}
+#p-player-reveal.show .pr-scoreline b{display:inline-block!important;}
+/* Bonne réponse : confettis au-dessus de tout le reste. */
+.cf{z-index:20000!important;}
+</style>
+<script>
+/* V28 : sécurise aussi l'affichage de la fin du chrono côté joueur. */
+(function(){
+  var oldPS=pShowPlayerReveal;
+  pShowPlayerReveal=function(state){
+    var page=$('p-play');if(page)page.classList.remove('timeout-ended');
+    return oldPS.apply(this,arguments);
+  };
+})();
+</script>
+
+<style id="francitan-v29-definitive-fixes">
+/* ================= V29 — corrections définitives demandées ================= */
+/* Joueur : aucun libellé Manche / Entraînement, jamais. Même si une autre classe de mode manque, ces écrans restent nettoyés. */
+#p-play .round-badge,
+#p-play #pp-round,
+#p-play .pp-demo-banner,
+#p-play #pp-demo-banner,
+#p-wait-reveal .round-badge{display:none!important;}
+body.player-mode #p-play .round-badge,
+body.player-mode #p-play #pp-round,
+body.player-mode #p-play .pp-demo-banner,
+body.player-mode #p-play #pp-demo-banner{display:none!important;}
+/* En-tête joueur : Q / score / chrono, sans marque parasite. */
+@media(max-width:700px){
+  body.player-mode #p-play .pp-header{height:78px!important;display:grid!important;grid-template-columns:1fr auto 1fr!important;padding:7px 14px!important;}
+  body.player-mode #p-play .pp-head-left{grid-column:1!important;display:block!important;}
+  body.player-mode #p-play .pp-brand{display:none!important;}
+  body.player-mode #p-play .pp-qlbl{font-size:25px!important;line-height:1!important;font-weight:900!important;}
+  body.player-mode #p-play .pp-score{display:block!important;grid-column:2!important;justify-self:center!important;align-self:center!important;font-size:24px!important;font-weight:900!important;color:var(--ink)!important;white-space:nowrap!important;}
+  body.player-mode #p-play .pp-timer{grid-column:3!important;justify-self:end!important;align-self:center!important;position:relative!important;inset:auto!important;width:68px!important;height:68px!important;transform:none!important;}
+  body.player-mode #p-play .pp-timer span{font-size:29px!important;}
+  body.player-mode #p-play .pp-timebar{display:none!important;}
+}
+/* Sélection : aucune ombre noire, aucun focus noir, uniquement jaune. */
+#p-play .pp-sq.sel,
+#p-play .pp-sq.sel:hover,
+#p-play .pp-sq.sel:active,
+#p-play .pp-sq.sel:focus,
+#p-play .pp-sq.sel:focus-visible{
+  outline:0!important;
+  -webkit-tap-highlight-color:transparent!important;
+  border:3px solid var(--yellow)!important;
+  box-shadow:0 0 0 5px var(--yellow),0 7px 0 rgba(104,67,28,.10)!important;
+  filter:none!important;
+}
+/* Fin du chrono : petit message à la place du cercle, pas plein écran. */
+#p-host-q .timer-wrap.timeout-message,
+body.player-mode #p-play .pp-timer.timeout-message{
+  width:auto!important;height:auto!important;min-width:0!important;
+  border-radius:14px!important;background:var(--red)!important;
+  box-shadow:none!important;overflow:visible!important;
+  padding:8px 13px!important;
+}
+#p-host-q .timer-wrap.timeout-message svg,
+body.player-mode #p-play .pp-timer.timeout-message svg{display:none!important;}
+#p-host-q .timer-wrap.timeout-message .t-num,
+body.player-mode #p-play .pp-timer.timeout-message span{
+  position:static!important;display:block!important;width:auto!important;height:auto!important;
+  color:#fff!important;font-size:14px!important;font-weight:900!important;
+  line-height:1.1!important;letter-spacing:0!important;white-space:nowrap!important;
+}
+#p-host-q.timeout-ended::before,
+#p-play.timeout-ended::before{display:none!important;content:none!important;}
+#p-play.timeout-ended .pp-status{display:none!important;height:0!important;min-height:0!important;padding:0!important;}
+/* Plus de phrase parasite sur la révélation animateur. */
+#p-reveal .host-reveal-wait{display:none!important;}
+/* Révélation téléphone : image centrée + résultat + points toujours visibles. */
+@media(max-width:700px){
+  #p-player-reveal.show{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;text-align:center!important;overflow:hidden!important;padding:16px 12px 12px!important;gap:6px!important;}
+  #p-player-reveal.show .pr-illustration{width:250px!important;height:150px!important;margin:0 auto 2px!important;align-self:center!important;}
+  #p-player-reveal.show .pr-kicker{font-size:11px!important;}
+  #p-player-reveal.show .pr-title{font-size:22px!important;}
+  #p-player-reveal.show .pr-word{font-size:38px!important;margin:0!important;}
+  #p-player-reveal.show .pr-answer{font-size:20px!important;padding:10px 14px!important;max-width:94vw!important;}
+  #p-player-reveal.show .pr-stats{display:none!important;}
+  #p-player-reveal.show .pr-feedback{display:flex!important;width:94vw!important;margin:3px 0 0!important;padding:9px 10px!important;}
+  #p-player-reveal.show .pr-feedback strong{font-size:24px!important;}
+  #p-player-reveal.show .pr-feedback span{font-size:12px!important;}
+  #p-player-reveal.show .pr-scoreline{display:flex!important;margin:3px 0 0!important;gap:8px!important;}
+  #p-player-reveal.show .pr-scoreline strong{font-size:30px!important;}
+  #p-player-reveal.show .pr-scoreline b{font-size:16px!important;padding:5px 10px!important;}
+}
+/* Nettoyage final sans dépendre de la classe player-mode. */
+#p-play .pp-sq.sel{outline:none!important;border:3px solid var(--yellow)!important;box-shadow:0 0 0 4px var(--yellow)!important;-webkit-box-shadow:0 0 0 4px var(--yellow)!important;}
+#p-reveal .host-reveal-wait{display:none!important;visibility:hidden!important;height:0!important;margin:0!important;padding:0!important;}
+#p-reveal .reveal-next-btn{z-index:20!important;}
+@media(max-width:700px){
+  #p-play .pp-header{grid-template-columns:1fr auto 1fr!important;}
+  #p-play .pp-brand{display:none!important;}
+  #p-play .pp-score{display:block!important;font-size:24px!important;font-weight:900!important;color:var(--ink)!important;}
+  #p-play .pp-qlbl{font-size:25px!important;font-weight:900!important;}
+  #p-play .pp-timer{width:68px!important;height:68px!important;}
+}
+</style>
+<script id="francitan-v29-definitive-js">
+(function(){
+  /* Toujours neutraliser visuellement Manche/Entraînement après chaque affichage. */
+  var _oldShowQ=window.pShowQ;
+  window.pShowQ=function(state){
+    var r=_oldShowQ.apply(this,arguments);
+    var round=$('pp-round');if(round){round.textContent='';round.style.display='none';}
+    var demo=$('pp-demo-banner');if(demo)demo.style.display='none';
+    var page=$('p-play');if(page)page.classList.remove('timeout-ended');
+    return r;
+  };
+  /* Remplace le plein écran rouge de V28 par le petit message dans le chrono. */
+  var _oldPStart=window.pStartTimerSync;
+  window.pStartTimerSync=function(launchTs,duration,deadline){
+    var r=_oldPStart.apply(this,arguments);
+    var timer=$('pp-timer');
+    if(timer){timer.classList.remove('timeout-message');var svg=timer.querySelector('svg');if(svg)svg.style.display='';}
+    return r;
+  };
+  /* À zéro, le moteur original ajoute timeout-ended : on transforme l'affichage du chrono. */
+  var _oldStepLaunch=window.stepLaunch;
+  /* hPrepareQ réinitialise le texte du chrono animateur. */
+  var _oldPrepare=window.hPrepareQ;
+  window.hPrepareQ=function(){
+    var r=_oldPrepare.apply(this,arguments);
+    var ht=$('p-host-q');if(ht)ht.classList.remove('timeout-ended');
+    var tw=ht&&ht.querySelector('.timer-wrap');
+    if(tw){tw.classList.remove('timeout-message');var svg=tw.querySelector('svg');if(svg)svg.style.display='';}
+    var tn=$('t-num');if(tn)tn.textContent=TSEC;
+    return r;
+  };
+  /* Surveille le zéro des deux chronos et remplace uniquement leur contenu. */
+  setInterval(function(){
+    var pt=$('pp-timer'),pn=$('pp-timer-num');
+    if(pt&&pn&&pn.textContent.trim()==='0'&&!pt.classList.contains('timeout-message')){
+      pt.classList.add('timeout-message');pn.textContent='C’EST TERMINÉ ! Quò es chabat !';
+      var p=$('p-play');if(p)p.classList.remove('timeout-ended');
+    }
+    var ht=$('p-host-q'),tw=ht&&ht.querySelector('.timer-wrap'),tn=$('t-num');
+    if(tw&&tn&&tn.textContent.trim()==='0'&&!tw.classList.contains('timeout-message')){
+      tw.classList.add('timeout-message');tn.textContent='C’EST TERMINÉ ! Quò es chabat !';
+      if(ht)ht.classList.remove('timeout-ended');
+    }
+  },100);
+})();
+</script>
 </body>
 </html>
