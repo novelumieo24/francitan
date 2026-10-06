@@ -837,6 +837,109 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 #p-join .jl-host-link:hover{opacity:1;color:var(--red);}
 @media(max-width:700px){#p-join .jl-welcome{font-size:17px;max-width:300px;line-height:1.25;}#p-join .jl-host-link{font-size:11px;}}
 </style>
+
+<style id="v34-clean-player">
+/* ===== V34 — téléphone simple et stable ===== */
+@media(max-width:600px){
+  /* Header joueur : texte complet, sans manche ni marqueur de progression */
+  body.player-mode #p-play .pp-header{
+    height:72px!important;min-height:72px!important;
+    display:grid!important;grid-template-columns:1fr auto 1fr!important;
+    align-items:center!important;padding:6px 12px!important;
+  }
+  body.player-mode #p-play .pp-head-left{
+    display:flex!important;flex-direction:row!important;align-items:center!important;
+    padding:0!important;gap:0!important;
+  }
+  body.player-mode #p-play .pp-qlbl{
+    font-size:24px!important;font-weight:900!important;white-space:nowrap!important;
+  }
+  body.player-mode #p-play .pp-qlbl::first-letter{ }
+  body.player-mode #p-play .pp-round,
+  body.player-mode #p-play #pp-round,
+  body.player-mode #p-play .pp-demo-banner,
+  body.player-mode #p-play .pp-timebar{display:none!important;}
+  body.player-mode #p-play .pp-brand{display:none!important;}
+  body.player-mode #p-play .pp-score{
+    display:block!important;position:static!important;justify-self:center!important;
+    font-size:20px!important;font-weight:900!important;background:var(--yellow)!important;
+    color:var(--ink)!important;border-radius:999px!important;padding:7px 13px!important;
+    white-space:nowrap!important;
+  }
+  body.player-mode #p-play .pp-timer{
+    position:absolute!important;left:50%!important;right:auto!important;
+    top:auto!important;bottom:76px!important;transform:translateX(-50%)!important;
+    width:78px!important;height:78px!important;z-index:30!important;
+  }
+  body.player-mode #p-play .pp-timer span{font-size:32px!important;}
+  /* Le texte de statut timeout ne double pas le message du chrono. */
+  body.player-mode #p-play .pp-status.timeout{display:none!important;height:0!important;min-height:0!important;padding:0!important;}
+  /* Les propositions occupent leur place normale ; le chrono est juste dessous. */
+  body.player-mode #p-play .pp-grid{
+    height:calc(100% - 360px)!important;min-height:270px!important;
+    padding:6px 14px 12px!important;gap:9px!important;
+  }
+  body.player-mode #p-play .pp-change-wrap{
+    position:absolute!important;left:0!important;right:0!important;bottom:14px!important;
+    padding:0!important;z-index:31!important;
+  }
+  /* Sélection : aucun contour noir, jamais. */
+  body.player-mode #p-play .pp-sq.sel,
+  body.player-mode #p-play .pp-sq.sel:focus,
+  body.player-mode #p-play .pp-sq.sel:focus-visible,
+  body.player-mode #p-play .pp-sq:focus,
+  body.player-mode #p-play .pp-sq:focus-visible{
+    outline:none!important;border-color:var(--yellow)!important;
+    background:#FFF8D8!important;transform:none!important;
+    box-shadow:0 0 0 3px var(--yellow)!important;
+  }
+  body.player-mode #p-play .pp-sq.sel:after{display:none!important;}
+  body.player-mode #p-play .pp-sq.sel .pp-sq-bot{background:#FFF1B5!important;}
+  /* Fin : petit message exactement à la place du chrono. */
+  body.player-mode #p-play .pp-timer.done{
+    width:220px!important;height:38px!important;border-radius:999px!important;
+    background:var(--red)!important;box-shadow:none!important;
+  }
+  body.player-mode #p-play .pp-timer.done .pp-timer-svg{display:none!important;}
+  body.player-mode #p-play .pp-timer.done span{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    width:100%!important;height:100%!important;font-size:12px!important;
+    color:#fff!important;white-space:nowrap!important;padding:0!important;
+  }
+  /* En attente / révélation : pas de Manche ni Entraînement. */
+  body.player-mode #p-wait-reveal .round-badge,
+  body.player-mode #p-wait-reveal .wr-round,
+  body.player-mode #p-wait-reveal .wr-timebar{display:none!important;}
+  /* Mauvaise réponse : bonhomme triste, pas d'orage. */
+  #p-player-reveal .pr-feedback.wrong #pr-feedback-main{font-size:0!important;}
+  #p-player-reveal .pr-feedback.wrong #pr-feedback-main::after{content:'😞 DOMMAGE !';font-size:28px!important;}
+}
+/* Fin du chrono animateur : petit message, sans plein écran. */
+#p-host-q .timer-wrap.done{
+  width:230px!important;height:46px!important;border-radius:999px!important;
+  background:var(--red)!important;box-shadow:none!important;
+}
+#p-host-q .timer-wrap.done svg{display:none!important;}
+#p-host-q .timer-wrap.done .t-num{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;height:100%!important;font-size:13px!important;color:#fff!important;
+  white-space:nowrap!important;letter-spacing:0!important;
+}
+#p-reveal .host-reveal-wait{display:none!important;visibility:hidden!important;}
+</style>
+<script>
+/* V34 : le joueur affiche toujours Question X / 16 en toutes lettres. */
+(function(){
+  function fixPlayerHeader(){
+    var q=document.getElementById('pp-qlbl');
+    if(!q)return;
+    var m=String(q.textContent||'').match(/(?:Q|Question)\s*(\d+)\s*\/\s*(\d+)/i);
+    if(m)q.textContent='Question '+m[1]+' / '+m[2];
+  }
+  window.__fixFrancitanPlayerHeader=fixPlayerHeader;
+})();
+</script>
+
 </head><body>
 
 <div id="p-select" class="page">
@@ -1946,7 +2049,7 @@ function pShowQ(state){
   var q=Object.assign({},Q[state.cq]||{},state||{});go('p-play');
   var isDemo=state.isDemo===true;
   var totalQ=Math.max(1,Q.length-1);
-  $('pp-qlbl').textContent='Q '+Math.max(1,Number(state.cq)||1)+' / '+totalQ;
+  $('pp-qlbl').textContent='Question '+Math.max(1,Number(state.cq)||1)+' / '+totalQ; if(window.__fixFrancitanPlayerHeader)window.__fixFrancitanPlayerHeader();
   $('pp-score').textContent=pScore+' pt'+(pScore>1?'s':'');
   $('pp-round').textContent='';
   $('pp-mot').textContent=state.w;var ppn=$('pp-note');if(ppn){ppn.textContent=state.note||'';ppn.style.display=state.note?'block':'none';}
@@ -2066,6 +2169,7 @@ function pShowPlayerReveal(state){
   var answeredByMe=pSel!==null&&pSel!==undefined;
   var isCorrect=answeredByMe&&Number(pSel)===correct;
   var earned=isDemo?0:Math.max(0,newScore-oldScore);
+  if(!isDemo && isCorrect && earned===0 && Number.isFinite(newScore) && Number.isFinite(oldScore) && newScore>oldScore) earned=newScore-oldScore;
 
   var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
@@ -2086,8 +2190,8 @@ function pShowPlayerReveal(state){
   var pts=$('pr-points');if(pts){pts.textContent=earned>0?'+'+earned:'+0';pts.className=earned>0?'earned':'zero';}
   var total=$('pr-total-score');if(total)total.textContent=newScore+' pt'+(newScore>1?'s':'');
 
-  go('p-player-reveal');
   if(!isDemo&&isCorrect)confetti();
+  go('p-player-reveal');
 }
 function pReveal(correctIdx,eliminated){
   // Compatibilité avec d'anciens états Firebase.
