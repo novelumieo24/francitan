@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN V17 STEP 1 — V16 BASE + SUPPLIED LOGOS ONLY --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quiz Francitan</title><!-- FRANCITAN V23 — ENTREE FINALE — V16 BASE + SUPPLIED LOGOS ONLY --><script>(function(){try{var q=new URLSearchParams(location.search);var play=!!(q.get("g")&&q.get("m")==="play");document.documentElement.setAttribute("data-francitan-mode",play?"player":"host");}catch(e){document.documentElement.setAttribute("data-francitan-mode","host");}})();</script><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&display=swap" rel="stylesheet"><style>
 html[data-francitan-mode="player"] #p-select{display:none!important}
 html[data-francitan-mode="host"] #p-join,html[data-francitan-mode="host"] #p-wait,html[data-francitan-mode="host"] #p-play,html[data-francitan-mode="host"] #p-wait-reveal,html[data-francitan-mode="host"] #p-answered,html[data-francitan-mode="host"] #p-final{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -690,7 +690,7 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
   #p-join .jl-code{font-size:11px!important;color:var(--muted)!important;min-height:18px}
 }
 @media(max-width:600px){#p-select .sel-actions{grid-template-columns:1fr;gap:12px}.v18-auth-box{padding:26px 20px 20px}.v18-auth-title{font-size:28px}}
-/* V20 — joueur déjà sur le site : pas d'URL ni de code à afficher. */
+/* V23 — joueur déjà sur le site : pas d'URL ni de code à afficher. */
 #p-join .jl-welcome{font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:18px;font-weight:700;color:var(--ink);text-align:center;}
 #p-join .jl-host-link{margin-top:10px;font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;opacity:.78;}
 #p-join .jl-host-link:hover{opacity:1;color:var(--red);}
@@ -731,7 +731,7 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
     <div id="v18-auth-error" class="v18-auth-error"></div>
     <div class="v18-auth-buttons">
       <button class="v18-auth-cancel" onclick="closeHostAuth()">Annuler</button>
-      <button class="v18-auth-ok" onclick="checkHostPassword()">Entrer</button>
+      <button type="button" class="v18-auth-ok" onclick="return checkHostPassword()">Entrer</button>
     </div>
   </div>
 </div>
@@ -960,6 +960,7 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
 <div id="p-join" class="page">
   <div class="jl-logo">Quiz Francitan</div>
   <div class="jl-welcome">Entre ton prénom pour jouer</div>
+  <div id="join-status" class="jl-status">Connexion à la partie…</div>
   <div class="jl-rule"></div>
   <div class="jl-form">
     <input class="jl-input" id="name-inp" type="text" placeholder="Ton prénom…" maxlength="14" autocomplete="given-name" autocorrect="off" autocapitalize="words" onkeydown="if(event.key==='Enter'){event.preventDefault();joinGame()}">
@@ -1114,7 +1115,8 @@ function initFirebase(){
         });
         DB=firebase.database(); FIREBASE_READY=true;
         try{DB.ref('.info/serverTimeOffset').on('value',function(s){SERVER_OFFSET=Number(s.val())||0;SERVER_OFFSET_READY=true;});}catch(e){console.warn('Horloge serveur:',e);}
-      }catch(e){console.warn('Firebase:',e);}
+        flushFirebaseReady(true);
+      }catch(e){console.warn('Firebase:',e);flushFirebaseReady(false);}
       var q=FIREBASE_QUEUE.splice(0); q.forEach(function(fn){try{fn();}catch(e){console.warn(e);}});
     });
   });
@@ -1265,6 +1267,15 @@ var hElimOrder=null,hElimIdx=0,hScoredQ=-1;
 var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,SHOW_WELCOME=false,SHOW_PREHOME=false,ADV_LOCK=false;
 var pScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false;
 var adminPrev='p-host-q';
+var FIREBASE_READY_CALLBACKS=[];
+function whenFirebaseReady(fn){
+  if(FIREBASE_READY){try{fn(true);}catch(e){console.warn(e);}}
+  else FIREBASE_READY_CALLBACKS.push(fn);
+}
+function flushFirebaseReady(ok){
+  var q=FIREBASE_READY_CALLBACKS.splice(0);
+  q.forEach(function(fn){try{fn(!!ok);}catch(e){console.warn('Firebase callback:',e);}});
+}
 
 /* ROUTING */
 window.addEventListener('DOMContentLoaded',function(){
@@ -1289,16 +1300,33 @@ window.addEventListener('DOMContentLoaded',function(){
   setTimeout(function(){
     initFirebase();
     if(isPlayer){
-      /* Le téléphone attend simplement la partie active : aucun code à saisir. */
-      dbOn('activeGame',function(active){
-        if(active&&active.gid)GID=String(active.gid);
+      /* Le téléphone attend Firebase puis la partie active. Aucun code à saisir. */
+      whenFirebaseReady(function(ok){
+        if(!ok){toast('Connexion impossible au serveur du quiz.',4000);return;}
+        dbOn('games/_active',function(active){
+          if(active&&active.gid){
+            GID=String(active.gid);
+            var st=$('join-status');
+            if(st)st.textContent='Partie trouvée · entre ton prénom';
+            setTimeout(function(){try{$('name-inp').focus();}catch(e){}},100);
+          }else{
+            var st=$('join-status');
+            if(st)st.textContent='En attente de l’animateur…';
+          }
+        });
       });
-      setTimeout(function(){try{$('name-inp').focus();}catch(e){}},250);
     }
   },0);
 });
 window.addEventListener('load',function(){
   if(!document.querySelector('.page.show')) go('p-select');
+  // Sécurité : le bouton animateur doit toujours répondre, même si un script externe a tardé.
+  var ok=$('v18-auth');
+  var pass=$('v18-pass');
+  if(pass){pass.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();checkHostPassword();}
+    if(e.key==='Escape'){e.preventDefault();closeHostAuth();}
+  });}
 });
 window.addEventListener('keydown',function(e){
   if([' ','ArrowRight','ArrowDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
@@ -1346,17 +1374,28 @@ function closeHostAuth(){
   var box=$('v18-auth'); if(box)box.classList.remove('show');
 }
 function checkHostPassword(){
-  var v=String($('v18-pass').value||'');
-  if(v!=='Mulevon24'){
-    $('v18-auth-error').textContent='Mot de passe incorrect.';
-    $('v18-pass').select();
-    return;
+  try{
+    var input=$('v18-pass');
+    var raw=input?String(input.value||''):'';
+    var v=raw.replace(/\s+/g,'').toLowerCase();
+    if(v!=='mulevon24'){
+      if($('v18-auth-error'))$('v18-auth-error').textContent='Mot de passe incorrect.';
+      if(input){input.select();input.focus();}
+      return false;
+    }
+    closeHostAuth();
+    document.body.classList.remove('player-mode');
+    document.documentElement.setAttribute('data-francitan-mode','host');
+    // L'écran animateur doit s'ouvrir même si Firebase ou le réseau sont lents.
+    enterHost();
+    return false;
+  }catch(e){
+    console.error('Erreur accès animateur :',e);
+    if($('v18-auth-error'))$('v18-auth-error').textContent="Impossible d’ouvrir l’interface animateur. Réessayez.";
+    return false;
   }
-  closeHostAuth();
-  document.body.classList.remove('player-mode');
-  document.documentElement.setAttribute('data-francitan-mode','host');
-  enterHost();
 }
+
 function enterPlayerAccess(){
   document.body.classList.add('player-mode');
   document.documentElement.setAttribute('data-francitan-mode','player');
@@ -1368,19 +1407,20 @@ function enterPlayerAccess(){
 /* HOST */
 function enterHost(){
   loadGameSettings();
-  /* Nouvelle partie animateur : GID créé ici, puis écran lobby. */
+  /* L'accès animateur ne doit JAMAIS dépendre du chargement de Firebase pour changer d'écran.
+     La partie est créée localement immédiatement ; dbSet/dbOn la synchronisent dès que Firebase est prêt. */
   GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
-  /* Une seule partie active à la fois : les joueurs rejoignent automatiquement cette partie. */
-  dbSet('activeGame',{gid:GID,ts:Date.now()});
+  dbSet('games/_active',{gid:GID,ts:Date.now()});
   var ey=localStorage.getItem('fq_eyebrow');if(ey&&$('acc-eyebrow'))$('acc-eyebrow').textContent=ey;
   var sb=localStorage.getItem('fq_sub');if(sb&&$('acc-sub'))$('acc-sub').textContent=sb;
   var fr=localStorage.getItem('fq_free');if(fr&&$('acc-free'))$('acc-free').innerHTML=fr;
   var ts=parseInt(localStorage.getItem('fq_tsec')||30);if(ts)TSEC=ts;
   var purl='https://quiz.novelum-ieo24.fr';
-  $('qr-url').textContent='quiz.novelum-ieo24.fr';
+  /* L'ancien V23 essayait de modifier #qr-url, qui n'existe plus dans le lobby. */
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
-  drawQR(purl,$('qr-canvas'));
-  loadPrehomeControls(); if(SHOW_PREHOME)go('p-prehome'); else if(SHOW_WELCOME)go('p-accueil'); else goToLobby();
+  try{ if($('qr-canvas')) drawQR(purl,$('qr-canvas')); }catch(e){ console.warn('QR indisponible:',e); }
+  loadPrehomeControls();
+  if(SHOW_PREHOME)go('p-prehome'); else if(SHOW_WELCOME)go('p-accueil'); else goToLobby();
 }
 function goToLobby(){
   go('p-lobby');
@@ -1617,7 +1657,7 @@ function hShowFinal(){
   var sb=getSB();
   dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,ts:Date.now()});
   /* La partie n'est plus proposée automatiquement aux nouveaux joueurs. */
-  dbSet('activeGame',null);
+  dbSet('games/_active',null);
 }
 function getSB(){return Object.keys(hP||{}).sort(function(a,b){var sa=Number(hP[a].score)||0,sb=Number(hP[b].score)||0;if(sb!==sa)return sb-sa;return String(hP[a].name||'').localeCompare(String(hP[b].name||''),'fr');}).map(function(pid,i){return {pid:pid,name:hP[pid].name,score:Number(hP[pid].score)||0,rank:i+1};});}
 function setBtnAdv(label,cls){var btn=$('btn-adv');if(!btn)return;btn.className='btn-adv'+(cls?' '+cls:'');btn.textContent=label+' →';}
@@ -1724,11 +1764,7 @@ function registerPlayerPresence(){
 function joinGame(){
   /* Le joueur ne saisit jamais de code : GID est rempli automatiquement par activeGame. */
   if(!GID){
-    toast('Connexion à la partie…',1800);
-    setTimeout(function(){
-      if(GID)joinGame();
-      else toast('La partie n’est pas encore ouverte.',2200);
-    },1200);
+    toast('La partie n’est pas encore ouverte.',2200);
     return;
   }
   if(SOUND_ON){try{getAC();}catch(e){}}
@@ -1933,6 +1969,10 @@ function confetti(){
 /* V11 mobile: letters stay in the corner without covering the photo. */
 body.player-mode #p-play .pp-sq-ltr{left:auto!important;right:0!important;top:0!important;border-radius:0 0 0 12px!important;}
 body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
+
+/* V21 — état de connexion joueur */
+#p-join .jl-status{font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);min-height:18px;text-align:center;}
+#p-join .jl-status.ready{color:var(--green);}
 </style>
 </body>
 </html>
