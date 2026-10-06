@@ -116,7 +116,7 @@ html,body{width:100%;height:100%;overflow:hidden;}
 #p-host-q .hq-showline b{font-size:23px!important;}
 #p-host-q .hq-grid{left:23%!important;right:25%!important;bottom:38px!important;height:248px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;}
 /* Player join screen: true phone layout, no horizontal overflow. */
-#p-join{width:100vw!important;min-width:0!important;padding:24px 18px calc(32px + env(safe-area-inset-bottom))!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;text-align:center!important;overflow:hidden!important;}
+#p-join.show{width:100vw!important;min-width:0!important;padding:24px 18px calc(32px + env(safe-area-inset-bottom))!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;text-align:center!important;overflow:hidden!important;}
 #p-join .jl-logo{width:100%!important;max-width:100%!important;font-size:clamp(38px,11vw,58px)!important;line-height:.9!important;letter-spacing:-3px!important;white-space:nowrap!important;overflow:visible!important;}
 #p-join .jl-rule{width:42px!important;height:3px!important;background:var(--yellow)!important;border-radius:3px!important;}
 #p-join>div:nth-child(2){font-family:'Bricolage Grotesque',Arial,sans-serif!important;font-style:normal!important;font-size:15px!important;font-weight:700!important;color:var(--ink)!important;max-width:320px!important;line-height:1.25!important;}
@@ -678,7 +678,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 #p-host-q .timer-wrap.panic .t-num,body.player-mode #p-play .pp-timer.panic span,#p-host-q .timer-wrap.critical .t-num,body.player-mode #p-play .pp-timer.critical span{color:var(--red)!important;}
 
 /* Révélation : règle claire de partage image / texte. */
-#p-reveal{display:grid!important;grid-template-columns:minmax(0,45%) minmax(0,55%)!important;grid-template-rows:1fr!important;gap:0!important;padding:5vh 4vw!important;background:var(--cream)!important;}
+#p-reveal.show{display:grid!important;grid-template-columns:minmax(0,45%) minmax(0,55%)!important;grid-template-rows:1fr!important;gap:0!important;padding:5vh 4vw!important;background:var(--cream)!important;}
 #p-reveal .host-reveal-illustration{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;grid-column:1!important;grid-row:1!important;width:100%!important;height:100%!important;border:0!important;border-radius:24px!important;box-shadow:var(--shadow)!important;overflow:hidden!important;}
 #p-reveal .host-reveal-illustration:after{background:linear-gradient(90deg,rgba(0,0,0,.02),rgba(0,0,0,.02))!important;}
 #p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-answer-note,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait{position:relative!important;left:auto!important;right:auto!important;top:auto!important;grid-column:2!important;}
@@ -692,7 +692,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 #p-reveal .reveal-next-btn{z-index:20!important;right:4vw!important;bottom:3vh!important;}
 
 /* Révélation téléphone : même principe, photo puis zone texte. */
-#p-player-reveal{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:34vh 1fr!important;gap:0!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
+#p-player-reveal.show{display:grid!important;grid-template-columns:1fr!important;grid-template-rows:34vh 1fr!important;gap:0!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
 #p-player-reveal .pr-illustration{position:relative!important;inset:auto!important;grid-column:1!important;grid-row:1!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
 #p-player-reveal .pr-illustration:after{background:rgba(0,0,0,.02)!important;}
 #p-player-reveal .pr-kicker,#p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-answer,#p-player-reveal .pr-answer-note,#p-player-reveal .pr-stats,#p-player-reveal .pr-feedback,#p-player-reveal .pr-scoreline,#p-player-reveal .pr-wait{position:relative!important;grid-column:1!important;grid-row:2!important;z-index:2!important;}
@@ -739,7 +739,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 
 
 /* ===== V26b — reveal split définitif + feedback joueur ===== */
-#p-reveal{position:fixed!important;inset:0!important;display:block!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
+#p-reveal.show{position:fixed!important;inset:0!important;display:block!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
 #p-reveal .host-reveal-illustration{position:absolute!important;left:4vw!important;top:6vh!important;width:42vw!important;height:88vh!important;border:0!important;border-radius:26px!important;box-shadow:var(--shadow)!important;overflow:hidden!important;}
 #p-reveal .host-reveal-kicker,#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-answer,#p-reveal .host-reveal-answer-note,#p-reveal .host-reveal-stats,#p-reveal .host-reveal-wait{position:absolute!important;left:50vw!important;right:5vw!important;top:auto!important;margin:0!important;}
 #p-reveal .host-reveal-kicker{top:10vh!important;font-size:18px!important;letter-spacing:4px!important;}
@@ -752,7 +752,7 @@ body.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:1
 #p-reveal .reveal-next-btn{right:4vw!important;bottom:3vh!important;z-index:30!important;}
 
 /* Téléphone : image en haut, verdict + score en bas, sans texte minuscule. */
-#p-player-reveal{position:fixed!important;inset:0!important;display:block!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
+#p-player-reveal.show{position:fixed!important;inset:0!important;display:block!important;padding:0!important;background:var(--cream)!important;overflow:hidden!important;}
 #p-player-reveal .pr-illustration{position:absolute!important;left:0!important;top:0!important;width:100%!important;height:35%!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;}
 #p-player-reveal .pr-kicker,#p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-answer,#p-player-reveal .pr-answer-note,#p-player-reveal .pr-stats,#p-player-reveal .pr-feedback,#p-player-reveal .pr-scoreline,#p-player-reveal .pr-wait{position:absolute!important;left:14px!important;right:14px!important;margin:0!important;}
 #p-player-reveal .pr-kicker{top:37%!important;font-size:12px!important;}
@@ -1502,7 +1502,7 @@ function advance(){
 
 function goBack(){
   var id=document.querySelector('.page.show').id;
-  if(id==='p-host-q'&&hCQ>1){clearInterval(hTI);hCQ--;hA={};hElimOrder=null;hElimIdx=0;hPrepareQ();toast('Question precedente',1500);}else if(id==='p-host-q'&&hCQ<=1){toast('Vous êtes sur la première question.',1500);}
+  if(id==='p-host-q'&&hCQ>0){clearInterval(hTI);hCQ--;hA={};hElimOrder=null;hElimIdx=0;hPrepareQ();toast('Question precedente',1500);}
   else if(id==='p-reveal'){return;}
   else if(id==='p-host-res'){hPrepareQ();}
 }
@@ -1655,13 +1655,7 @@ function stepLaunch(){
     if(hw){hw.classList.toggle('panic',hTL<=5&&hTL>2);hw.classList.toggle('critical',hTL<=2&&hTL>0);}
     var hpage=$('p-host-q');if(hpage)hpage.classList.toggle('critical5',hTL<=5&&hTL>0);
     if(hTL!==hLastTick){hLastTick=hTL;if(hTL>5)soundTick();else if(hTL>0)soundAlarm();}
-    if(hTL<=0){
-      clearInterval(hTI);hTI=null;soundTimeup();hStep=5;
-      var hwDone=$('p-host-q').querySelector('.timer-wrap');
-      if(hwDone){hwDone.classList.remove('panic','critical');hwDone.classList.add('done');}
-      var hnDone=$('t-num');if(hnDone)hnDone.textContent='C’EST TERMINÉ ! Quò es chabat !';
-      setBtnAdv('Éliminer une réponse','green');
-    }
+    if(hTL<=0){clearInterval(hTI);hTI=null;soundTimeup();hStep=5;var hn=$('t-num');if(hn)hn.textContent='C’EST TERMINÉ ! Quò es chabat !';var hw2=$('p-host-q').querySelector('.timer-wrap');if(hw2)hw2.classList.add('done');setBtnAdv('Éliminer une réponse','green');}
   }
   tickHost();hTI=setInterval(tickHost,200);
 }
@@ -2009,9 +2003,7 @@ function pStartTimerSync(launchTs,duration,deadline){
     if(pTL<=0){
       clearInterval(pTI);pTI=null;pRunning=false;
       document.querySelectorAll('.pp-sq').forEach(function(s){s.classList.add('locked');});
-      var ps=$('pp-status');if(ps){ps.textContent='';ps.className='pp-status';}
-      if(ptimer){ptimer.classList.remove('hot','panic','critical');ptimer.classList.add('done');}
-      if(pnum)pnum.textContent='C’EST TERMINÉ ! Quò es chabat !';
+      var ps=$('pp-status');if(ps){ps.textContent='⏰ Temps écoulé — on passe aux résultats';ps.className='pp-status timeout';}
       return false;
     }
     return true;
@@ -2055,7 +2047,8 @@ function pShowElimination(list){
 }
 function pShowPlayerReveal(state){
   soundReveal();
-  var q=Q[pCQ]||pCurrentState||{};
+  var cq=Number(state.cq); if(!Number.isFinite(cq)||cq<1)cq=pCQ;
+  var q=Q[cq]||pCurrentState||{};
   var correct=Number(state.correct),stats=state.stats||[0,0,0];
   var good=Number(state.good)||Number(stats[correct])||0;
   var answered=Number(state.answered)||stats.reduce(function(a,b){return a+Number(b||0);},0);
@@ -2093,8 +2086,8 @@ function pShowPlayerReveal(state){
   var pts=$('pr-points');if(pts){pts.textContent=earned>0?'+'+earned:'+0';pts.className=earned>0?'earned':'zero';}
   var total=$('pr-total-score');if(total)total.textContent=newScore+' pt'+(newScore>1?'s':'');
 
-  if(!isDemo&&isCorrect)confetti();
   go('p-player-reveal');
+  if(!isDemo&&isCorrect)confetti();
 }
 function pReveal(correctIdx,eliminated){
   // Compatibilité avec d'anciens états Firebase.
@@ -2138,13 +2131,13 @@ function pFinal(sb){
 }
 function confetti(){
   var cols=['#D4620A','#F5A623','#18A058','#1040A0','#E03030','#1A1000'];
-  for(var i=0;i<100;i++)(function(idx){
-    setTimeout(function(){
-      var c=document.createElement('div');c.className='cf';var s=5+Math.random()*10;
-      c.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[Math.floor(Math.random()*cols.length)]+';width:'+s+'px;height:'+s+'px;border-radius:'+(Math.random()>.5?'50%':'3px')+';animation-duration:'+(2.5+Math.random()*3)+'s';
-      document.body.appendChild(c);setTimeout(function(){c.remove();},7000);
-    },idx*28);
-  })(i);
+  for(var i=0;i<80;i++){
+    var c=document.createElement('div');c.className='cf';
+    var sz=5+Math.random()*10;
+    c.style.cssText='left:'+Math.random()*100+'vw;top:'+(6+Math.random()*18)+'vh;background:'+cols[Math.floor(Math.random()*cols.length)]+';width:'+sz+'px;height:'+sz+'px;border-radius:'+(Math.random()>.5?'50%':'3px')+';animation-duration:'+(2.2+Math.random()*2.2)+'s';
+    document.body.appendChild(c);
+    setTimeout(function(el){return function(){el.remove();};}(c),5000);
+  }
 }
 </script>
 
@@ -2156,141 +2149,6 @@ body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
 /* V21 — état de connexion joueur */
 #p-join .jl-status{font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);min-height:18px;text-align:center;}
 #p-join .jl-status.ready{color:var(--green);}
-
-
-/* ===== V31 — SIMPLE ET PROPRE : corrections finales uniquement ===== */
-/* Le mode joueur ne montre ni manche, ni entraînement, ni progression décorative. */
-body.player-mode #p-play #pp-round,
-body.player-mode #p-play #pp-demo-banner,
-body.player-mode #p-play .pp-timebar,
-body.player-mode #p-wait-reveal #wr-round{display:none!important;}
-#p-host-q #hq-round{display:none!important;}
-#p-reveal .host-reveal-wait{display:none!important;}
-
-/* En-tête joueur : question à gauche, score au centre, chrono à droite. */
-body.player-mode #p-play .pp-header{
-  position:relative!important;
-  height:72px!important;
-  grid-template-columns:1fr auto!important;
-  padding:8px 14px!important;
-}
-body.player-mode #p-play .pp-head-left{
-  flex-direction:row!important;
-  align-items:center!important;
-  padding:0!important;
-  gap:0!important;
-}
-body.player-mode #p-play .pp-qlbl{font-size:28px!important;font-weight:900!important;line-height:1!important;}
-body.player-mode #p-play .pp-brand{display:none!important;}
-body.player-mode #p-play .pp-score{
-  display:block!important;
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  transform:translate(-50%,-50%)!important;
-  font-size:25px!important;
-  font-weight:900!important;
-  color:var(--ink)!important;
-  white-space:nowrap!important;
-}
-body.player-mode #p-play .pp-timer{width:68px!important;height:68px!important;align-self:center!important;}
-body.player-mode #p-play .pp-timer span{font-size:27px!important;}
-
-/* Sélection : aucun contour noir, même au focus/touch. */
-body.player-mode #p-play .pp-sq.sel,
-body.player-mode #p-play .pp-sq.sel:focus,
-body.player-mode #p-play .pp-sq.sel:focus-visible,
-body.player-mode #p-play .pp-sq.sel:active{
-  outline:0!important;
-  outline-offset:0!important;
-  border:3px solid var(--yellow)!important;
-  background:#FFF8D8!important;
-  transform:none!important;
-  box-shadow:0 0 0 4px var(--yellow),0 6px 0 rgba(104,67,28,.10)!important;
-}
-body.player-mode #p-play .pp-sq.sel:after{
-  left:auto!important;right:58px!important;bottom:50%!important;transform:translateY(50%)!important;
-  width:34px!important;height:34px!important;
-  box-shadow:none!important;
-}
-body.player-mode #p-play .pp-sq:focus{outline:none!important;}
-
-/* Bouton modifier : visible seulement après une réponse, sans déplacer tout le jeu. */
-body.player-mode #p-play .pp-change-wrap{
-  position:fixed!important;
-  left:50%!important;
-  bottom:74px!important;
-  transform:translateX(-50%)!important;
-  z-index:70!important;
-  min-height:0!important;
-  padding:0!important;
-}
-body.player-mode #p-play .pp-change-btn{
-  border:0!important;
-  background:var(--yellow)!important;
-  color:var(--ink)!important;
-  box-shadow:0 3px 0 rgba(104,67,28,.16)!important;
-  font-size:14px!important;
-  padding:10px 16px!important;
-}
-
-/* Fin du chrono : petit message à la place du cercle, pas de plein écran. */
-body.player-mode #p-play .pp-timer.done{
-  width:auto!important;
-  min-width:235px!important;
-  height:42px!important;
-  border-radius:999px!important;
-  background:var(--red)!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-  animation:none!important;
-}
-body.player-mode #p-play .pp-timer.done .pp-timer-svg{display:none!important;}
-body.player-mode #p-play .pp-timer.done span{
-  position:static!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;height:100%!important;
-  padding:0 12px!important;
-  color:#fff!important;
-  font-size:12px!important;
-  font-weight:900!important;
-  white-space:nowrap!important;
-}
-
-/* Même fin de chrono sur l'écran animateur. */
-#p-host-q .timer-wrap.done{
-  width:260px!important;
-  height:44px!important;
-  border-radius:999px!important;
-  background:var(--red)!important;
-  box-shadow:none!important;
-  overflow:visible!important;
-  animation:none!important;
-}
-#p-host-q .timer-wrap.done svg{display:none!important;}
-#p-host-q .timer-wrap.done .t-num{
-  position:static!important;
-  width:100%!important;height:100%!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  color:#fff!important;
-  font-size:15px!important;
-  font-weight:900!important;
-  white-space:nowrap!important;
-}
-
-/* Le flash rouge des 5 dernières secondes reste uniquement l'alerte du chrono. */
-#p-host-q.critical5,#p-play.critical5{animation:screenAlarmV26 .58s steps(2,end) infinite!important;}
-#p-host-q.critical5:after,#p-play.critical5:after{border-width:10px!important;}
-
-/* Révélation téléphone : image centrée. */
-@media(max-width:600px){
-  #p-player-reveal .pr-illustration{
-    left:50%!important;right:auto!important;transform:translateX(-50%)!important;
-    width:min(300px,82vw)!important;height:180px!important;
-  }
-}
-</style>
+\n/* ===== V33 — ROUTAGE PROPRE + CORRECTIONS MINIMALES ===== */\n/* Un écran .page seulement : aucune règle de layout ne doit l'afficher s'il n'est pas .show. */\n#p-play:not(.show),#p-join:not(.show),#p-admin:not(.show),#p-host-res:not(.show),#p-reveal:not(.show),#p-player-reveal:not(.show),#p-ranking:not(.show){display:none!important;}\n#p-play.show,#p-host-res.show,#p-admin.show{display:flex!important;}\n#p-join.show{display:flex!important;}\n#p-reveal.show,#p-player-reveal.show{display:block!important;}\n\n/* Joueur : aucune manche, aucun entraînement, aucune barre décorative. */\nbody.player-mode #p-play .pp-round,\nbody.player-mode #p-play #pp-round,\nbody.player-mode #p-play .pp-demo-banner,\nbody.player-mode #p-play .pp-timebar{display:none!important;}\nbody.player-mode #p-play .pp-header{height:72px!important;min-height:72px!important;grid-template-columns:1fr auto 1fr!important;padding:6px 12px!important;}\nbody.player-mode #p-play .pp-qlbl{font-size:22px!important;font-weight:900!important;white-space:nowrap!important;}\nbody.player-mode #p-play .pp-brand{display:none!important;}\nbody.player-mode #p-play .pp-score{display:block!important;justify-self:center!important;font-size:22px!important;font-weight:900!important;background:var(--yellow)!important;color:var(--ink)!important;border-radius:999px!important;padding:7px 13px!important;white-space:nowrap!important;}\nbody.player-mode #p-play .pp-timer{justify-self:end!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;width:72px!important;height:72px!important;}\nbody.player-mode #p-play .pp-timer span{font-size:30px!important;}\n\n/* Sélection : aucune ombre noire ni contour noir. */\nbody.player-mode #p-play .pp-sq.sel{outline:none!important;border-color:var(--yellow)!important;background:#FFF8D8!important;transform:none!important;box-shadow:0 0 0 3px var(--yellow)!important;}\nbody.player-mode #p-play .pp-sq.sel:focus,\nbody.player-mode #p-play .pp-sq.sel:focus-visible,\nbody.player-mode #p-play .pp-sq:focus,\nbody.player-mode #p-play .pp-sq:focus-visible{outline:none!important;}\nbody.player-mode #p-play .pp-sq.sel:after{content:'✓';position:absolute;left:auto!important;right:8px!important;bottom:8px!important;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;font-size:22px;font-weight:900;z-index:20;}\n\n/* Fin du chrono : petit message à la place du cercle. */\nbody.player-mode #p-play .pp-timer.done{width:210px!important;height:42px!important;border-radius:999px!important;background:var(--red)!important;}\nbody.player-mode #p-play .pp-timer.done .pp-timer-svg{display:none!important;}\nbody.player-mode #p-play .pp-timer.done span{font-size:12px!important;line-height:1.1!important;color:#fff!important;white-space:nowrap!important;padding:0 8px!important;}\n#p-host-q .timer-wrap.done{width:230px!important;height:46px!important;border-radius:999px!important;background:var(--red)!important;}\n#p-host-q .timer-wrap.done svg{display:none!important;}\n#p-host-q .timer-wrap.done .t-num{font-size:13px!important;color:#fff!important;white-space:nowrap!important;letter-spacing:0!important;}\n\n/* Révélation animateur : on garde le split validé, sans la phrase d'attente. */\n#p-reveal .host-reveal-wait{display:none!important;}\n\n/* Révélation joueur : photo centrée, verdict et score visibles. */\n#p-player-reveal .pr-illustration img{object-position:center center!important;}\n#p-player-reveal .pr-feedback{z-index:20!important;}\n#p-player-reveal .pr-scoreline{z-index:20!important;}\n</style>
 </body>
 </html>
