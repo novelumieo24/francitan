@@ -1553,16 +1553,20 @@ function soundStart(){
   try{if(a.state==='suspended')a.resume();}catch(e){}
   var now=a.currentTime+0.02;[[520,.06,'square',.11,0],[620,.06,'square',.11,.18],[740,.06,'square',.11,.36],[1047,.22,'sine',.20,.52]].forEach(function(x){var o=a.createOscillator(),g=a.createGain();o.type=x[2];o.frequency.value=x[0];g.gain.setValueAtTime(x[3],now+x[4]);g.gain.exponentialRampToValueAtTime(.001,now+x[4]+x[1]);o.connect(g);g.connect(a.destination);o.start(now+x[4]);o.stop(now+x[4]+x[1]);});
 }
+var clockBeat=0;
 function soundTick(){
   if(!SOUND_ON)return;
-  // Un vrai petit "tic" sec, pas une alarme.
-  pt(880,.055,'triangle',.10);
+  // Tic-tac : deux petits clics alternés, courts et secs.
+  var base=(clockBeat++%2===0)?1180:820;
+  pt(base,.045,'square',.095);
+  setTimeout(function(){pt(base===1180?820:1180,.04,'square',.065);},105);
 }
 function soundAlarm(){
   if(!SOUND_ON)return;
-  // Dernières secondes : double clic plus grave et plus présent.
-  pt(660,.07,'triangle',.12);
-  setTimeout(function(){pt(880,.07,'triangle',.13);},110);
+  // Même mécanique tic-tac, mais plus rapprochée et plus présente dans les 5 dernières secondes.
+  var base=(clockBeat++%2===0)?1320:760;
+  pt(base,.05,'square',.12);
+  setTimeout(function(){pt(base===1320?760:1320,.045,'square',.085);},85);
 }
 function soundTimeup(){
   if(!SOUND_ON)return;
@@ -1853,6 +1857,11 @@ function hostStart(){
   soundLaunch();hCQ=1;hA={};hElimOrder=null;hElimIdx=0;hScoredQ=-1;
   hPrepareQ();
 }
+function syncHostAnswers(){
+  if(!DB||!GID||hCQ<1)return;
+  syncHostAnswers();
+}
+
 function hPrepareQ(){
   if(hCQ<1)hCQ=1;
   var q=Q[hCQ]||Q[0];
@@ -1907,7 +1916,7 @@ function stepLaunch(){
     setTimeout(function(){if(document.querySelector('.page.show')&&document.querySelector('.page.show').id==='p-host-q'&&hStep===3)stepLaunch();},250);
     return;
   }
-  hStep=4;hTL=TSEC;hLastTick=-1;
+  hStep=4;hTL=TSEC;hLastTick=-1;clockBeat=0;
   $('p-host-q').classList.remove('prestart');
   var hrdy=$('hq-ready');if(hrdy)hrdy.style.display='none';
   setBtnAdv('En cours...','');
@@ -2251,7 +2260,7 @@ function pShowQ(state){
 }
 
 function pStartTimerSync(launchTs,duration,deadline){
-  duration=duration||TSEC;pDuration=duration;pRunning=true;
+  duration=duration||TSEC;pDuration=duration;pRunning=true;clockBeat=0;
   var pt0=$('pp-timer');if(pt0)pt0.classList.remove('done','panic','critical','hot');
   var endAt=Number(deadline)||((Number(launchTs)||((Date.now()+SERVER_OFFSET)) )+duration*1000);
   function render(){
@@ -2295,8 +2304,8 @@ function pPick(i,qi){
   dbSet('games/'+GID+'/answers/'+qi+'/'+PID,payload);
   try{sessionStorage.setItem('fq_last_answer',String(i));}catch(e){}
   var q=pCurrentState||Q[qi]||{};
-  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' sélectionnée — tu peux encore la modifier';
-  $('pp-status').className='pp-status waiting';
+  $('pp-status').textContent='✓ Réponse '+['A','B','C'][i]+' VALIDÉE — tu peux encore la modifier';
+  $('pp-status').className='pp-status waiting answer-confirmed';
   var chg=$('pp-change-btn');if(chg){chg.textContent='↩ Modifier ma réponse';chg.style.display='inline-flex';}
   /* On reste sur l'écran des propositions : le joueur peut retaper A/B/C. */
 }
@@ -2354,7 +2363,7 @@ function pShowPlayerReveal(state){
     var cls='';
     if(!answeredByMe){cls='timeout';fm.textContent='Temps écoulé !';fs.textContent='Tu n\'as pas répondu à temps.';}
     else if(isCorrect){cls='correct';fm.textContent='🎉 BRAVO !';fs.textContent='C\'est la bonne réponse !';}
-    else{cls='wrong';fm.textContent='🌩️ DOMMAGE !';fs.textContent='Ce n\'est pas la bonne réponse.';}
+    else{cls='wrong';fm.textContent='😞 DOMMAGE !';fs.textContent='Ce n\'est pas la bonne réponse.';}
     fb.className='pr-feedback '+cls;
   }
   var pts=$('pr-points');if(pts){pts.textContent=earned>0?'+'+earned:'+0';pts.className=earned>0?'earned':'zero';}
@@ -2440,6 +2449,110 @@ body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
 /* Révélation : ordre demandé */
 .host-reveal-kicker{font-size:18px!important;letter-spacing:1px!important;text-transform:none!important;color:var(--red)!important;font-weight:900!important;}
 .pr-kicker{font-size:18px!important;letter-spacing:1px!important;text-transform:none!important;color:var(--red)!important;font-weight:900!important;}
+</style>
+
+<style id="francitan-v38-fixes">
+/* V38 — uniquement les corrections demandées, sans changer la mécanique du quiz. */
+
+/* AVANT LE LANCEMENT : le message remplace réellement le chrono. */
+#p-host-q.prestart .timer-wrap,
+body.player-mode #p-play.prestart .pp-timer{
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+#p-host-q.prestart #hq-ready,
+body.player-mode #p-play.prestart #pp-ready{
+  display:flex!important;
+  position:absolute!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:column!important;
+  background:var(--green)!important;
+  color:#fff!important;
+  border-radius:999px!important;
+  box-shadow:0 6px 0 rgba(61,139,91,.22),0 10px 22px rgba(0,0,0,.12)!important;
+  z-index:60!important;
+  text-align:center!important;
+}
+#p-host-q.prestart #hq-ready{top:50%!important;width:min(330px,30vw)!important;min-height:92px!important;}
+#p-host-q.prestart #hq-ready strong,
+body.player-mode #p-play.prestart #pp-ready strong{font-size:clamp(18px,2vw,30px)!important;line-height:1!important;}
+#p-host-q.prestart #hq-ready span,
+body.player-mode #p-play.prestart #pp-ready span{font-size:14px!important;font-weight:800!important;margin-top:6px!important;}
+body.player-mode #p-play.prestart #pp-ready{
+  top:auto!important;bottom:78px!important;width:190px!important;min-height:74px!important;padding:8px 18px!important;
+}
+
+/* Dès que le chrono part, le message disparaît. */
+#p-host-q:not(.prestart) #hq-ready,
+body.player-mode #p-play:not(.prestart) #pp-ready{display:none!important;}
+
+/* Sélection joueur : visible sans cadre noir ni surbrillance blanche. */
+body.player-mode #p-play .pp-sq.sel{
+  outline:none!important;
+  border:4px solid var(--yellow)!important;
+  background:#FFF1B5!important;
+  box-shadow:0 0 0 2px rgba(255,198,46,.9),0 7px 0 rgba(104,67,28,.12)!important;
+}
+body.player-mode #p-play .pp-sq.sel .pp-sq-bot{background:#FFF1B5!important;}
+body.player-mode #p-play .pp-sq.sel::after{
+  content:'✓'!important;
+  position:absolute!important;
+  right:10px!important;
+  bottom:10px!important;
+  width:42px!important;height:42px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:50%!important;
+  background:var(--green)!important;color:#fff!important;
+  font-size:27px!important;font-weight:900!important;
+  box-shadow:0 3px 0 rgba(0,0,0,.12)!important;
+  z-index:10!important;
+}
+body.player-mode #p-play .pp-sq.sel .pp-sq-ltr{box-shadow:none!important;}
+
+/* RÉVÉLATION : ordre imposé partout : question / MOT / bonne réponse / réponse. */
+#p-reveal .host-reveal-title{top:10vh!important;}
+#p-reveal .host-reveal-word{top:19vh!important;}
+#p-reveal .host-reveal-kicker{top:39vh!important;}
+#p-reveal .host-reveal-answer{top:44vh!important;}
+#p-player-reveal .pr-title{top:37%!important;}
+#p-player-reveal .pr-word{top:43%!important;}
+#p-player-reveal .pr-kicker{top:56%!important;}
+#p-player-reveal .pr-answer{top:61%!important;}
+#p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-kicker,#p-reveal .host-reveal-answer,
+#p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-kicker,#p-player-reveal .pr-answer{
+  position:absolute!important;left:50vw!important;right:5vw!important;margin:0!important;
+}
+
+/* Le texte long des réponses ne doit jamais être mangé. */
+#p-reveal .host-reveal-answer{max-width:min(44vw,700px)!important;}
+#p-reveal .host-reveal-answer strong{display:inline-block!important;max-width:calc(100% - 70px)!important;white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.05!important;}
+#p-player-reveal .pr-answer{max-width:calc(100% - 28px)!important;white-space:normal!important;overflow-wrap:anywhere!important;}
+
+/* Le comptage des réponses est prioritaire et reste lisible. */
+#p-host-q .ans-pill{z-index:70!important;}
+
+@media(max-width:600px){
+  #p-reveal .host-reveal-title,#p-reveal .host-reveal-word,#p-reveal .host-reveal-kicker,#p-reveal .host-reveal-answer{
+    left:14px!important;right:14px!important;text-align:center!important;
+  }
+  #p-reveal .host-reveal-title{top:43%!important;}
+  #p-reveal .host-reveal-word{top:49%!important;}
+  #p-reveal .host-reveal-kicker{top:61%!important;}
+  #p-reveal .host-reveal-answer{top:66%!important;max-width:none!important;}
+  #p-player-reveal .pr-title,#p-player-reveal .pr-word,#p-player-reveal .pr-kicker,#p-player-reveal .pr-answer{
+    left:14px!important;right:14px!important;text-align:center!important;
+  }
+  #p-player-reveal .pr-title{top:37%!important;}
+  #p-player-reveal .pr-word{top:43%!important;}
+  #p-player-reveal .pr-kicker{top:55%!important;}
+  #p-player-reveal .pr-answer{top:60%!important;}
+  #p-host-q.prestart #hq-ready{top:50%!important;width:260px!important;min-height:82px!important;}
+  body.player-mode #p-play.prestart #pp-ready{bottom:78px!important;width:190px!important;min-height:70px!important;}
+}
 </style>
 </body>
 </html>
