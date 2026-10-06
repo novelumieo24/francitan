@@ -690,6 +690,11 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
   #p-join .jl-code{font-size:11px!important;color:var(--muted)!important;min-height:18px}
 }
 @media(max-width:600px){#p-select .sel-actions{grid-template-columns:1fr;gap:12px}.v18-auth-box{padding:26px 20px 20px}.v18-auth-title{font-size:28px}}
+/* V20 — joueur déjà sur le site : pas d'URL ni de code à afficher. */
+#p-join .jl-welcome{font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:18px;font-weight:700;color:var(--ink);text-align:center;}
+#p-join .jl-host-link{margin-top:10px;font:700 12px 'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;opacity:.78;}
+#p-join .jl-host-link:hover{opacity:1;color:var(--red);}
+@media(max-width:700px){#p-join .jl-welcome{font-size:17px;max-width:300px;line-height:1.25;}#p-join .jl-host-link{font-size:11px;}}
 </style>
 </head><body>
 
@@ -954,14 +959,13 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
 
 <div id="p-join" class="page">
   <div class="jl-logo">Quiz Francitan</div>
-  <div class="jl-site">Rejoins la partie sur <strong>quiz.novelum-ieo24.fr</strong></div>
-  <div style="font-family:'Bricolage Grotesque',Arial,sans-serif;font-style:italic;font-size:14px;color:var(--ink3)">Vous parlez occitan sans le savoir…</div>
+  <div class="jl-welcome">Entre ton prénom pour jouer</div>
   <div class="jl-rule"></div>
   <div class="jl-form">
     <input class="jl-input" id="name-inp" type="text" placeholder="Ton prénom…" maxlength="14" autocomplete="given-name" autocorrect="off" autocapitalize="words" onkeydown="if(event.key==='Enter'){event.preventDefault();joinGame()}">
     <button class="jl-btn" onclick="joinGame()">Rejoindre</button>
   </div>
-  <div class="jl-code">Code de la partie : <strong id="player-game-code">—</strong></div>
+  <div class="jl-host-link" onclick="openHostAuth()">Accès animateur</div>
 </div>
 
 <div id="p-wait" class="page">
@@ -1267,22 +1271,31 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadCustomBackground();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
-  /* V18 : l'écran d'entrée est unique. Le lien joueur historique reste accepté pour compatibilité,
-     mais les nouveaux joueurs n'ont plus besoin de connaître ni de saisir un code de partie. */
+  var admin=p.get('animateur')==='1' || p.get('admin')==='1';
   var isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||window.innerWidth<=700;
-  var isPlayer=!!(g&&m==='play') || (!g && isMobile);
-  document.body.classList.toggle('player-mode', isPlayer);
+  var isPlayer=!!(g&&m==='play') || (!admin && isMobile);
+  document.body.classList.toggle('player-mode',isPlayer);
   document.documentElement.setAttribute('data-francitan-mode',isPlayer?'player':'host');
-  if(isPlayer){
+  if(g&&m==='play'){
     GID=g;
-    if($('player-game-code')&&g)$('player-game-code').textContent=String(g).slice(2);
     go('p-join');
-    setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
+  }else if(isPlayer){
+    GID=null;
+    go('p-join');
   }else{
     go('p-select');
+    if(admin)setTimeout(openHostAuth,120);
   }
-  /* Firebase se charge ensuite en arrière-plan. */
-  setTimeout(initFirebase,0);
+  setTimeout(function(){
+    initFirebase();
+    if(isPlayer){
+      /* Le téléphone attend simplement la partie active : aucun code à saisir. */
+      dbOn('activeGame',function(active){
+        if(active&&active.gid)GID=String(active.gid);
+      });
+      setTimeout(function(){try{$('name-inp').focus();}catch(e){}},250);
+    }
+  },0);
 });
 window.addEventListener('load',function(){
   if(!document.querySelector('.page.show')) go('p-select');
@@ -1364,7 +1377,7 @@ function enterHost(){
   var fr=localStorage.getItem('fq_free');if(fr&&$('acc-free'))$('acc-free').innerHTML=fr;
   var ts=parseInt(localStorage.getItem('fq_tsec')||30);if(ts)TSEC=ts;
   var purl='https://quiz.novelum-ieo24.fr';
-  $('qr-url').textContent=purl;
+  $('qr-url').textContent='quiz.novelum-ieo24.fr';
   if($('lobby-code'))$('lobby-code').textContent=GID.slice(2);
   drawQR(purl,$('qr-canvas'));
   loadPrehomeControls(); if(SHOW_PREHOME)go('p-prehome'); else if(SHOW_WELCOME)go('p-accueil'); else goToLobby();
@@ -1603,6 +1616,8 @@ function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
   var sb=getSB();
   dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,ts:Date.now()});
+  /* La partie n'est plus proposée automatiquement aux nouveaux joueurs. */
+  dbSet('activeGame',null);
 }
 function getSB(){return Object.keys(hP||{}).sort(function(a,b){var sa=Number(hP[a].score)||0,sb=Number(hP[b].score)||0;if(sb!==sa)return sb-sa;return String(hP[a].name||'').localeCompare(String(hP[b].name||''),'fr');}).map(function(pid,i){return {pid:pid,name:hP[pid].name,score:Number(hP[pid].score)||0,rank:i+1};});}
 function setBtnAdv(label,cls){var btn=$('btn-adv');if(!btn)return;btn.className='btn-adv'+(cls?' '+cls:'');btn.textContent=label+' →';}
@@ -1707,19 +1722,13 @@ function registerPlayerPresence(){
   if(DB)fn();else FIREBASE_QUEUE.push(fn);
 }
 function joinGame(){
-  /* Aucun code de partie à saisir : on récupère automatiquement la partie active. */
+  /* Le joueur ne saisit jamais de code : GID est rempli automatiquement par activeGame. */
   if(!GID){
-    dbOn('activeGame',function(active){
-      if(active&&active.gid){
-        GID=String(active.gid);
-        if($('player-game-code'))$('player-game-code').textContent=GID.slice(2);
-        dbOff('activeGame');
-        joinGame();
-      }else{
-        toast('La partie n’est pas encore ouverte.');
-      }
-    });
-    if(!FIREBASE_READY)toast('Connexion à la partie…',1800);
+    toast('Connexion à la partie…',1800);
+    setTimeout(function(){
+      if(GID)joinGame();
+      else toast('La partie n’est pas encore ouverte.',2200);
+    },1200);
     return;
   }
   if(SOUND_ON){try{getAC();}catch(e){}}
