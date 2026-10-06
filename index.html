@@ -652,6 +652,26 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
   .fr-v17-logo-novelum{width:40px;height:40px;}
 }
 </style>
+<style>
+/* V18 — entrée unique : animateur protégé / joueur libre */
+#p-select .sel-actions{width:min(720px,92vw);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:8px}
+#p-select .sel-card{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+#p-select .sel-card:hover{transform:translateY(-3px)}
+.v18-auth{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(16,21,43,.72);backdrop-filter:blur(6px)}
+.v18-auth.show{display:flex}
+.v18-auth-box{width:min(430px,92vw);background:var(--paper);border:3px solid var(--ink);border-radius:24px;padding:30px 26px 26px;box-shadow:0 10px 0 rgba(16,21,43,.2),0 24px 50px rgba(16,21,43,.28);text-align:center}
+.v18-auth-kicker{font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--red);font-size:13px;margin-bottom:8px}
+.v18-auth-title{font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:800;font-size:32px;color:var(--ink);line-height:1.05;margin-bottom:8px}
+.v18-auth-sub{font-family:'Bricolage Grotesque',Arial,sans-serif;color:var(--muted);font-size:15px;margin-bottom:20px}
+.v18-auth-input{width:100%;height:54px;border:2px solid var(--line);border-radius:14px;background:#fff;font:700 18px 'Bricolage Grotesque',Arial,sans-serif;color:var(--ink);text-align:center;outline:none;margin-bottom:12px}
+.v18-auth-input:focus{border-color:var(--red);box-shadow:0 0 0 4px rgba(213,31,44,.12)}
+.v18-auth-buttons{display:flex;gap:10px}
+.v18-auth-buttons button{flex:1;border:0;border-radius:13px;height:48px;font:800 16px 'Bricolage Grotesque',Arial,sans-serif;cursor:pointer}
+.v18-auth-cancel{background:#eee3cf;color:var(--ink)}
+.v18-auth-ok{background:var(--red);color:#fff}
+.v18-auth-error{min-height:20px;color:var(--red);font:700 13px 'Bricolage Grotesque',Arial,sans-serif;margin:-3px 0 8px}
+@media(max-width:600px){#p-select .sel-actions{grid-template-columns:1fr;gap:12px}.v18-auth-box{padding:26px 20px 20px}.v18-auth-title{font-size:28px}}
+</style>
 </head><body>
 
 <div id="p-select" class="page">
@@ -664,10 +684,31 @@ body.player-mode #p-play .pp-sq-bot{padding-right:58px!important;}
   <div class="sel-title"><span class="sel-quiz">Quizz</span>Fran<em>ci</em>tan</div>
   <div class="sel-sub">Vous parlez occitan sans le savoir…</div>
   <div class="sel-rule"></div>
-  <div class="sel-card" onclick="enterHost()">
-    <div class="sel-icon">🖥️</div>
-    <div class="sel-card-title">Animateur</div>
-    <div class="sel-card-desc">Grand écran · piloter la partie</div>
+  <div class="sel-actions">
+    <div class="sel-card" onclick="openHostAuth()">
+      <div class="sel-icon">🖥️</div>
+      <div class="sel-card-title">Animateur</div>
+      <div class="sel-card-desc">Grand écran · piloter la partie</div>
+    </div>
+    <div class="sel-card" onclick="enterPlayerAccess()">
+      <div class="sel-icon">🎮</div>
+      <div class="sel-card-title">Joueur</div>
+      <div class="sel-card-desc">Accès libre · entrer son prénom</div>
+    </div>
+  </div>
+</div>
+
+<div id="v18-auth" class="v18-auth" role="dialog" aria-modal="true" aria-labelledby="v18-auth-title">
+  <div class="v18-auth-box">
+    <div class="v18-auth-kicker">Accès animateur</div>
+    <div id="v18-auth-title" class="v18-auth-title">Piloter la partie</div>
+    <div class="v18-auth-sub">Entre le mot de passe pour accéder à l’interface animateur.</div>
+    <input id="v18-pass" class="v18-auth-input" type="password" inputmode="text" autocomplete="off" placeholder="Mot de passe" onkeydown="if(event.key==='Enter'){event.preventDefault();checkHostPassword()}else if(event.key==='Escape'){closeHostAuth()}">
+    <div id="v18-auth-error" class="v18-auth-error"></div>
+    <div class="v18-auth-buttons">
+      <button class="v18-auth-cancel" onclick="closeHostAuth()">Annuler</button>
+      <button class="v18-auth-ok" onclick="checkHostPassword()">Entrer</button>
+    </div>
   </div>
 </div>
 
@@ -1203,12 +1244,12 @@ window.addEventListener('DOMContentLoaded',function(){
   loadStyle();loadCustomBackground();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
-  /* Le lien ?g=...&m=play est le mode joueur. On force l'interface téléphone même si elle est ouverte sur un grand écran pour les tests. */
+  /* V18 : l'écran d'entrée est unique. Le lien joueur historique reste accepté pour compatibilité,
+     mais les nouveaux joueurs n'ont plus besoin de connaître ni de saisir un code de partie. */
   var isPlayer=!!(g&&m==='play');
   document.body.classList.toggle('player-mode', isPlayer);
   document.documentElement.setAttribute('data-francitan-mode',isPlayer?'player':'host');
-  /* Afficher immédiatement un écran valide, sans attendre Firebase. */
-  if(g&&m==='play'){
+  if(isPlayer){
     GID=g;
     go('p-join');
     setTimeout(function(){try{$('name-inp').focus();}catch(e){}},300);
@@ -1256,11 +1297,43 @@ function goBack(){
   else if(id==='p-host-res'){hPrepareQ();}
 }
 
+/* V18 — entrée unique */
+function openHostAuth(){
+  var box=$('v18-auth'); if(!box)return;
+  $('v18-pass').value=''; $('v18-auth-error').textContent='';
+  box.classList.add('show');
+  setTimeout(function(){try{$('v18-pass').focus();}catch(e){}},80);
+}
+function closeHostAuth(){
+  var box=$('v18-auth'); if(box)box.classList.remove('show');
+}
+function checkHostPassword(){
+  var v=String($('v18-pass').value||'');
+  if(v!=='Mulevon24'){
+    $('v18-auth-error').textContent='Mot de passe incorrect.';
+    $('v18-pass').select();
+    return;
+  }
+  closeHostAuth();
+  document.body.classList.remove('player-mode');
+  document.documentElement.setAttribute('data-francitan-mode','host');
+  enterHost();
+}
+function enterPlayerAccess(){
+  document.body.classList.add('player-mode');
+  document.documentElement.setAttribute('data-francitan-mode','player');
+  GID=null;
+  go('p-join');
+  setTimeout(function(){try{$('name-inp').focus();}catch(e){}},120);
+}
+
 /* HOST */
 function enterHost(){
   loadGameSettings();
   /* Nouvelle partie animateur : GID créé ici, puis écran lobby. */
   GID='FQ'+Math.random().toString(36).slice(2,5).toUpperCase();
+  /* Une seule partie active à la fois : les joueurs rejoignent automatiquement cette partie. */
+  dbSet('activeGame',{gid:GID,ts:Date.now()});
   var ey=localStorage.getItem('fq_eyebrow');if(ey&&$('acc-eyebrow'))$('acc-eyebrow').textContent=ey;
   var sb=localStorage.getItem('fq_sub');if(sb&&$('acc-sub'))$('acc-sub').textContent=sb;
   var fr=localStorage.getItem('fq_free');if(fr&&$('acc-free'))$('acc-free').innerHTML=fr;
@@ -1609,6 +1682,20 @@ function registerPlayerPresence(){
   if(DB)fn();else FIREBASE_QUEUE.push(fn);
 }
 function joinGame(){
+  /* Aucun code de partie à saisir : on récupère automatiquement la partie active. */
+  if(!GID){
+    dbOn('activeGame',function(active){
+      if(active&&active.gid){
+        GID=String(active.gid);
+        dbOff('activeGame');
+        joinGame();
+      }else{
+        toast('La partie n’est pas encore ouverte.');
+      }
+    });
+    if(!FIREBASE_READY)toast('Connexion à la partie…',1800);
+    return;
+  }
   if(SOUND_ON){try{getAC();}catch(e){}}
   pScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
   var inp=$('name-inp'),n=inp.value.trim();
@@ -1814,4 +1901,3 @@ body.player-mode #p-wait-reveal .btn-change-rep{display:inline-flex!important;}
 </style>
 </body>
 </html>
-
