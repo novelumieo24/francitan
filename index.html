@@ -1994,9 +1994,20 @@ window.addEventListener('keydown',function(e){
   var t=e.target;
   var editing=t && ((t.matches && t.matches('input,textarea,[contenteditable=\"true\"]')) || t.isContentEditable);
   if(editing)return;
-  if([' ','ArrowRight','ArrowDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
-  if(['ArrowLeft','ArrowUp'].indexOf(e.key)>=0){e.preventDefault();goBack();}
+  /* V47 — télécommande de présentation : les boutons peuvent envoyer
+     flèches ou PageUp/PageDown selon le mode du récepteur USB. */
+  if([' ','ArrowRight','ArrowDown','PageDown'].indexOf(e.key)>=0){e.preventDefault();advance();}
+  if(['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key)>=0){e.preventDefault();goBack();}
+  /* Certains présentateurs envoient Enter avec le bouton central.
+     On le réserve à l'écran animateur pour éviter d'interférer avec les réglages. */
+  if(e.key==='Enter' && shownHostScreen()){e.preventDefault();advance();}
 });
+
+function shownHostScreen(){
+  var p=document.querySelector('.page.show');
+  if(!p)return false;
+  return ['p-lobby','p-host-q','p-reveal','p-host-res','p-ranking'].indexOf(p.id)>=0;
+}
 
 function advance(){
   if(ADV_LOCK)return;ADV_LOCK=true;setTimeout(function(){ADV_LOCK=false;},300);
