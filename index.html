@@ -1841,7 +1841,7 @@ var TSEC = 30;
 var DEFAULT_Q = [
   {w:"Adiu",o:["je m'en vais","Bonjour ou Au revoir","une priere"],c:1,isDemo:true,imgs:["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75&auto=format","https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=75&auto=format","https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=75&auto=format"]},
   {w:"une cafourche",o:["une grande fourche","une patte-d'oie","un petit placard"],c:1,imgs:["https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=75&auto=format"]},
-  {w:"ebouiller",o:["detruire, casser","faire bouillir","debarbouiller"],c:0,imgs:["https://images.unsplash.com/photo-1542621334-a254cf47733d?w=400&q=75&auto=format","https://images.unsplash.com/photo-1584278859793-e55f02d07ef4?w=400&q=75&auto=format","https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=75&auto=format"]},
+  {w:"ebouiller",o:["detruire, casser","faire bouillir","debarbouiller"],c:0,imgs:["https://upload.wikimedia.org/wikipedia/commons/4/41/Demolition_with_Excavator.jpg","https://upload.wikimedia.org/wikipedia/commons/e/e9/Boiling_water_001.jpg","https://upload.wikimedia.org/wikipedia/commons/c/c1/Woman_washes_her_face_at_a_bathroom_sink.jpg"]},
   {w:"une cagnasse",o:["une vilaine maison","un tas de pierres","une forte chaleur"],c:2,imgs:["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=75&auto=format","https://images.unsplash.com/photo-1555892013-50e8aaa0c7de?w=400&q=75&auto=format","https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=75&auto=format"]},
   {w:"buffer",o:["mettre dans un buffet","souffler, faire du vent","raturer, rayer"],c:1,imgs:["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=75&auto=format","https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=75&auto=format","https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&q=75&auto=format"]},
   {w:"un peillaraud",o:["un cordonnier","un tailleur","un chiffonnier"],c:2,imgs:["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=75&auto=format","https://images.unsplash.com/photo-1558171813-6c4b5ac3e02f?w=400&q=75&auto=format","https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&q=75&auto=format"]},
@@ -1880,6 +1880,21 @@ function saveQ(){
 }
 function saveImgs(){saveQ();}
 var Q = loadQ();
+/* V46 : première passe de photos réellement sémantiques pour EBouiller.
+   On ne remplace les photos qu'une seule fois afin de ne pas écraser ensuite les choix manuels. */
+(function(){
+  try{
+    if(localStorage.getItem('fq_photo_refresh_v46')!=='1' && Q[2]){
+      Q[2].imgs=[
+        'https://upload.wikimedia.org/wikipedia/commons/4/41/Demolition_with_Excavator.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/e/e9/Boiling_water_001.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/c/c1/Woman_washes_her_face_at_a_bathroom_sink.jpg'
+      ];
+      saveQ();
+      localStorage.setItem('fq_photo_refresh_v46','1');
+    }
+  }catch(e){}
+})();
 var CIRC = 502.65;
 function $(id){return document.getElementById(id);}
 function go(id){
@@ -3090,8 +3105,14 @@ window.addEventListener('touchstart',function(){if(SOUND_ON)initRealClock();},{p
 <style id="v45-chrono-final-fix">
 /* V45 — correctif final demandé : positions + score + alerte + fin + vrai tic-tac. */
 
-/* JOUEUR : le score ne doit jamais se poser sur le mot. Il est déjà affiché sur les écrans de résultat. */
-body.player-mode #p-play .pp-score{display:none!important;}
+/* JOUEUR : score visible en haut, au centre, sans recouvrir le mot. */
+body.player-mode #p-play .pp-score{
+  display:block!important;position:absolute!important;left:50%!important;top:8px!important;
+  transform:translateX(-50%)!important;justify-self:auto!important;z-index:60!important;
+  font-size:20px!important;font-weight:900!important;color:var(--ink)!important;
+  background:var(--yellow)!important;border-radius:999px!important;padding:7px 13px!important;
+  white-space:nowrap!important;min-width:92px!important;text-align:center!important;
+}
 
 /* JOUEUR : chrono fixe en bas de l'écran, toujours au même endroit. */
 body.player-mode #p-play .pp-timer,
@@ -3110,7 +3131,11 @@ body.player-mode #p-play .pp-timer.hot{
   z-index:100!important;
   animation:none!important;
 }
-body.player-mode #p-play .pp-timer span{font-size:38px!important;font-weight:900!important;}
+body.player-mode #p-play .pp-timer span{
+  font-size:38px!important;font-weight:900!important;z-index:3!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  opacity:1!important;visibility:visible!important;
+}
 body.player-mode #p-play .pp-timer.done{
   width:92px!important;height:92px!important;border-radius:50%!important;
   background:var(--paper)!important;
@@ -3131,7 +3156,10 @@ body.player-mode #p-play .pp-timer.critical{
   animation:playerTimerRedAlert .55s ease-in-out infinite!important;
 }
 body.player-mode #p-play .pp-timer.panic span,
-body.player-mode #p-play .pp-timer.critical span{color:#fff!important;}
+body.player-mode #p-play .pp-timer.critical span{
+  color:#fff!important;opacity:1!important;visibility:visible!important;
+  animation:none!important;z-index:3!important;
+}
 body.player-mode #p-play .pp-timer.panic .pp-t-fg,
 body.player-mode #p-play .pp-timer.critical .pp-t-fg{stroke:#fff!important;}
 
@@ -3163,8 +3191,8 @@ body.player-mode #p-play .pp-sq.rev-ko .pp-sq-txt{opacity:.88!important;}
 #p-host-q .timer-wrap.done svg{display:none!important;}
 #p-host-q .timer-wrap.done .t-num{
   inset:0!important;display:flex!important;align-items:center!important;justify-content:center!important;
-  text-align:center!important;padding:24px!important;box-sizing:border-box!important;
-  font-size:27px!important;line-height:1.12!important;letter-spacing:-.5px!important;
+  text-align:center!important;padding:28px!important;box-sizing:border-box!important;
+  font-size:31px!important;font-weight:900!important;line-height:1.08!important;letter-spacing:-.5px!important;
   color:#fff!important;white-space:normal!important;
 }
 
