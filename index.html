@@ -2531,6 +2531,7 @@ function joinGame(){
   dbOn('games/'+GID+'/players/'+PID+'/score',function(v){
     var ns=Math.max(0,Math.min(Q.length-1,Number(v)||0));
     pScore=ns;
+    try{sessionStorage.setItem('fq_player_score',String(ns));}catch(e){}
     var ps=$('pp-score');if(ps)ps.textContent=ns+' pt'+(ns>1?'s':'');
   });
   /* La déconnexion doit être enregistrée AVANT l'écriture de présence. */
@@ -2776,23 +2777,36 @@ function returnToEventPoster(){
 }
 
 function pFinal(sb){
-  /* Le tableau final est normalement envoyé avec l'état Firebase final.
-     On l'utilise en priorité, puis on garde le score déjà reçu pendant la partie.
-     Si le tableau final arrive sans notre joueur, on relit directement players/PID. */
+  /* Écran final : on récupère le score depuis 3 sources, dans cet ordre :
+     1) le scoreboard envoyé par l'animateur,
+     2) le dernier score reçu pendant la partie,
+     3) la fiche Firebase du joueur (source de vérité).
+     On relit Firebase systématiquement pour éviter qu'un écran final arrivé trop
+     vite n'affiche le score initial de 0. */
   var finalScore=francitanGetPlayerScore(sb,PID);
   if(finalScore!==null)pScore=finalScore;
+
+  var savedScore=null;
+  try{
+    var sv=Number(sessionStorage.getItem('fq_player_score'));
+    if(Number.isFinite(sv))savedScore=Math.max(0,Math.min(Q.length-1,sv));
+  }catch(e){}
+  if(finalScore===null && savedScore!==null)pScore=savedScore;
+
   go('p-final');confetti();
   $('pf-rank').textContent='';
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
   $('pf-sub').textContent='';
 
-  if(finalScore===null && DB && GID && PID){
+  if(DB && GID && PID){
     try{
       DB.ref('games/'+GID+'/players/'+PID+'/score').once('value').then(function(snap){
         var n=Number(snap.val());
         if(Number.isFinite(n)){
           pScore=Math.max(0,Math.min(Q.length-1,n));
-          $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
+          try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
+          var el=$('pf-score');
+          if(el)el.textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
         }
       }).catch(function(){});
     }catch(e){}
