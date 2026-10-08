@@ -1993,6 +1993,7 @@ function flushFirebaseReady(ok){
 
 /* ROUTING */
 window.addEventListener('DOMContentLoaded',function(){
+  if(francitanFinalTest())return;
   loadStyle();loadCustomBackground();loadGameSettings();
   var p=new URLSearchParams(location.search);
   var g=p.get('g'),m=p.get('m');
@@ -2796,46 +2797,64 @@ function returnToEventPoster(){
 function pFinal(state){
   state=state||{};
   var sb=state.scoreboard;
-  /* Le score final doit toujours être le plus élevé connu :
-     - score envoyé explicitement par l'animateur ;
-     - scoreboard final ;
-     - dernier score reçu pendant la partie ;
-     - score conservé en session ;
-     - dernière lecture Firebase.
-     Ainsi un retour tardif à 0 ne peut plus écraser le vrai score. */
   var candidates=[];
-  var directStateScore=null;
+
+  function addScore(v){
+    var n=Number(v);
+    if(Number.isFinite(n)) candidates.push(Math.max(0,Math.min(Q.length-1,n)));
+  }
+
+  /* 1. Score explicitement envoyé par l'animateur pour ce PID. */
   try{
     if(state.playerScores && PID && state.playerScores[PID]!==undefined){
-      var ds=Number(state.playerScores[PID]);
-      if(Number.isFinite(ds))directStateScore=Math.max(0,Math.min(Q.length-1,ds));
+      addScore(state.playerScores[PID]);
     }
   }catch(e){}
-  if(directStateScore!==null)candidates.push(directStateScore);
 
-  var finalScore=francitanGetPlayerScore(sb,PID);
-  if(finalScore!==null)candidates.push(finalScore);
-  if(Number.isFinite(Number(pScore)))candidates.push(Math.max(0,Math.min(Q.length-1,Number(pScore))));
-
+  /* 2. Si le PID a changé/recréé la session, retrouver le joueur par son prénom. */
   try{
-    var sv=Number(sessionStorage.getItem('fq_player_score'));
-    if(Number.isFinite(sv))candidates.push(Math.max(0,Math.min(Q.length-1,sv)));
+    var savedPlayer=null;
+    try{savedPlayer=JSON.parse(sessionStorage.getItem('fq_player')||'null');}catch(e){}
+    var wantedName=savedPlayer&&savedPlayer.name?String(savedPlayer.name).trim().toLowerCase():'';
+    if(wantedName && state.playerScores){
+      var keys=Object.keys(state.playerScores);
+      for(var ki=0;ki<keys.length;ki++){
+        var k=keys[ki], row=null;
+        if(Array.isArray(sb)){
+          for(var si=0;si<sb.length;si++){
+            if(sb[si]&&String(sb[si].pid)===String(k)){row=sb[si];break;}
+          }
+        }
+        if(row && String(row.name||'').trim().toLowerCase()===wantedName){
+          addScore(state.playerScores[k]);
+          break;
+        }
+      }
+    }
   }catch(e){}
 
-  /* Le cumul local maximal est prioritaire comme garde-fou : si le téléphone affichait 10 pts,
-     aucune valeur Firebase tardive à 0 ne peut faire revenir l'écran final à 0. */
-  candidates.push(Math.max(0,Math.min(Q.length-1,Number(pMaxScore)||0)));
-  var displayedScore=0;
+  /* 3. Score dans le classement final. */
+  addScore(francitanGetPlayerScore(sb,PID));
+
+  /* 4. Score déjà connu par le téléphone. */
+  addScore(pScore);
+  addScore(pMaxScore);
+
+  try{
+    addScore(sessionStorage.getItem('fq_player_score'));
+  }catch(e){}
+
+  /* 5. Dernier affichage du score dans l'en-tête du jeu. */
   try{
     var pp=$('pp-score');
     var dm=pp&&String(pp.textContent||'').match(/\d+/);
-    if(dm)displayedScore=Number(dm[0]);
+    if(dm)addScore(dm[0]);
   }catch(e){}
-  candidates.push(Math.max(0,Math.min(Q.length-1,displayedScore)));
+
   var best=0;
   candidates.forEach(function(n){if(n>best)best=n;});
   pScore=best;
-  pMaxScore=Math.max(pMaxScore,pScore);
+  pMaxScore=Math.max(pMaxScore,best);
   try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
 
   go('p-final');confetti();
@@ -2843,8 +2862,7 @@ function pFinal(state){
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
   $('pf-sub').textContent='';
 
-  /* Dernière sécurité : on relit Firebase, mais uniquement pour augmenter le score,
-     jamais pour le remettre à 0. */
+  /* Dernière lecture Firebase : elle ne peut qu'augmenter l'affichage. */
   if(DB && GID && PID){
     try{
       DB.ref('games/'+GID+'/players/'+PID+'/score').once('value').then(function(snap){
@@ -2862,6 +2880,22 @@ function pFinal(state){
       }).catch(function(){});
     }catch(e){}
   }
+}
+
+/* TEST RAPIDE : ?testfinal=13 ouvre directement l'écran final sans jouer.
+   Ce mode est uniquement destiné au contrôle visuel avant publication. */
+function francitanFinalTest(){
+  try{
+    var m=String(location.search||'').match(/[?&]testfinal=(\d+)/i);
+    if(!m)return false;
+    var n=Math.max(0,Math.min(Q.length-1,Number(m[1])||0));
+    pScore=n;pMaxScore=n;
+    try{sessionStorage.setItem('fq_player_score',String(n));}catch(e){}
+    var el=$('pf-score');
+    if(el)el.textContent='Ton score : '+n+' pt'+(n>1?'s':'');
+    go('p-final');
+    return true;
+  }catch(e){return false;}
 }
 
 function confetti(){
@@ -3632,3 +3666,4 @@ body.player-mode #p-play .pp-timer.done span#pp-timer-num{
 })();
 </script>\n</body>
 </html>
+
