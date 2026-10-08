@@ -2846,9 +2846,9 @@ function pFinal(state){
   pMaxScore=Math.max(pMaxScore,best);
   try{sessionStorage.setItem('fq_player_score',String(pScore));localStorage.setItem('fq_player_score',String(pScore));}catch(e){}
   go('p-final');confetti();
-  $('pf-rank').textContent='';
+  var pfr=$('pf-rank');if(pfr)pfr.textContent='';
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
-  $('pf-sub').textContent='';
+  var pfs=$('pf-sub');if(pfs)pfs.textContent='';
   /* Dernière lecture Firebase : elle ne peut qu'augmenter le score affiché. */
   if(DB&&GID&&PID){
     try{
