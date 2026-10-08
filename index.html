@@ -1354,6 +1354,8 @@ body.player-mode #p-play.critical5:after{display:none!important;}
 #p-final .pf-sub{display:none!important;}
 #p-final .pf-tagline{font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:clamp(24px,3vw,42px)!important;font-style:normal!important;font-weight:900!important;color:var(--ink)!important;margin-top:2px!important;}
 #p-final .pf-return{font-size:15px!important;font-weight:800!important;color:var(--muted)!important;margin-top:3px!important;opacity:.92!important;}
+#p-final .pf-website{font-size:13px!important;font-weight:700!important;color:var(--ink)!important;margin-top:8px!important;max-width:520px!important;line-height:1.3!important;}
+#p-final .pf-website a{color:var(--red)!important;text-decoration:underline!important;font-weight:900!important;}
 #p-final .pf-next{border:0!important;border-radius:999px!important;background:var(--yellow)!important;color:var(--ink)!important;padding:13px 22px!important;font-size:16px!important;font-weight:900!important;box-shadow:0 5px 0 rgba(104,67,28,.12)!important;cursor:pointer!important;margin-top:8px!important;}
 #p-final:before,#p-final:after{content:none!important;display:none!important;}
 @media(max-width:600px){
@@ -1363,6 +1365,7 @@ body.player-mode #p-play.critical5:after{display:none!important;}
   #p-final .pf-score{font-size:60px!important;}
   #p-final .pf-tagline{font-size:25px!important;max-width:340px!important;line-height:1.12!important;}
   #p-final .pf-return{font-size:12px!important;margin-top:4px!important;}
+  #p-final .pf-website{font-size:11px!important;max-width:330px!important;margin-top:5px!important;}
   #p-final .pf-next{font-size:14px!important;padding:11px 18px!important;}
 }
 @media(max-width:600px){#p-host-final{padding:24px 16px!important;gap:10px!important;}#p-host-final .hf-goodbye{font-size:18px!important;}#p-host-final .hf-title{font-size:45px!important;text-align:center!important;}#p-host-final .hf-thanks{font-size:27px!important;max-width:340px!important;}#p-host-final .hf-tagline{font-size:19px!important;text-align:center!important;}#p-host-final .hf-return{font-size:14px!important;padding:11px 18px!important;}}
@@ -1749,10 +1752,11 @@ body.player-mode #p-play.critical5:after{display:none!important;}
 
   <div class="pf-goodbye">Bona serada</div>
   <div class="pf-h">Partie terminée !</div>
-  <div class="pf-score" id="pf-score">0 pt</div><div style="margin-top:14px;font-size:16px;font-weight:800;line-height:1.35;">Pour découvrir les activités de notre association, rendez-vous sur <a href="https://www.novelum-ieo24.fr" target="_blank" rel="noopener" style="color:var(--red);text-decoration:underline;">www.novelum-ieo24.fr</a></div>
+  <div class="pf-score" id="pf-score">0 pt</div>
   <div class="pf-sub" id="pf-sub"></div>
   <div class="pf-tagline">Mercés de vòstra participacion !</div>
   <div class="pf-return">Vous parlez occitan sans le savoir !</div>
+  <div class="pf-website">Pour découvrir les activités de notre association, rendez-vous sur <a href="https://www.novelum-ieo24.fr" target="_blank" rel="noopener">www.novelum-ieo24.fr</a></div>
   
 </div>
 
@@ -1975,7 +1979,7 @@ var GID=null,PID=null,SERVER_OFFSET=0,SERVER_OFFSET_READY=false;
 var hP={},hA={},hCQ=0,hTL=TSEC,hTI=null,hStep=0,hLastTick=-1,hLaunchTs=0,hDeadline=0;
 var hElimOrder=null,hElimIdx=0,hScoredQ=-1,hStateSeq=0,pStateSeq=0;
 var ELIM_ON=true,SHOW_RANK=false,SHOW_IMAGES=true,SOUND_ON=true,SHOW_WELCOME=false,SHOW_PREHOME=false,ADV_LOCK=false;
-var pScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false,pLastTick=-1;
+var pScore=0,pMaxScore=0,pQuestionStartScore=0,pSel=null,pCQ=-1,pTL=TSEC,pTI=null,pDuration=TSEC,pCurrentState=null,pResultQ=-1,pRunning=false,pLastTick=-1;
 var adminPrev='p-host-q';
 var FIREBASE_READY_CALLBACKS=[];
 function whenFirebaseReady(fn){
@@ -2408,9 +2412,11 @@ function hostNext(){
 function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
   var sb=getSB();
+  /* On envoie aussi explicitement le score de chaque joueur dans l'état final.
+     Cela évite toute dépendance au timing de la relecture Firebase côté téléphone. */
   var playerScores={};
   Object.keys(hP||{}).forEach(function(pid){
-    playerScores[String(pid)]=Math.max(0,Math.min(Q.length-1,Number(hP[pid].score)||0));
+    playerScores[pid]=Math.max(0,Math.min(Q.length-1,Number(hP[pid].score)||0));
   });
   dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,playerScores:playerScores,ts:Date.now()});
   /* La partie n'est plus proposée automatiquement aux nouveaux joueurs. */
@@ -2526,7 +2532,7 @@ function joinGame(){
     return;
   }
   if(SOUND_ON){try{unlockAudio();}catch(e){}}
-  pScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
+  pScore=0;pMaxScore=0;pQuestionStartScore=0;pSel=null;pCQ=-1;pResultQ=-1;pRunning=false;
   var inp=$('name-inp'),n=inp.value.trim();
   if(!n){toast('Entre ton prénom !');inp.focus();return;}
   PID='p'+Math.random().toString(36).slice(2,10);
@@ -2534,9 +2540,12 @@ function joinGame(){
   /* Score joueur : Firebase est la source de vérité et met à jour l’affichage dès que le score est validé. */
   dbOn('games/'+GID+'/players/'+PID+'/score',function(v){
     var ns=Math.max(0,Math.min(Q.length-1,Number(v)||0));
-    pScore=ns;
-    try{sessionStorage.setItem('fq_player_score',String(ns));}catch(e){}
-    var ps=$('pp-score');if(ps)ps.textContent=ns+' pt'+(ns>1?'s':'');
+    /* Firebase peut renvoyer l'ancien score 0 juste après une réponse.
+       Un ancien score ne doit jamais écraser le cumul déjà connu. */
+    if(ns >= (Number(pScore)||0)) pScore=ns;
+    if(pScore > pMaxScore) pMaxScore=pScore;
+    try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
+    var ps=$('pp-score');if(ps)ps.textContent=pScore+' pt'+(pScore>1?'s':'');
   });
   /* La déconnexion doit être enregistrée AVANT l'écriture de présence. */
   registerPlayerPresence();
@@ -2548,17 +2557,17 @@ function joinGame(){
     var seq=Number(s.seq)||0;if(seq&&seq<pStateSeq)return;if(seq)pStateSeq=seq;
     if(s.status==='question'){
       var sameQ=s.cq===pCQ;
-      if(!sameQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};clearInterval(pTI);}
+      if(!sameQ){pCQ=s.cq;pQuestionStartScore=Number(pScore)||0;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){};clearInterval(pTI);}
       pCurrentState=s;pRunning=false;pShowQ(s);
     }
     if(s.status==='running'){
-      if(s.cq!==pCQ){pCQ=s.cq;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){}}
+      if(s.cq!==pCQ){pCQ=s.cq;pQuestionStartScore=Number(pScore)||0;pSel=null;pResultQ=-1;try{sessionStorage.removeItem('fq_last_answer');}catch(e){}}
       pCurrentState=s;pRunning=true;pShowQ(s);
       pStartTimerSync(s.launchTs,s.duration||TSEC,s.deadline);
     }
     if(s.status==='eliminating'&&s.cq===pCQ){realClockStop();pRunning=false;pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
     if(s.status==='reveal'&&s.cq===pCQ){realClockStop();pRunning=false;pCurrentState=s;clearInterval(pTI);pShowPlayerReveal(s);}
-    if(s.status==='final'){realClockStop();pRunning=false;clearInterval(pTI);pFinal(s.scoreboard,s);}
+    if(s.status==='final'){realClockStop();pRunning=false;clearInterval(pTI);pFinal(s);}
   });
 }
 function pShowQ(state){
@@ -2704,15 +2713,19 @@ function pShowPlayerReveal(state){
      Il peut donc déjà contenir le +1 au moment du dévoilement : ne pas calculer
      le gain en faisant newScore - oldScore, sinon on affiche à tort +0.
      Pour cette question : bonne réponse = +1, sinon = +0. */
-  var oldScore=Number(pScore)||0;
-  var newScore=oldScore;
+  var oldScore=Math.max(0,Number(pScore)||0);
   var revealedScore=francitanGetPlayerScore(state.scoreboard,PID);
-  if(revealedScore!==null)newScore=revealedScore;
-  pScore=newScore;
   var isDemo=state.isDemo===true;
   var answeredByMe=pSel!==null&&pSel!==undefined;
   var isCorrect=answeredByMe&&Number(pSel)===correct;
   var earned=(!isDemo && isCorrect)?1:0;
+  /* On garantit le cumul local de la question, sans dépendre du timing Firebase. */
+  var newScore=oldScore;
+  if(earned)newScore=Math.max(newScore,(Number(pQuestionStartScore)||0)+1);
+  if(revealedScore!==null)newScore=Math.max(newScore,revealedScore);
+  pScore=Math.min(Q.length-1,newScore);
+  if(pScore > pMaxScore) pMaxScore=pScore;
+  try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
 
   var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
@@ -2780,45 +2793,58 @@ function returnToEventPoster(){
   go('p-prehome');
 }
 
-function pFinal(sb,state){
-  /* SCORE FINAL : on utilise toutes les sources disponibles et on conserve toujours
-     le score le plus élevé connu. Le 0 initial ne peut donc plus écraser le score. */
+function pFinal(state){
+  state=state||{};
+  var sb=state.scoreboard;
+  /* Le score final doit toujours être le plus élevé connu :
+     - score envoyé explicitement par l'animateur ;
+     - scoreboard final ;
+     - dernier score reçu pendant la partie ;
+     - score conservé en session ;
+     - dernière lecture Firebase.
+     Ainsi un retour tardif à 0 ne peut plus écraser le vrai score. */
   var candidates=[];
-  if(state&&state.playerScores&&PID!=null){
-    var direct=Number(state.playerScores[String(PID)]);
-    if(Number.isFinite(direct))candidates.push(direct);
-  }
+  var directStateScore=null;
+  try{
+    if(state.playerScores && PID && state.playerScores[PID]!==undefined){
+      var ds=Number(state.playerScores[PID]);
+      if(Number.isFinite(ds))directStateScore=Math.max(0,Math.min(Q.length-1,ds));
+    }
+  }catch(e){}
+  if(directStateScore!==null)candidates.push(directStateScore);
+
   var finalScore=francitanGetPlayerScore(sb,PID);
   if(finalScore!==null)candidates.push(finalScore);
-  var current=Number(pScore);
-  if(Number.isFinite(current))candidates.push(current);
+  if(Number.isFinite(Number(pScore)))candidates.push(Math.max(0,Math.min(Q.length-1,Number(pScore))));
+
   try{
     var sv=Number(sessionStorage.getItem('fq_player_score'));
-    if(Number.isFinite(sv))candidates.push(sv);
+    if(Number.isFinite(sv))candidates.push(Math.max(0,Math.min(Q.length-1,sv)));
   }catch(e){}
-  var best=0;
-  candidates.forEach(function(n){
-    n=Math.max(0,Math.min(Q.length-1,n));
-    if(n>best)best=n;
-  });
-  pScore=best;
 
-  /* Si la variable PID a été perdue, on la récupère dans la session du joueur. */
-  if(!PID){
-    try{
-      var saved=JSON.parse(sessionStorage.getItem('fq_player')||'null');
-      if(saved&&saved.pid)PID=saved.pid;
-      if(saved&&saved.g&&!GID)GID=saved.g;
-    }catch(e){}
-  }
+  /* Le cumul local maximal est prioritaire comme garde-fou : si le téléphone affichait 10 pts,
+     aucune valeur Firebase tardive à 0 ne peut faire revenir l'écran final à 0. */
+  candidates.push(Math.max(0,Math.min(Q.length-1,Number(pMaxScore)||0)));
+  var displayedScore=0;
+  try{
+    var pp=$('pp-score');
+    var dm=pp&&String(pp.textContent||'').match(/\d+/);
+    if(dm)displayedScore=Number(dm[0]);
+  }catch(e){}
+  candidates.push(Math.max(0,Math.min(Q.length-1,displayedScore)));
+  var best=0;
+  candidates.forEach(function(n){if(n>best)best=n;});
+  pScore=best;
+  pMaxScore=Math.max(pMaxScore,pScore);
+  try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
 
   go('p-final');confetti();
   $('pf-rank').textContent='';
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
   $('pf-sub').textContent='';
 
-  /* Dernière vérification directe dans Firebase. On ne remplace jamais un score
-     déjà affiché par une valeur plus basse. */
+  /* Dernière sécurité : on relit Firebase, mais uniquement pour augmenter le score,
+     jamais pour le remettre à 0. */
   if(DB && GID && PID){
     try{
       DB.ref('games/'+GID+'/players/'+PID+'/score').once('value').then(function(snap){
@@ -2827,6 +2853,7 @@ function pFinal(sb,state){
           n=Math.max(0,Math.min(Q.length-1,n));
           if(n>pScore){
             pScore=n;
+            pMaxScore=Math.max(pMaxScore,pScore);
             try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
             var el=$('pf-score');
             if(el)el.textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
