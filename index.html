@@ -1373,7 +1373,7 @@ body.player-mode #p-play.critical5:after{display:none!important;}
 #p-prehome .prehome-bg img,#p-prehome #prehome-img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important}
 #p-prehome .prehome-content{position:relative!important;z-index:2!important;max-width:92vw!important;max-height:90vh!important;box-sizing:border-box!important}
 </style>
-</head><body>
+\n<style id="v62-responsive-phones">\n/* V62 — élimination plus discrète sur tous les téléphones */\nbody.player-mode #p-play .pp-sq.elim-now,\nbody.player-mode #p-play .pp-sq.rev-ko{\n  opacity:.12!important;\n  filter:grayscale(1)!important;\n  transform:scale(.985)!important;\n  box-shadow:none!important;\n}\nbody.player-mode #p-play .pp-sq.elim-now .pp-sq-txt,\nbody.player-mode #p-play .pp-sq.rev-ko .pp-sq-txt{opacity:.35!important;}\nbody.player-mode #p-play .pp-sq.elim-now .pp-sq-ltr,\nbody.player-mode #p-play .pp-sq.rev-ko .pp-sq-ltr{opacity:.25!important;}\nbody.player-mode #p-play .pp-sq.elim-now img,\nbody.player-mode #p-play .pp-sq.rev-ko img{opacity:.18!important;}\n\n/* Écrans très courts : éviter tout chevauchement question/propositions. */\n@media (max-height:700px) and (max-width:700px){\n  body.player-mode #p-play .pp-header{height:64px!important;}\n  body.player-mode #p-play .pp-timer{width:68px!important;height:68px!important;}\n  body.player-mode #p-play .pp-timer span{font-size:27px!important;}\n  body.player-mode #p-play .pp-mot-zone{padding:10px 10px 6px!important;min-height:112px!important;}\n  body.player-mode #p-play .pp-mot{font-size:40px!important;line-height:.92!important;}\n  body.player-mode #p-play .pp-signifie{font-size:13px!important;}\n  body.player-mode #p-play .pp-grid{gap:6px!important;padding:5px 10px 10px!important;}\n  body.player-mode #p-play .pp-sq-txt{font-size:14px!important;}\n  body.player-mode #p-play .pp-sq-ltr{width:42px!important;font-size:20px!important;}\n}\n\n/* Écrans étroits type petits iPhone/Android */\n@media (max-width:390px){\n  body.player-mode #p-play .pp-header{padding-left:8px!important;padding-right:8px!important;}\n  body.player-mode #p-play .pp-qlbl{font-size:11px!important;}\n  body.player-mode #p-play .pp-mot{font-size:43px!important;letter-spacing:-2px!important;}\n  body.player-mode #p-play .pp-sq-bot{padding-left:8px!important;padding-right:8px!important;}\n  body.player-mode #p-play .pp-sq-txt{font-size:14px!important;}\n}\n\n/* Affiche : aucun élément ne force la taille de l'image. */\nbody.event-poster-mode #p-prehome .prehome-bg{overflow:hidden!important;}\nbody.event-poster-mode #p-prehome .prehome-bg img{\n  width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;\n  object-fit:contain!important;object-position:center!important;\n}\n</style>\n</head><body>
 
 <div id="p-select" class="page">
 <div class="fr-v17-logos" aria-hidden="true">
@@ -3512,8 +3512,22 @@ body.player-mode #p-play .pp-timer.done span#pp-timer-num{
  body.player-mode #p-play .pp-timer span#pp-timer-num{font-size:39px!important;}
 }
 </style>
-<script>
-(function(){function next(e){var p=document.getElementById('p-prehome');if(!p||!p.classList.contains('show'))return;if(e.target&&e.target.closest&&e.target.closest('button,a,input,textarea,select'))return;if(typeof go==='function')go('p-accueil')}document.addEventListener('click',next);document.addEventListener('touchend',next,{passive:true})})();
-</script>
-</body>
+
+<script id="v62-poster-click">
+(function(){
+  function goPosterNext(e){
+    var p=document.getElementById('p-prehome');
+    if(!p || !p.classList.contains('show')) return;
+    var t=e.target;
+    if(t && t.closest && t.closest('button,a,input,textarea,select')) return;
+    if(typeof go==='function'){ e.preventDefault(); e.stopPropagation(); go('p-accueil'); }
+  }
+  /* Capture phase : fonctionne même si un élément/overlay intercepte le clic. */
+  document.addEventListener('click',goPosterNext,true);
+  document.addEventListener('pointerup',function(e){
+    if(e.pointerType==='mouse' || e.pointerType==='pen' || e.pointerType==='touch') goPosterNext(e);
+  },true);
+  document.addEventListener('touchend',goPosterNext,{capture:true,passive:false});
+})();
+</script>\n</body>
 </html>
