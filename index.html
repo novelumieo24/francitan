@@ -1936,7 +1936,7 @@ var Q = loadQ();
    La question d'essai Q0 est conservée, puis Q1 à Q4 deviennent les 4 seules questions du test.
    Le mode est activé uniquement par l'URL et ne modifie pas les données enregistrées du quiz. */
 var FRANCITAN_TEST4=false;
-try{FRANCITAN_TEST4=new URLSearchParams(location.search).get('test4')==='1';}catch(e){}
+/* Mode test désactivé : la partie utilise toujours toutes les questions. */
 if(FRANCITAN_TEST4 && Array.isArray(Q) && Q.length>=5){
   Q=[Q[0],Q[1],Q[2],Q[3],Q[4]];
 }
