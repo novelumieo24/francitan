@@ -1749,7 +1749,7 @@ body.player-mode #p-play.critical5:after{display:none!important;}
 
   <div class="pf-goodbye">Bona serada</div>
   <div class="pf-h">Partie terminée !</div>
-  <div class="pf-score" id="pf-score">0 pt</div>
+  <div class="pf-score" id="pf-score">0 pt</div><div style="margin-top:14px;font-size:16px;font-weight:800;line-height:1.35;">Pour découvrir les activités de notre association, rendez-vous sur <a href="https://www.novelum-ieo24.fr" target="_blank" rel="noopener" style="color:var(--red);text-decoration:underline;">www.novelum-ieo24.fr</a></div>
   <div class="pf-sub" id="pf-sub"></div>
   <div class="pf-tagline">Mercés de vòstra participacion !</div>
   <div class="pf-return">Vous parlez occitan sans le savoir !</div>
@@ -2408,7 +2408,11 @@ function hostNext(){
 function hShowFinal(){
   go('p-host-final');soundPodium();confetti();
   var sb=getSB();
-  dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,ts:Date.now()});
+  var playerScores={};
+  Object.keys(hP||{}).forEach(function(pid){
+    playerScores[String(pid)]=Math.max(0,Math.min(Q.length-1,Number(hP[pid].score)||0));
+  });
+  dbSet('games/'+GID+'/state',{status:'final',scoreboard:sb,playerScores:playerScores,ts:Date.now()});
   /* La partie n'est plus proposée automatiquement aux nouveaux joueurs. */
   dbSet('games/_active',null);
 }
@@ -2554,7 +2558,7 @@ function joinGame(){
     }
     if(s.status==='eliminating'&&s.cq===pCQ){realClockStop();pRunning=false;pCurrentState=s;clearInterval(pTI);pShowElimination(s.eliminated||[]);}
     if(s.status==='reveal'&&s.cq===pCQ){realClockStop();pRunning=false;pCurrentState=s;clearInterval(pTI);pShowPlayerReveal(s);}
-    if(s.status==='final'){realClockStop();pRunning=false;clearInterval(pTI);pFinal(s.scoreboard);}
+    if(s.status==='final'){realClockStop();pRunning=false;clearInterval(pTI);pFinal(s.scoreboard,s);}
   });
 }
 function pShowQ(state){
@@ -2776,42 +2780,63 @@ function returnToEventPoster(){
   go('p-prehome');
 }
 
-function pFinal(sb){
-  /* Écran final : on récupère le score depuis 3 sources, dans cet ordre :
-     1) le scoreboard envoyé par l'animateur,
-     2) le dernier score reçu pendant la partie,
-     3) la fiche Firebase du joueur (source de vérité).
-     On relit Firebase systématiquement pour éviter qu'un écran final arrivé trop
-     vite n'affiche le score initial de 0. */
+function pFinal(sb,state){
+  /* SCORE FINAL : on utilise toutes les sources disponibles et on conserve toujours
+     le score le plus élevé connu. Le 0 initial ne peut donc plus écraser le score. */
+  var candidates=[];
+  if(state&&state.playerScores&&PID!=null){
+    var direct=Number(state.playerScores[String(PID)]);
+    if(Number.isFinite(direct))candidates.push(direct);
+  }
   var finalScore=francitanGetPlayerScore(sb,PID);
-  if(finalScore!==null)pScore=finalScore;
-
-  var savedScore=null;
+  if(finalScore!==null)candidates.push(finalScore);
+  var current=Number(pScore);
+  if(Number.isFinite(current))candidates.push(current);
   try{
     var sv=Number(sessionStorage.getItem('fq_player_score'));
-    if(Number.isFinite(sv))savedScore=Math.max(0,Math.min(Q.length-1,sv));
+    if(Number.isFinite(sv))candidates.push(sv);
   }catch(e){}
-  if(finalScore===null && savedScore!==null)pScore=savedScore;
+  var best=0;
+  candidates.forEach(function(n){
+    n=Math.max(0,Math.min(Q.length-1,n));
+    if(n>best)best=n;
+  });
+  pScore=best;
+
+  /* Si la variable PID a été perdue, on la récupère dans la session du joueur. */
+  if(!PID){
+    try{
+      var saved=JSON.parse(sessionStorage.getItem('fq_player')||'null');
+      if(saved&&saved.pid)PID=saved.pid;
+      if(saved&&saved.g&&!GID)GID=saved.g;
+    }catch(e){}
+  }
 
   go('p-final');confetti();
   $('pf-rank').textContent='';
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
   $('pf-sub').textContent='';
 
+  /* Dernière vérification directe dans Firebase. On ne remplace jamais un score
+     déjà affiché par une valeur plus basse. */
   if(DB && GID && PID){
     try{
       DB.ref('games/'+GID+'/players/'+PID+'/score').once('value').then(function(snap){
         var n=Number(snap.val());
         if(Number.isFinite(n)){
-          pScore=Math.max(0,Math.min(Q.length-1,n));
-          try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
-          var el=$('pf-score');
-          if(el)el.textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
+          n=Math.max(0,Math.min(Q.length-1,n));
+          if(n>pScore){
+            pScore=n;
+            try{sessionStorage.setItem('fq_player_score',String(pScore));}catch(e){}
+            var el=$('pf-score');
+            if(el)el.textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
+          }
         }
       }).catch(function(){});
     }catch(e){}
   }
 }
+
 function confetti(){
   var cols=['#D4620A','#F5A623','#18A058','#1040A0','#E03030','#1A1000'];
   for(var i=0;i<80;i++){
