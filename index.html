@@ -2695,6 +2695,10 @@ function pShowPlayerReveal(state){
   var bad=Math.max(0,answered-good);
 
   /* Le score du joueur vient du classement Firebase : c'est lui qui fait foi. */
+  /* Le score affiché pendant la partie est mis à jour par le listener Firebase.
+     Il peut donc déjà contenir le +1 au moment du dévoilement : ne pas calculer
+     le gain en faisant newScore - oldScore, sinon on affiche à tort +0.
+     Pour cette question : bonne réponse = +1, sinon = +0. */
   var oldScore=Number(pScore)||0;
   var newScore=oldScore;
   var revealedScore=francitanGetPlayerScore(state.scoreboard,PID);
@@ -2703,8 +2707,7 @@ function pShowPlayerReveal(state){
   var isDemo=state.isDemo===true;
   var answeredByMe=pSel!==null&&pSel!==undefined;
   var isCorrect=answeredByMe&&Number(pSel)===correct;
-  var earned=isDemo?0:Math.max(0,newScore-oldScore);
-  if(!isDemo && isCorrect && earned===0 && Number.isFinite(newScore) && Number.isFinite(oldScore) && newScore>oldScore) earned=newScore-oldScore;
+  var earned=(!isDemo && isCorrect)?1:0;
 
   var pri=$('pr-img');if(pri){pri.src=(state.imgs&&state.imgs[correct])||(q.imgs&&q.imgs[correct])||'';pri.alt=q.o&&q.o[correct]?q.o[correct]:'';}
   $('pr-letter').textContent='Bonne réponse : '+['A','B','C'][correct];
@@ -2773,12 +2776,27 @@ function returnToEventPoster(){
 }
 
 function pFinal(sb){
+  /* Le tableau final est normalement envoyé avec l'état Firebase final.
+     On l'utilise en priorité, puis on garde le score déjà reçu pendant la partie.
+     Si le tableau final arrive sans notre joueur, on relit directement players/PID. */
   var finalScore=francitanGetPlayerScore(sb,PID);
   if(finalScore!==null)pScore=finalScore;
   go('p-final');confetti();
   $('pf-rank').textContent='';
   $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
   $('pf-sub').textContent='';
+
+  if(finalScore===null && DB && GID && PID){
+    try{
+      DB.ref('games/'+GID+'/players/'+PID+'/score').once('value').then(function(snap){
+        var n=Number(snap.val());
+        if(Number.isFinite(n)){
+          pScore=Math.max(0,Math.min(Q.length-1,n));
+          $('pf-score').textContent='Ton score : '+pScore+' pt'+(pScore>1?'s':'');
+        }
+      }).catch(function(){});
+    }catch(e){}
+  }
 }
 function confetti(){
   var cols=['#D4620A','#F5A623','#18A058','#1040A0','#E03030','#1A1000'];
