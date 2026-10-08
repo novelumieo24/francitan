@@ -2246,7 +2246,23 @@ function goToLobby(){
     updateLobbyUI();
   });
 }
+/* V77 — tous les prénoms tiennent dans la case ; sinon "+ N autres". */
+function francitanFitChips(){
+  var ch=$('chips');if(!ch)return;
+  var old=ch.querySelector('.chip-more');if(old)old.remove();
+  var chips=[].slice.call(ch.querySelectorAll('.chip'));
+  chips.forEach(function(c){c.style.display='';});
+  ch.classList.toggle('chips-compact',chips.length>60);
+  if(!ch.clientHeight||ch.scrollHeight<=ch.clientHeight+1)return;
+  var more=document.createElement('div');more.className='chip chip-more';ch.appendChild(more);
+  var hidden=0;
+  for(var i=chips.length-1;i>=0&&ch.scrollHeight>ch.clientHeight+1;i--){
+    chips[i].style.display='none';hidden++;
+    more.textContent='+ '+hidden+' autre'+(hidden>1?'s':'');
+  }
+}
 function updateLobbyUI(){
+  try{francitanFitChips();}catch(e){}
   var n=hOnlinePids().length,btn=$('btn-lobby-start'),st=$('lobby-status');
   if($('qr-count-number'))$('qr-count-number').textContent=n; if($('qr-count'))$('qr-count').innerHTML=n+'<small>joueur(s) connecté(s)</small>';
   if(btn)btn.disabled=false;
@@ -2928,6 +2944,10 @@ function pFinal(state){
   var savedPlayer=null;
   try{savedPlayer=JSON.parse(sessionStorage.getItem('fq_player')||'null');}catch(e){}
   var wantedName=savedPlayer&&savedPlayer.name?String(savedPlayer.name).trim().toLowerCase():'';
+  /* V76 — si l'animateur connaît ce téléphone, on ne cherche jamais par prénom :
+     deux joueurs peuvent avoir le même prénom. */
+  var hostKnowsMe=(state.playerScores&&PID&&state.playerScores[PID]!==undefined)||francitanGetPlayerScore(sb,PID)!==null;
+  if(hostKnowsMe)wantedName='';
   if(wantedName&&state.playerScoresByName&&state.playerScoresByName[wantedName]!==undefined)addScore(state.playerScoresByName[wantedName]);
   /* 3. Classement final, par PID puis par prénom. */
   addScore(francitanGetPlayerScore(sb,PID));
@@ -2949,6 +2969,8 @@ function pFinal(state){
   }catch(e){}
   var best=0;
   candidates.forEach(function(n){if(n>best)best=n;});
+  var hostScore=(state.playerScores&&PID&&state.playerScores[PID]!==undefined)?Number(state.playerScores[PID]):francitanGetPlayerScore(sb,PID);
+  if(hostScore!==null&&Number.isFinite(Number(hostScore)))best=Math.max(0,Math.min(Q.length-1,Number(hostScore)));
   pScore=best;
   pMaxScore=Math.max(pMaxScore,best);
   try{sessionStorage.setItem('fq_player_score',String(pScore));localStorage.setItem('fq_player_score',String(pScore));}catch(e){}
@@ -3741,6 +3763,14 @@ body.player-mode #p-play .pp-timer.done span#pp-timer-num{
 }
 </style>
 
+<style id="v77-lobby-names">
+/* V77 — salle d'attente : place pour une centaine de prénoms. */
+#p-lobby .lobby-players-card{width:min(900px,90vw)!important;max-width:900px!important;}
+#p-lobby .players-list{max-height:min(330px,30vh)!important;overflow:hidden!important;}
+#p-lobby .players-list.chips-compact{gap:5px!important;}
+#p-lobby .players-list.chips-compact .chip{font-size:10px!important;padding:4px 9px!important;}
+#p-lobby .players-list .chip-more{background:var(--yellow)!important;border-color:var(--ochre)!important;}
+</style>
 <script id="v62-poster-click">
 (function(){
   function goPosterNext(e){
