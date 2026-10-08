@@ -1368,6 +1368,11 @@ body.player-mode #p-play.critical5:after{display:none!important;}
 @media(max-width:600px){#p-host-final{padding:24px 16px!important;gap:10px!important;}#p-host-final .hf-goodbye{font-size:18px!important;}#p-host-final .hf-title{font-size:45px!important;text-align:center!important;}#p-host-final .hf-thanks{font-size:27px!important;max-width:340px!important;}#p-host-final .hf-tagline{font-size:19px!important;text-align:center!important;}#p-host-final .hf-return{font-size:14px!important;padding:11px 18px!important;}}
 </style>
 
+<style id="v61-responsive-affiche">
+#p-prehome .prehome-bg{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important}
+#p-prehome .prehome-bg img,#p-prehome #prehome-img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important}
+#p-prehome .prehome-content{position:relative!important;z-index:2!important;max-width:92vw!important;max-height:90vh!important;box-sizing:border-box!important}
+</style>
 </head><body>
 
 <div id="p-select" class="page">
@@ -3507,5 +3512,8 @@ body.player-mode #p-play .pp-timer.done span#pp-timer-num{
  body.player-mode #p-play .pp-timer span#pp-timer-num{font-size:39px!important;}
 }
 </style>
+<script>
+(function(){function next(e){var p=document.getElementById('p-prehome');if(!p||!p.classList.contains('show'))return;if(e.target&&e.target.closest&&e.target.closest('button,a,input,textarea,select'))return;if(typeof go==='function')go('p-accueil')}document.addEventListener('click',next);document.addEventListener('touchend',next,{passive:true})})();
+</script>
 </body>
 </html>
