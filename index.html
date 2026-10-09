@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="color-scheme" content="only light"><script>
 /* V75 — ÉCRAN ANIMATEUR À FORMAT FIXE.
-   Sur ordinateur, le jeu est affiché dans un cadre de 1710 x 1112 (l'écran du portable),
-   agrandi ou réduit d'un bloc pour remplir l'écran. La mise en page est donc exactement
+   Sur ordinateur, le jeu est affiché dans un cadre de 1112 de haut (l'écran du portable),
+   aussi large que l'écran (V78), agrandi ou réduit d'un bloc pour remplir l'écran. La mise en page est donc exactement
    la même sur le portable et sur le vidéoprojecteur, quelle que soit sa résolution.
    Les téléphones et tablettes ne sont pas concernés. Secours : ajouter ?stage=0 à l'adresse. */
 (function(){
@@ -2032,6 +2032,11 @@ function francitanBuildStage(){
   frame.src=url;
   stage.appendChild(frame);document.body.appendChild(stage);
   function fit(){
+    /* V78 — hauteur fixe, largeur adaptée aux proportions de l'écran (entre 1300 et 2400). */
+    if(!window.innerWidth||!window.innerHeight)return;
+    var ratio=window.innerWidth/window.innerHeight;
+    W=Math.round(Math.max(1300,Math.min(2400,H*ratio)));
+    frame.style.width=W+'px';
     var s=Math.min(window.innerWidth/W,window.innerHeight/H);
     frame.style.transform='translate(-50%,-50%) scale('+s+')';
   }
